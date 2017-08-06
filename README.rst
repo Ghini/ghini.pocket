@@ -9,3 +9,8 @@ android data viewer
 - start ghini.pocket,
 - scan a plant code (or type it),
 - see the most relevant details about the plant.
+
+.. image:: ghini.pocket-0.jpeg
+.. image:: ghini.pocket-1.jpeg
+.. image:: ghini.pocket-2.jpeg
+
