@@ -52,22 +52,22 @@ public class DisplayResultsActivity extends AppCompatActivity {
         String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
         if (plantCode.equalsIgnoreCase("settings")) {
             fullPlantCode = filename;
-        }
-
-        try {
-            SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
-            Cursor resultSet = database.rawQuery(
-                    String.format("select s.family, s.genus, s.epithet, a.code, p.code " +
-                            "from species s, accession a, plant p " +
-                            "where p.accession_id = a._id and a.species_id = s._id " +
-                            "and a.code = '%s'", plantCode), null);
-            resultSet.moveToFirst();
-            family = resultSet.getString(0);
-            species = resultSet.getString(1) + " " + resultSet.getString(2);
-            fullPlantCode = resultSet.getString(3) + resultSet.getString(4);
-            resultSet.close();
-        } catch (Exception e) {
-            family = e.toString();
+        } else {
+            try {
+                SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
+                Cursor resultSet = database.rawQuery(
+                        String.format("select s.family, s.genus, s.epithet, a.code, p.code " +
+                                "from species s, accession a, plant p " +
+                                "where p.accession_id = a._id and a.species_id = s._id " +
+                                "and a.code = '%s'", plantCode), null);
+                resultSet.moveToFirst();
+                family = resultSet.getString(0);
+                species = resultSet.getString(1) + " " + resultSet.getString(2);
+                fullPlantCode = resultSet.getString(3) + resultSet.getString(4);
+                resultSet.close();
+            } catch (Exception e) {
+                family = e.toString();
+            }
         }
 
         // Capture the layout's TextView and set the string as its text
