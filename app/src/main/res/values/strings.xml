@@ -3,5 +3,5 @@
     <string name="edit_message">Enter a plant code</string>
     <string name="button_scan">Scan</string>
     <string name="button_send">Search</string>
-    <string name="NOTFOUND">Not Found</string>
+    <string name="NOTFOUND">Not Found: %s</string>
 </resources>

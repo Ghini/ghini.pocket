@@ -37,7 +37,7 @@ public class DisplayResultsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String plantCode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
-        String fullPlantCode = getString(R.string.NOTFOUND) + " " + plantCode;
+        String fullPlantCode = String.format(getString(R.string.NOTFOUND), plantCode);
         String family = "";
         String species = "";
         String acqDate = "";
@@ -67,7 +67,7 @@ public class DisplayResultsActivity extends AppCompatActivity {
             fullPlantCode = resultSet.getString(3) + resultSet.getString(4);
             resultSet.close();
         } catch (Exception e) {
-
+            family = e.toString();
         }
 
         // Capture the layout's TextView and set the string as its text
