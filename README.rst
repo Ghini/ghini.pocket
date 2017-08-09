@@ -17,7 +17,11 @@ the garden, just by scanning a plant label.
 .. image:: ghini.pocket-0.png .. image:: ghini.pocket-1.png .. image:: ghini.pocket-2.png
 ============================= ============================= ============================= 
 
-the place of ghini.pocket within the ghini family:
+
+the ghini family
+-----------------
+
+and the place of ghini.pocket within the family
 
 .. image:: ghini-family.png
 
