@@ -25,4 +25,4 @@ foot notes
 -------------------------
 
 - download `ghini.pocket.apk <http://www.ghini.me/ghini.pocket.apk>`_, it's not on google play.
-- the location for the file is exposed if you search for the code ``settings``.
+- the location for the file is exposed if you enter ``settings`` as plant code.
