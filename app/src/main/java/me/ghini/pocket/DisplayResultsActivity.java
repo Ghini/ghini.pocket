@@ -17,9 +17,12 @@
 
 package me.ghini.pocket;
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -42,28 +45,41 @@ public class DisplayResultsActivity extends AppCompatActivity {
         String species = "";
         String acqDate = "";
         String source = "";
+        String location = "";
 
         TextView tvAccession = (TextView) findViewById(R.id.tvAccession);
         TextView tvFamily = (TextView) findViewById(R.id.tvFamily);
         TextView tvSpecies = (TextView) findViewById(R.id.tvSpecies);
         TextView tvAcqDate = (TextView) findViewById(R.id.tvAcqDate);
         TextView tvSource = (TextView) findViewById(R.id.tvSource);
+        TextView tvLocation = (TextView) findViewById(R.id.tvLocation);
 
         String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
         if (plantCode.equalsIgnoreCase("settings")) {
             fullPlantCode = filename;
+        } else if (plantCode.startsWith("http://") || plantCode.startsWith("https://")) {
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(plantCode));
+            request.setDescription("pocket.db");
+            request.setTitle("ghini.pocket");
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setDestinationInExternalPublicDir(String.valueOf(getExternalFilesDir(null)), "pocket.db");
+            DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            manager.enqueue(request);
+            fullPlantCode = "try again when download ends";
         } else {
             try {
                 SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
                 Cursor resultSet = database.rawQuery(
-                        String.format("select s.family, s.genus, s.epithet, a.code, p.code " +
-                                "from species s, accession a, plant p " +
-                                "where p.accession_id = a._id and a.species_id = s._id " +
-                                "and a.code = '%s'", plantCode), null);
+                        "select s.family, s.genus, s.epithet, a.code, p.code, a.source " +
+                        "from species s, accession a, plant p " +
+                        "where p.accession_id = a._id and a.species_id = s._id " +
+                        "and a.code = ?", new String[] {plantCode});
                 resultSet.moveToFirst();
                 family = resultSet.getString(0);
                 species = resultSet.getString(1) + " " + resultSet.getString(2);
                 fullPlantCode = resultSet.getString(3) + resultSet.getString(4);
+                source = resultSet.getString(5);
                 resultSet.close();
             } catch (Exception e) {
                 family = e.toString();
