@@ -17,12 +17,9 @@
 
 package me.ghini.pocket;
 
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -57,16 +54,6 @@ public class DisplayResultsActivity extends AppCompatActivity {
         String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
         if (plantCode.equalsIgnoreCase("settings")) {
             fullPlantCode = filename;
-        } else if (plantCode.startsWith("http://") || plantCode.startsWith("https://")) {
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(plantCode));
-            request.setDescription("pocket.db");
-            request.setTitle("ghini.pocket");
-            request.allowScanningByMediaScanner();
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            request.setDestinationInExternalPublicDir(String.valueOf(getExternalFilesDir(null)), "pocket.db");
-            DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-            manager.enqueue(request);
-            fullPlantCode = "try again when download ends";
         } else {
             try {
                 SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
