@@ -5,7 +5,7 @@ ghini.pocket is a tiny android data viewer. you would find it handy if you
 want to have a quick idea of a plant species, origin, and date it entered
 the garden, just by scanning a plant label.
 
-- install `**ghini.pocket** <http://www.ghini.me/ghini.pocket.apk>`_ on your android device,
+- install `ghini.pocket <http://www.ghini.me/ghini.pocket.apk>`_ on your android device,
 - start ghini.pocket,
 - search for plant code ``0`` (this creates the database location),
 - search for plant code ``settings`` (this tells you the database location),
@@ -26,9 +26,3 @@ the ghini family
 and the place of ghini.pocket within the family
 
 .. image:: images/ghini-family.png
-
-foot notes
--------------------------
-
-- download , it's not on google play.
-- the location for the file is exposed if you enter ``settings`` as plant code.
