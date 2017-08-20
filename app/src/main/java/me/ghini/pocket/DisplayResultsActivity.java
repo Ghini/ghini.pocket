@@ -58,15 +58,17 @@ public class DisplayResultsActivity extends AppCompatActivity {
             try {
                 SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
                 Cursor resultSet = database.rawQuery(
-                        "select s.family, s.genus, s.epithet, a.code, p.code, a.source " +
-                        "from species s, accession a, plant p " +
-                        "where p.accession_id = a._id and a.species_id = s._id " +
-                        "and a.code = ?", new String[] {plantCode});
+                        "SELECT s.family, s.genus, s.epithet, a.code, p.code, a.source, p.location " +
+                        "FROM species s, accession a, plant p " +
+                        "WHERE p.accession_id = a._id " +
+                        "AND a.species_id = s._id " +
+                        "AND a.code = ?", new String[] {plantCode});
                 resultSet.moveToFirst();
                 family = resultSet.getString(0);
                 species = resultSet.getString(1) + " " + resultSet.getString(2);
                 fullPlantCode = resultSet.getString(3) + resultSet.getString(4);
                 source = resultSet.getString(5);
+                location = resultSet.getString(6);
                 resultSet.close();
             } catch (Exception e) {
                 family = e.toString();
@@ -79,6 +81,7 @@ public class DisplayResultsActivity extends AppCompatActivity {
         tvSpecies.setText(species);
         tvAcqDate.setText(acqDate);
         tvSource.setText(source);
+        tvLocation.setText(location);
     }
 
 }
