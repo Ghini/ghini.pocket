@@ -20,28 +20,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvFamily"
+        android:id="@+id/tvFamilyLabel"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="@+id/tvFamily" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvFamily"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@+id/tvAccession"
-        android:layout_marginRight="-1dp"
         app:layout_constraintRight_toRightOf="@+id/tvAccession"
-        app:layout_constraintLeft_toRightOf="@+id/tvFamily"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintLeft_toRightOf="@+id/tvFamilyLabel" />
 
     <TextView
         android:id="@+id/tvSpecies"
