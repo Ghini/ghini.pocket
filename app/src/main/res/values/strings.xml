@@ -3,5 +3,14 @@
     <string name="edit_message">Enter a plant code</string>
     <string name="button_scan">Scan</string>
     <string name="button_send">Search</string>
-    <string name="NOTFOUND">Not Found: %s</string>
+    <string name="not_found">Not Found: %s</string>
+    <string name="missing_web_browser">No application can handle this request. Please install a web browser</string>
+    <string name="source">Source</string>
+    <string name="family">Family</string>
+    <string name="binomial">Binomial</string>
+    <string name="n_of_pictures"># of pictures</string>
+    <string name="acquisition">Acquisition</string>
+    <string name="dismission">Dismission</string>
+    <string name="location">Location</string>
+    <string name="wikipedia">Wikipedia</string>
 </resources>

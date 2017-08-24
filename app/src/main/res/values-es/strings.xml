@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ghini.pocket</string>
-    <string name="NOTFOUND">%s no se encuentra.</string>
+    <string name="not_found">%s no se encuentra.</string>
     <string name="button_scan">Escanear</string>
     <string name="button_send">Buscar</string>
     <string name="edit_message">Insertar un código de planta</string>
+    <string name="missing_web_browser">No hay aplicaciones que manejen esto. Intente instalar un navegador.</string>
+    <string name="binomial">Binomial</string>
+    <string name="family">Familia</string>
+    <string name="source">Fuente</string>
+    <string name="n_of_pictures">N.º de fotos</string>
+    <string name="acquisition">Adquisición</string>
+    <string name="dismission">Dismissión</string>
+    <string name="location">Ubicación</string>
+    <string name="wikipedia">Wikipedia</string>
 </resources>

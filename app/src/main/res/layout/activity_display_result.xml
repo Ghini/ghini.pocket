@@ -10,9 +10,10 @@
         android:id="@+id/tvAccession"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -26,7 +27,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:text="Family"
+        android:text="@string/family"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintTop_toTopOf="@+id/tvFamily" />
 
@@ -50,7 +51,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:text="Binomial"
+        android:text="@string/binomial"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintTop_toTopOf="@+id/tvSpecies" />
 
@@ -75,7 +76,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:text="Source"
+        android:text="@string/source"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintTop_toTopOf="@+id/tvSource" />
 
@@ -100,7 +101,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:text="Acquisition"
+        android:text="@string/acquisition"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintTop_toTopOf="@+id/tvAcqDate" />
 
@@ -125,7 +126,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:text="Location"
+        android:text="@string/location"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintTop_toTopOf="@+id/tvLocation" />
 
@@ -150,7 +151,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:text="# of pictures"
+        android:text="@string/n_of_pictures"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintTop_toTopOf="@+id/tvNumberOfPics" />
 
@@ -175,7 +176,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:text="Dismission"
+        android:text="@string/dismission"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintTop_toTopOf="@+id/tvDateOfDeath" />
 
@@ -192,4 +193,16 @@
         app:layout_constraintRight_toRightOf="@+id/tvAccession"
         app:layout_constraintTop_toBottomOf="@+id/tvAcqDate"
         app:layout_constraintHorizontal_bias="0.0" />
+
+    <Button
+        android:id="@+id/wikipedia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:onClick="onWikipedia"
+        android:text="@string/wikipedia"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>
