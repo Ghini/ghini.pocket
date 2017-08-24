@@ -21,12 +21,12 @@
 
     <TextView
         android:id="@+id/tvFamilyLabel"
-        android:layout_width="50dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
+        android:text="Family"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintTop_toTopOf="@+id/tvFamily" />
 
@@ -44,57 +44,151 @@
         app:layout_constraintLeft_toRightOf="@+id/tvFamilyLabel" />
 
     <TextView
+        android:id="@+id/tvSpeciesLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Binomial"
+        app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
+        app:layout_constraintTop_toTopOf="@+id/tvSpecies" />
+
+    <TextView
         android:id="@+id/tvSpecies"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
-        app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintRight_toRightOf="@+id/tvAccession"
         app:layout_constraintTop_toBottomOf="@+id/tvFamily"
+        app:layout_constraintLeft_toRightOf="@+id/tvSpeciesLabel"
         app:layout_constraintHorizontal_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvSourceLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Source"
+        app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
+        app:layout_constraintTop_toTopOf="@+id/tvSource" />
 
     <TextView
         android:id="@+id/tvSource"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
-        app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
+        app:layout_constraintLeft_toRightOf="@+id/tvSourceLabel"
         app:layout_constraintRight_toRightOf="@+id/tvAccession"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpecies"
+        app:layout_constraintTop_toBottomOf="@+id/tvNumberOfPics"
         app:layout_constraintHorizontal_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvAcqDateLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Acquisition"
+        app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
+        app:layout_constraintTop_toTopOf="@+id/tvAcqDate" />
 
     <TextView
         android:id="@+id/tvAcqDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="12dp"
-        app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
+        app:layout_constraintLeft_toRightOf="@+id/tvAcqDateLabel"
         app:layout_constraintRight_toRightOf="@+id/tvAccession"
         app:layout_constraintTop_toBottomOf="@+id/tvSource"
         app:layout_constraintHorizontal_bias="0.0" />
 
     <TextView
+        android:id="@+id/tvLocationLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Location"
+        app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
+        app:layout_constraintTop_toTopOf="@+id/tvLocation" />
+
+    <TextView
         android:id="@+id/tvLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="12dp"
+        app:layout_constraintLeft_toRightOf="@+id/tvLocationLabel"
+        app:layout_constraintRight_toRightOf="@+id/tvAccession"
+        app:layout_constraintTop_toBottomOf="@+id/tvSpecies"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvNumberOfPicsLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:text="# of pictures"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
+        app:layout_constraintTop_toTopOf="@+id/tvNumberOfPics" />
+
+    <TextView
+        android:id="@+id/tvNumberOfPics"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintLeft_toRightOf="@+id/tvNumberOfPicsLabel"
+        app:layout_constraintRight_toRightOf="@+id/tvAccession"
+        app:layout_constraintTop_toBottomOf="@+id/tvLocation"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvDateOfDeathLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Dismission"
+        app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
+        app:layout_constraintTop_toTopOf="@+id/tvDateOfDeath" />
+
+    <TextView
+        android:id="@+id/tvDateOfDeath"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintLeft_toRightOf="@+id/tvDateOfDeathLabel"
         app:layout_constraintRight_toRightOf="@+id/tvAccession"
         app:layout_constraintTop_toBottomOf="@+id/tvAcqDate"
         app:layout_constraintHorizontal_bias="0.0" />
