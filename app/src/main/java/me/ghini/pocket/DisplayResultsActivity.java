@@ -43,6 +43,8 @@ public class DisplayResultsActivity extends AppCompatActivity {
         String acqDate = "";
         String source = "";
         String location = "";
+        String dismDate = "";
+        String noOfPics = "";
 
         TextView tvAccession = (TextView) findViewById(R.id.tvAccession);
         TextView tvFamily = (TextView) findViewById(R.id.tvFamily);
@@ -50,6 +52,8 @@ public class DisplayResultsActivity extends AppCompatActivity {
         TextView tvAcqDate = (TextView) findViewById(R.id.tvAcqDate);
         TextView tvSource = (TextView) findViewById(R.id.tvSource);
         TextView tvLocation = (TextView) findViewById(R.id.tvLocation);
+        TextView tvDismDate = (TextView) findViewById(R.id.tvDateOfDeath);
+        TextView tvNoOfPics = (TextView) findViewById(R.id.tvNumberOfPics);
 
         String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
         if (plantCode.equalsIgnoreCase("settings")) {
@@ -58,7 +62,7 @@ public class DisplayResultsActivity extends AppCompatActivity {
             try {
                 SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
                 Cursor resultSet = database.rawQuery(
-                        "SELECT s.family, s.genus, s.epithet, a.code, p.code, a.source, p.location " +
+                        "SELECT s.family, s.genus, s.epithet, a.code, p.code, a.source, p.location, a.start_date, p.end_date, p.n_of_pics " +
                         "FROM species s, accession a, plant p " +
                         "WHERE p.accession_id = a._id " +
                         "AND a.species_id = s._id " +
