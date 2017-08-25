@@ -33,15 +33,35 @@ import java.io.File;
 
 public class DisplayResultsActivity extends AppCompatActivity {
 
+    String fullPlantCode = "";
+    String family = "";
+    String species = "";
+    String acqDate = "";
+    String source = "";
+    String location = "";
+    String dismDate = "";
+    String noOfPics = "";
+
+    TextView tvAccession;
+    TextView tvFamily;
+    TextView tvSpecies;
+    TextView tvAcqDate;
+    TextView tvSource ;
+    TextView tvLocation;
+    TextView tvDismDate;
+    TextView tvNoOfPics;
+
     public void onWikipedia(View view) {
         try {
-            TextView tvSpecies = (TextView) findViewById(R.id.tvSpecies);
-            String species = String.valueOf(tvSpecies.getText());
+            if(species.equals(""))
+                throw new AssertionError("empty lookup");
             String wikiLink = String.format("https://en.wikipedia.org/wiki/%s", species);
             Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(wikiLink));
             startActivity(myIntent);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.missing_web_browser, Toast.LENGTH_LONG).show();
+        } catch(AssertionError e){
+            Toast.makeText(this, R.string.empty_lookup, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -54,23 +74,16 @@ public class DisplayResultsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String plantCode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
-        String fullPlantCode = String.format(getString(R.string.not_found), plantCode);
-        String family = "";
-        String species = "";
-        String acqDate = "";
-        String source = "";
-        String location = "";
-        String dismDate = "";
-        String noOfPics = "";
+        fullPlantCode = String.format(getString(R.string.not_found), plantCode);
 
-        TextView tvAccession = (TextView) findViewById(R.id.tvAccession);
-        TextView tvFamily = (TextView) findViewById(R.id.tvFamily);
-        TextView tvSpecies = (TextView) findViewById(R.id.tvSpecies);
-        TextView tvAcqDate = (TextView) findViewById(R.id.tvAcqDate);
-        TextView tvSource = (TextView) findViewById(R.id.tvSource);
-        TextView tvLocation = (TextView) findViewById(R.id.tvLocation);
-        TextView tvDismDate = (TextView) findViewById(R.id.tvDateOfDeath);
-        TextView tvNoOfPics = (TextView) findViewById(R.id.tvNumberOfPics);
+        tvAccession = (TextView) findViewById(R.id.tvAccession);
+        tvFamily = (TextView) findViewById(R.id.tvFamily);
+        tvSpecies = (TextView) findViewById(R.id.tvSpecies);
+        tvAcqDate = (TextView) findViewById(R.id.tvAcqDate);
+        tvSource = (TextView) findViewById(R.id.tvSource);
+        tvLocation = (TextView) findViewById(R.id.tvLocation);
+        tvDismDate = (TextView) findViewById(R.id.tvDateOfDeath);
+        tvNoOfPics = (TextView) findViewById(R.id.tvNumberOfPics);
 
         String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
         if (plantCode.equalsIgnoreCase("settings")) {
@@ -86,7 +99,17 @@ public class DisplayResultsActivity extends AppCompatActivity {
                                 "AND a.code = ?", new String[]{plantCode});
                 resultSet.moveToFirst();
                 family = resultSet.getString(0);
-                species = resultSet.getString(1) + " " + resultSet.getString(2);
+                String genus_epithet = resultSet.getString(1);
+                String sp_epithet = resultSet.getString(2);
+                if (sp_epithet == null)
+                    sp_epithet = "";
+                if (genus_epithet.startsWith("Zzz"))
+                    genus_epithet = "";
+                if (!genus_epithet.equals("") && sp_epithet.equals("sp") && sp_epithet.equals("")) {
+                    species = genus_epithet + " " + sp_epithet;
+                } else {
+                    species = genus_epithet;
+                }
                 fullPlantCode = resultSet.getString(3) + resultSet.getString(4);
                 source = resultSet.getString(5);
                 location = resultSet.getString(6);
