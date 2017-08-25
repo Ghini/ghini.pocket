@@ -124,7 +124,7 @@ public class DisplayResultsActivity extends AppCompatActivity {
                     sp_epithet = "";
                 if (genus_epithet.startsWith("Zzz"))
                     genus_epithet = "";
-                if (!genus_epithet.equals("") && sp_epithet.equals("sp") && sp_epithet.equals("")) {
+                if (!genus_epithet.equals("") && !sp_epithet.equals("sp") && !sp_epithet.equals("")) {
                     species = genus_epithet + " " + sp_epithet;
                 } else {
                     species = genus_epithet;
