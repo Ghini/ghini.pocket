@@ -14,11 +14,13 @@ the garden, just by scanning a plant label.
 - scan a plant code (or type it),
 - see the most relevant details about the plant.
 
+- from the results page:
+  - follow the link to the relative Wikipedia page,
+  - copy the searched code to the clipboard and activate ODK Collect.
 
-==================================== ==================================== ==================================== 
+==================================== ==================================== ====================================
 .. image:: images/ghini.pocket-0.png .. image:: images/ghini.pocket-1.png .. image:: images/ghini.pocket-2.png
 ==================================== ==================================== ==================================== 
-
 
 the ghini family
 -----------------
