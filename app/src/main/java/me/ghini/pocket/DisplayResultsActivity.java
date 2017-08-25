@@ -18,6 +18,9 @@
 package me.ghini.pocket;
 
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
@@ -32,6 +35,9 @@ import android.widget.Toast;
 import java.io.File;
 
 public class DisplayResultsActivity extends AppCompatActivity {
+
+    public static final String FORMS_URI = "content://org.odk.collect.android.provider.odk.forms/forms";
+    public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
 
     String fullPlantCode = "";
     String family = "";
@@ -50,6 +56,19 @@ public class DisplayResultsActivity extends AppCompatActivity {
     TextView tvLocation;
     TextView tvDismDate;
     TextView tvNoOfPics;
+
+    public void onCollect(View view) {
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setType(FORMS_CHOOSER_INTENT_TYPE);
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("last plant search", fullPlantCode);
+            clipboard.setPrimaryClip(clip);
+            startActivity(i);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, R.string.missing_web_browser, Toast.LENGTH_LONG).show();
+        }
+    }
 
     public void onWikipedia(View view) {
         try {

@@ -14,4 +14,5 @@
     <string name="location">Location</string>
     <string name="wikipedia">Wikipedia</string>
     <string name="empty_lookup">can\'t look up empty string</string>
+    <string name="collect">Collect</string>
 </resources>
