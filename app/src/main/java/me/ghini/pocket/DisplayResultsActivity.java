@@ -58,13 +58,14 @@ public class DisplayResultsActivity extends AppCompatActivity {
     TextView tvLocation;
     TextView tvDismDate;
     TextView tvNoOfPics;
+    private String searchedPlantCode;
 
     public void onCollect(View view) {
         try {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setType(FORMS_CHOOSER_INTENT_TYPE);
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("last plant search", fullPlantCode);
+            ClipData clip = ClipData.newPlainText("last plant search", searchedPlantCode);
             clipboard.setPrimaryClip(clip);
             startActivity(i);
         } catch (ActivityNotFoundException e) {
@@ -93,7 +94,7 @@ public class DisplayResultsActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String searchedPlantCode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        searchedPlantCode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         String accessionCode = searchedPlantCode;
         String plantCode = ".1";
         Pattern pattern = Pattern.compile("(.*)(\\.[1-9][0-9]?[0-9]?)");
