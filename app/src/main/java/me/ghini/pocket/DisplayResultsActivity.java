@@ -33,6 +33,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DisplayResultsActivity extends AppCompatActivity {
 
@@ -91,9 +93,17 @@ public class DisplayResultsActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String plantCode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String searchedPlantCode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String accessionCode = searchedPlantCode;
+        String plantCode = ".1";
+        Pattern pattern = Pattern.compile("(.*)(\\.[1-9][0-9]?[0-9]?)");
+        Matcher m = pattern.matcher(searchedPlantCode);
+        if(m.find()) {
+            accessionCode = m.group(1);
+            plantCode = m.group(2);
+        }
 
-        fullPlantCode = String.format(getString(R.string.not_found), plantCode);
+        fullPlantCode = String.format(getString(R.string.not_found), searchedPlantCode);
 
         tvAccession = (TextView) findViewById(R.id.tvAccession);
         tvFamily = (TextView) findViewById(R.id.tvFamily);
@@ -105,7 +115,7 @@ public class DisplayResultsActivity extends AppCompatActivity {
         tvNoOfPics = (TextView) findViewById(R.id.tvNumberOfPics);
 
         String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
-        if (plantCode.equalsIgnoreCase("settings")) {
+        if (accessionCode.equalsIgnoreCase("settings")) {
             fullPlantCode = filename;
         } else {
             try {
@@ -115,7 +125,8 @@ public class DisplayResultsActivity extends AppCompatActivity {
                                 "FROM species s, accession a, plant p " +
                                 "WHERE p.accession_id = a._id " +
                                 "AND a.species_id = s._id " +
-                                "AND a.code = ?", new String[]{plantCode});
+                                "AND a.code = ? " +
+                                "AND p.code = ? ", new String[]{accessionCode, plantCode});
                 resultSet.moveToFirst();
                 family = resultSet.getString(0);
                 String genus_epithet = resultSet.getString(1);
