@@ -135,6 +135,8 @@ public class DisplayResultsActivity extends AppCompatActivity {
                     sp_epithet = "";
                 if (genus_epithet.startsWith("Zzz"))
                     genus_epithet = "";
+                if (genus_epithet.startsWith("Zz") && genus_epithet.length() > 4)
+                    genus_epithet = genus_epithet.substring(4);
                 if (!genus_epithet.equals("") && !sp_epithet.equals("sp") && !sp_epithet.equals("")) {
                     species = genus_epithet + " " + sp_epithet;
                 } else {
