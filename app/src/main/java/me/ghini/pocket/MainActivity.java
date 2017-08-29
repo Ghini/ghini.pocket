@@ -36,12 +36,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    /** Called when the user taps the Scan button */
-    public void scanBarcode(View view) {
-        IntentIntegrator integrator = new IntentIntegrator(this);
-        AlertDialog scan = integrator.initiateScan();
-    }
-
     /** Called when the user taps the Send button */
     public void searchData(View view) {
         Intent intent = new Intent(this, DisplayResultsActivity.class);
@@ -49,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
+    }
+
+    /** Called when the user taps the Scan button */
+    public void scanBarcode(View view) {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        AlertDialog scan = integrator.initiateScan();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

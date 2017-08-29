@@ -32,33 +32,40 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DisplayResultsActivity extends AppCompatActivity {
 
-    public static final String FORMS_URI = "content://org.odk.collect.android.provider.odk.forms/forms";
     public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
 
-    String fullPlantCode = "";
-    String family = "";
     String species = "";
-    String acqDate = "";
-    String source = "";
-    String location = "";
-    String dismDate = "";
-    String noOfPics = "";
-
     TextView tvAccession;
     TextView tvFamily;
     TextView tvSpecies;
     TextView tvAcqDate;
-    TextView tvSource ;
+    TextView tvSource;
     TextView tvLocation;
-    TextView tvDismDate;
+    TextView tvDismissionDate;
     TextView tvNoOfPics;
     private String searchedPlantCode;
+
+    public void onNextScan(View view) {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.initiateScan();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            String searchedPlantCode = scanResult.getContents();
+            refreshContent(searchedPlantCode);
+        }
+    }
 
     public void onCollect(View view) {
         try {
@@ -87,14 +94,17 @@ public class DisplayResultsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_result);
+    public void refreshContent(String searchedPlantCode) {
+        String fullPlantCode = String.format(getString(R.string.not_found), searchedPlantCode);
 
-        // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
-        searchedPlantCode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String family = "";
+        String acqDate = "";
+        String source = "";
+        String location = "";
+        String dismissDate = "";
+        String noOfPics = "";
+        species = "";
+
         String accessionCode = searchedPlantCode;
         String plantCode = ".1";
         Pattern pattern = Pattern.compile("(.*)(\\.[1-9][0-9]?[0-9]?)");
@@ -103,17 +113,6 @@ public class DisplayResultsActivity extends AppCompatActivity {
             accessionCode = m.group(1);
             plantCode = m.group(2);
         }
-
-        fullPlantCode = String.format(getString(R.string.not_found), searchedPlantCode);
-
-        tvAccession = (TextView) findViewById(R.id.tvAccession);
-        tvFamily = (TextView) findViewById(R.id.tvFamily);
-        tvSpecies = (TextView) findViewById(R.id.tvSpecies);
-        tvAcqDate = (TextView) findViewById(R.id.tvAcqDate);
-        tvSource = (TextView) findViewById(R.id.tvSource);
-        tvLocation = (TextView) findViewById(R.id.tvLocation);
-        tvDismDate = (TextView) findViewById(R.id.tvDateOfDeath);
-        tvNoOfPics = (TextView) findViewById(R.id.tvNumberOfPics);
 
         String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
         if (accessionCode.equalsIgnoreCase("settings")) {
@@ -146,8 +145,8 @@ public class DisplayResultsActivity extends AppCompatActivity {
                 location = resultSet.getString(6);
                 acqDate = resultSet.getString(7);
                 if(acqDate != null) acqDate = acqDate.substring(0, 16);
-                dismDate = resultSet.getString(8);
-                if(dismDate != null) dismDate = dismDate.substring(0, 16);
+                dismissDate = resultSet.getString(8);
+                if(dismissDate != null) dismissDate = dismissDate.substring(0, 16);
                 noOfPics = String.valueOf(resultSet.getInt(9));
                 resultSet.close();
             } catch (CursorIndexOutOfBoundsException e) {
@@ -164,8 +163,28 @@ public class DisplayResultsActivity extends AppCompatActivity {
         tvLocation.setText(location);
         tvSource.setText(source);
         tvAcqDate.setText(acqDate);
-        tvDismDate.setText(dismDate);
+        tvDismissionDate.setText(dismissDate);
         tvNoOfPics.setText(noOfPics);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_result);
+
+        tvAccession = (TextView) findViewById(R.id.tvAccession);
+        tvFamily = (TextView) findViewById(R.id.tvFamily);
+        tvSpecies = (TextView) findViewById(R.id.tvSpecies);
+        tvAcqDate = (TextView) findViewById(R.id.tvAcqDate);
+        tvSource = (TextView) findViewById(R.id.tvSource);
+        tvLocation = (TextView) findViewById(R.id.tvLocation);
+        tvDismissionDate = (TextView) findViewById(R.id.tvDateOfDeath);
+        tvNoOfPics = (TextView) findViewById(R.id.tvNumberOfPics);
+
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        searchedPlantCode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        refreshContent(searchedPlantCode);
     }
 
 }

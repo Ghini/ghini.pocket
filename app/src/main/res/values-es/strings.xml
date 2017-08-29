@@ -15,4 +15,5 @@
     <string name="location">Ubicación</string>
     <string name="wikipedia">Wikipedia</string>
     <string name="empty_lookup">no hay binomial que buscar</string>
+    <string name="next">Otra</string>
 </resources>
