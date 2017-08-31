@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="app_name">ghini.pocket</string>
-    <string name="not_found">%s no se encuentra.</string>
+    <string name="not_found">%s no se encuentra</string>
     <string name="button_scan">Escanear</string>
     <string name="button_send">Buscar</string>
     <string name="edit_message">Insertar un código de planta</string>
-    <string name="missing_web_browser">No hay aplicaciones que manejen esto. Intente instalar un navegador.</string>
+    <string name="missing_web_browser">No hay aplicaciones que manejen esto. Intente instalar un navegador</string>
     <string name="binomial">Binomial</string>
     <string name="family">Familia</string>
     <string name="source">Fuente</string>
@@ -16,4 +16,5 @@
     <string name="wikipedia">Wikipedia</string>
     <string name="empty_lookup">no hay binomial que buscar</string>
     <string name="next">Otra</string>
-</resources>
+<string name="collect">Corregir</string>
+    </resources>
