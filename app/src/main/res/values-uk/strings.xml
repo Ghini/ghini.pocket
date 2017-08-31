@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+    <string name="app_name">ghini.pocket</string>
+    <string name="not_found"/>
+    <string name="button_scan"/>
+    <string name="button_send"/>
+    <string name="edit_message"/>
+    <string name="missing_web_browser"/>
+    <string name="binomial"/>
+    <string name="family"/>
+    <string name="source"/>
+    <string name="n_of_pictures"/>
+    <string name="acquisition"/>
+    <string name="dismission"/>
+    <string name="location"/>
+    <string name="wikipedia"/>
+    <string name="empty_lookup"/>
+    <string name="next"/>
+    <string name="collect"/>
+</resources>
