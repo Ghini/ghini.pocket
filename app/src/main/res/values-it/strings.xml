@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="app_name">ghini.pocket</string>
-    <string name="not_found"/>
-    <string name="button_scan"/>
-    <string name="button_send"/>
-    <string name="edit_message"/>
-    <string name="missing_web_browser"/>
-    <string name="binomial"/>
-    <string name="family"/>
-    <string name="source"/>
-    <string name="n_of_pictures"/>
-    <string name="acquisition"/>
-    <string name="dismission"/>
-    <string name="location"/>
-    <string name="wikipedia"/>
-    <string name="empty_lookup"/>
-    <string name="next"/>
-    <string name="collect"/>
+    <string name="not_found">Non trovo %s</string>
+    <string name="button_scan">Scan</string>
+    <string name="button_send">Cerca</string>
+    <string name="edit_message">Inserire il codice di una pianta</string>
+    <string name="missing_web_browser">Non trovo il navigatore. Provare ad installarne uno</string>
+    <string name="binomial">Binomiale</string>
+    <string name="family">Famiglia</string>
+    <string name="source">Fonte</string>
+    <string name="n_of_pictures">N° di Foto</string>
+    <string name="acquisition">Acquisto</string>
+    <string name="dismission">Rimossa</string>
+    <string name="location">Collocazione</string>
+    <string name="wikipedia">Wikipedia</string>
+    <string name="empty_lookup">specificare una ricerca</string>
+    <string name="next">Ancora</string>
+    <string name="collect">Correggi</string>
 </resources>
