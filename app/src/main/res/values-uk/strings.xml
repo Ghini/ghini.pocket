@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="app_name">ghini.pocket</string>
-    <string name="not_found"/>
-    <string name="button_scan"/>
-    <string name="button_send"/>
-    <string name="edit_message"/>
-    <string name="missing_web_browser"/>
-    <string name="binomial"/>
-    <string name="family"/>
-    <string name="source"/>
-    <string name="n_of_pictures"/>
-    <string name="acquisition"/>
-    <string name="dismission"/>
-    <string name="location"/>
-    <string name="wikipedia"/>
-    <string name="empty_lookup"/>
-    <string name="next"/>
-    <string name="collect"/>
+    <string name="not_found">Не знайдено: %s</string>
+    <string name="button_scan">Сканування</string>
+    <string name="button_send">Пошук</string>
+    <string name="edit_message">Введіть код рослини</string>
+    <string name="missing_web_browser">Жодна програма не може обробляти цей запит. Будь ласка, встановіть веб-браузер</string>
+    <string name="binomial">Биномиал</string>
+    <string name="family">Сім\'я</string>
+    <string name="source">Джерело</string>
+    <string name="n_of_pictures"># зображень</string>
+    <string name="acquisition">Придбання</string>
+    <string name="dismission">Звільнення</string>
+    <string name="location">Місцезнаходження</string>
+    <string name="wikipedia">Вікіпедія</string>
+    <string name="empty_lookup">не вдається знайти пустий рядок</string>
+    <string name="next">Далі</string>
+    <string name="collect">Зібрати</string>
 </resources>
