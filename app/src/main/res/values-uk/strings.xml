@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="app_name">ghini.pocket</string>
-    <string name="not_found"/>
+    <string name="not_found">%s</string>
     <string name="button_scan"/>
     <string name="button_send"/>
     <string name="edit_message"/>
