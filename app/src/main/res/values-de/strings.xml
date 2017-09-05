@@ -2,19 +2,19 @@
 <resources>
     <string name="app_name">ghini.pocket</string>
     <string name="not_found">%s</string>
-    <string name="button_scan"/>
-    <string name="button_send"/>
-    <string name="edit_message"/>
-    <string name="missing_web_browser"/>
-    <string name="binomial"/>
-    <string name="family"/>
-    <string name="source"/>
-    <string name="n_of_pictures"/>
-    <string name="acquisition"/>
-    <string name="dismission"/>
-    <string name="location"/>
-    <string name="wikipedia"/>
-    <string name="empty_lookup"/>
-    <string name="next"/>
-    <string name="collect"/>
+    <string name="button_scan">scannen</string>
+    <string name="button_send">suchen</string>
+    <string name="edit_message">Code der Pflanze eingeben</string>
+    <string name="missing_web_browser">keine Anwendung kann die Anfrage ausführen. Bitte installieren sie einen Webbrowser</string>
+    <string name="binomial">binomisch</string>
+    <string name="family">familie</string>
+    <string name="source">Quelle</string>
+    <string name="n_of_pictures">Anzahl an Bildern</string>
+    <string name="acquisition">Übernahme</string>
+    <string name="dismission">Kündigung</string>
+    <string name="location">Standort</string>
+    <string name="wikipedia">Wikipedia</string>
+    <string name="empty_lookup">nicht möglich Zeile einzusehen</string>
+    <string name="next">n</string>
+    <string name="collect">sammeln</string>
 </resources>
