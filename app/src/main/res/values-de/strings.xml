@@ -14,7 +14,7 @@
     <string name="dismission">Kündigung</string>
     <string name="location">Standort</string>
     <string name="wikipedia">Wikipedia</string>
-    <string name="empty_lookup">nicht möglich Zeile einzusehen</string>
+    <string name="empty_lookup">nicht möglich leere Zeile einzusehen</string>
     <string name="next">n</string>
     <string name="collect">sammeln</string>
 </resources>
