@@ -16,4 +16,6 @@
     <string name="empty_lookup">can\'t look up empty string</string>
     <string name="collect">Collect</string>
     <string name="next">Next</string>
+    <string name="zero_log">reset log</string>
+    <string name="location_code">Enter location code</string>
 </resources>
