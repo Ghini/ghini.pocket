@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOCATION_CODE = "me.ghini.pocket.code.location";
     EditText locationText;
     EditText editText;
+    static String location = null;
     private SimpleDateFormat simpleDateFormat;
 
     @Override
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         locationText = (EditText) findViewById(R.id.locationText);
         editText = (EditText) findViewById(R.id.editText);
+        if (location != null) {
+            locationText.setText(location);
+        }
     }
 
     public void onZeroSearchLog(View view) {
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** Called when the user taps the Send button */
     public void searchData(View view) {
-        String location = locationText.getText().toString();
+        location = locationText.getText().toString();
         String message = editText.getText().toString();
         Intent intent = new Intent(this, DisplayResultsActivity.class);
         intent.putExtra(PLANT_CODE, message);
