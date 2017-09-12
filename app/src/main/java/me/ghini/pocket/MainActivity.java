@@ -31,16 +31,21 @@ import com.google.zxing.integration.android.IntentResult;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     public static final String PLANT_CODE = "me.ghini.pocket.code.plant";
     public static final String LOCATION_CODE = "me.ghini.pocket.code.location";
     EditText locationText;
     EditText editText;
+    private SimpleDateFormat simpleDateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
         setContentView(R.layout.activity_main);
         locationText = (EditText) findViewById(R.id.locationText);
         editText = (EditText) findViewById(R.id.editText);
@@ -48,7 +53,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void onZeroSearchLog(View view) {
         try {
-            String filename = new File(getExternalFilesDir(null), "searches.log").getAbsolutePath();
+            String fileFormat = new File(getExternalFilesDir(null), "searches%s%s.txt").getAbsolutePath();
+            String filename = String.format(fileFormat, "", "");
+            File file = new File(filename);
+            if (file.length() > 0) {
+                Calendar calendar = Calendar.getInstance();
+                String timeStamp = simpleDateFormat.format(calendar.getTime());
+                String newNameForOldFile = String.format(fileFormat, "_", timeStamp);
+                File newFile = new File(newNameForOldFile);
+                boolean ok = file.renameTo(newFile);
+            }
             new PrintWriter(filename).close();
         } catch (FileNotFoundException e) {
             Toast.makeText(this, "can't create log file", Toast.LENGTH_LONG).show();

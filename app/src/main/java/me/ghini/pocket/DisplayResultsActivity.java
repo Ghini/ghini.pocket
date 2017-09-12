@@ -107,14 +107,14 @@ public class DisplayResultsActivity extends AppCompatActivity {
         searchedPlantCode = fromScan;
         PrintWriter out = null;
         try {
-            String filename = new File(getExternalFilesDir(null), "searches.log").getAbsolutePath();
+            String filename = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
             out = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)));
             Calendar calendar = Calendar.getInstance();
             String timeStamp = simpleDateFormat.format(calendar.getTime());
             out.println(String.format("%s : %s : %s", timeStamp, locationCode, searchedPlantCode));
-        }catch (IOException e) {
+        } catch (IOException e) {
             Toast.makeText(this, "can't log search", Toast.LENGTH_SHORT).show();
-        }finally{
+        } finally {
             if(out != null){
                 out.close();
             }
