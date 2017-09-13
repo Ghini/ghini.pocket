@@ -17,6 +17,7 @@
 
 package me.ghini.pocket;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -60,10 +61,9 @@ public class DisplayResultsActivity extends AppCompatActivity {
     TextView tvLocation;
     TextView tvDismissionDate;
     TextView tvNoOfPics;
-    String imei;
     private String searchedPlantCode;
     private String locationCode;
-    private SimpleDateFormat simpleDateFormat;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
 
     public void onNextScan(View view) {
         IntentIntegrator integrator = new IntentIntegrator(this);
@@ -182,6 +182,7 @@ public class DisplayResultsActivity extends AppCompatActivity {
         tvNoOfPics.setText(noOfPics);
     }
 
+    @SuppressLint("HardwareIds")
     private void logSearch() {
         PrintWriter out = null;
         try {
@@ -189,7 +190,9 @@ public class DisplayResultsActivity extends AppCompatActivity {
             out = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)));
             Calendar calendar = Calendar.getInstance();
             String timeStamp = simpleDateFormat.format(calendar.getTime());
-            out.println(String.format("%s : %s : %s : %s", timeStamp, locationCode, searchedPlantCode, imei));
+            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+            String deviceId = telephonyManager.getDeviceId();
+            out.println(String.format("%s : %s : %s : %s", timeStamp, locationCode, searchedPlantCode, deviceId));
         } catch (IOException e) {
             Toast.makeText(this, "can't log search", Toast.LENGTH_SHORT).show();
         } finally {
@@ -202,7 +205,6 @@ public class DisplayResultsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
         setContentView(R.layout.activity_display_result);
 
         tvAccession = (TextView) findViewById(R.id.tvAccession);
@@ -219,8 +221,6 @@ public class DisplayResultsActivity extends AppCompatActivity {
         searchedPlantCode = intent.getStringExtra(MainActivity.PLANT_CODE);
         locationCode = intent.getStringExtra(MainActivity.LOCATION_CODE);
         refreshContent(searchedPlantCode);
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        imei = telephonyManager.getDeviceId();
     }
 
 }
