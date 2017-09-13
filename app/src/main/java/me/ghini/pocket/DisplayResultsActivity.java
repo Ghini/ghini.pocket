@@ -28,6 +28,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,7 @@ public class DisplayResultsActivity extends AppCompatActivity {
     TextView tvLocation;
     TextView tvDismissionDate;
     TextView tvNoOfPics;
+    String imei;
     private String searchedPlantCode;
     private String locationCode;
     private SimpleDateFormat simpleDateFormat;
@@ -105,20 +107,7 @@ public class DisplayResultsActivity extends AppCompatActivity {
 
     public void refreshContent(String fromScan) {
         searchedPlantCode = fromScan;
-        PrintWriter out = null;
-        try {
-            String filename = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
-            out = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)));
-            Calendar calendar = Calendar.getInstance();
-            String timeStamp = simpleDateFormat.format(calendar.getTime());
-            out.println(String.format("%s : %s : %s", timeStamp, locationCode, searchedPlantCode));
-        } catch (IOException e) {
-            Toast.makeText(this, "can't log search", Toast.LENGTH_SHORT).show();
-        } finally {
-            if(out != null){
-                out.close();
-            }
-        }
+        logSearch();
         String fullPlantCode = String.format(getString(R.string.not_found), searchedPlantCode);
 
         String family = "";
@@ -193,6 +182,23 @@ public class DisplayResultsActivity extends AppCompatActivity {
         tvNoOfPics.setText(noOfPics);
     }
 
+    private void logSearch() {
+        PrintWriter out = null;
+        try {
+            String filename = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
+            out = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)));
+            Calendar calendar = Calendar.getInstance();
+            String timeStamp = simpleDateFormat.format(calendar.getTime());
+            out.println(String.format("%s : %s : %s : %s", timeStamp, locationCode, searchedPlantCode, imei));
+        } catch (IOException e) {
+            Toast.makeText(this, "can't log search", Toast.LENGTH_SHORT).show();
+        } finally {
+            if(out != null){
+                out.close();
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -213,6 +219,8 @@ public class DisplayResultsActivity extends AppCompatActivity {
         searchedPlantCode = intent.getStringExtra(MainActivity.PLANT_CODE);
         locationCode = intent.getStringExtra(MainActivity.LOCATION_CODE);
         refreshContent(searchedPlantCode);
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        imei = telephonyManager.getDeviceId();
     }
 
 }
