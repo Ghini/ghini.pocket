@@ -161,11 +161,11 @@ public class DisplayResultsActivity extends AppCompatActivity {
                 acqDate = resultSet.getString(7);
                 try {
                     acqDate = acqDate.substring(0, 16);
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 dismissDate = resultSet.getString(8);
                 try {
                     dismissDate = dismissDate.substring(0, 16);
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 noOfPics = String.valueOf(resultSet.getInt(9));
                 resultSet.close();
             } catch (CursorIndexOutOfBoundsException e) {
