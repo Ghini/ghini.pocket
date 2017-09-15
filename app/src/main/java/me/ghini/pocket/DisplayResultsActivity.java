@@ -159,9 +159,13 @@ public class DisplayResultsActivity extends AppCompatActivity {
                 source = resultSet.getString(5);
                 location = resultSet.getString(6);
                 acqDate = resultSet.getString(7);
-                if(acqDate != null) acqDate = acqDate.substring(0, 16);
+                try {
+                    acqDate = acqDate.substring(0, 16);
+                } catch (Exception e) {}
                 dismissDate = resultSet.getString(8);
-                if(dismissDate != null) dismissDate = dismissDate.substring(0, 16);
+                try {
+                    dismissDate = dismissDate.substring(0, 16);
+                } catch (Exception e) {}
                 noOfPics = String.valueOf(resultSet.getInt(9));
                 resultSet.close();
             } catch (CursorIndexOutOfBoundsException e) {
