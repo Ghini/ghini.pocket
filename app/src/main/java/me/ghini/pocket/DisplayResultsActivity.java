@@ -191,7 +191,12 @@ public class DisplayResultsActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             String timeStamp = simpleDateFormat.format(calendar.getTime());
             TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-            String deviceId = telephonyManager.getDeviceId();
+            String deviceId = "";
+            try {
+                deviceId = telephonyManager.getDeviceId();
+            } catch (Exception e) {
+                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
             out.println(String.format("%s : %s : %s : %s", timeStamp, locationCode, searchedPlantCode, deviceId));
         } catch (IOException e) {
             Toast.makeText(this, "can't log search", Toast.LENGTH_SHORT).show();
