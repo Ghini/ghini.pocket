@@ -15,6 +15,6 @@
     <string name="location">Standort</string>
     <string name="wikipedia">Wikipedia</string>
     <string name="empty_lookup">nicht möglich leere Zeile einzusehen</string>
-    <string name="next">n</string>
+    <string name="next">Nächste</string>
     <string name="collect">sammeln</string>
 </resources>
