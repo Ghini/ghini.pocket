@@ -17,6 +17,7 @@
 
 package me.ghini.pocket;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -28,6 +29,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +37,14 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,6 +62,8 @@ public class DisplayResultsActivity extends AppCompatActivity {
     TextView tvDismissionDate;
     TextView tvNoOfPics;
     private String searchedPlantCode;
+    private String locationCode;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
 
     public void onNextScan(View view) {
         IntentIntegrator integrator = new IntentIntegrator(this);
@@ -62,8 +73,8 @@ public class DisplayResultsActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
-            String searchedPlantCode = scanResult.getContents();
-            refreshContent(searchedPlantCode);
+            String scanResultContents = scanResult.getContents();
+            refreshContent(scanResultContents);
         }
     }
 
@@ -94,7 +105,9 @@ public class DisplayResultsActivity extends AppCompatActivity {
         }
     }
 
-    public void refreshContent(String searchedPlantCode) {
+    public void refreshContent(String fromScan) {
+        searchedPlantCode = fromScan;
+        logSearch();
         String fullPlantCode = String.format(getString(R.string.not_found), searchedPlantCode);
 
         String family = "";
@@ -146,9 +159,13 @@ public class DisplayResultsActivity extends AppCompatActivity {
                 source = resultSet.getString(5);
                 location = resultSet.getString(6);
                 acqDate = resultSet.getString(7);
-                if(acqDate != null) acqDate = acqDate.substring(0, 16);
+                try {
+                    acqDate = acqDate.substring(0, 16);
+                } catch (Exception ignored) {}
                 dismissDate = resultSet.getString(8);
-                if(dismissDate != null) dismissDate = dismissDate.substring(0, 16);
+                try {
+                    dismissDate = dismissDate.substring(0, 16);
+                } catch (Exception ignored) {}
                 noOfPics = String.valueOf(resultSet.getInt(9));
                 resultSet.close();
             } catch (CursorIndexOutOfBoundsException e) {
@@ -169,6 +186,31 @@ public class DisplayResultsActivity extends AppCompatActivity {
         tvNoOfPics.setText(noOfPics);
     }
 
+    @SuppressLint("HardwareIds")
+    private void logSearch() {
+        PrintWriter out = null;
+        try {
+            String filename = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
+            out = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)));
+            Calendar calendar = Calendar.getInstance();
+            String timeStamp = simpleDateFormat.format(calendar.getTime());
+            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+            String deviceId = "";
+            try {
+                deviceId = telephonyManager.getDeviceId();
+            } catch (Exception e) {
+                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+            out.println(String.format("%s : %s : %s : %s", timeStamp, locationCode, searchedPlantCode, deviceId));
+        } catch (IOException e) {
+            Toast.makeText(this, "can't log search", Toast.LENGTH_SHORT).show();
+        } finally {
+            if(out != null){
+                out.close();
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,7 +227,8 @@ public class DisplayResultsActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        searchedPlantCode = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        searchedPlantCode = intent.getStringExtra(MainActivity.PLANT_CODE);
+        locationCode = intent.getStringExtra(MainActivity.LOCATION_CODE);
         refreshContent(searchedPlantCode);
     }
 
