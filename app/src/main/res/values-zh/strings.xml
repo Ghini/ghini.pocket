@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="app_name">ghini.pocket</string>
-    <string name="not_found">%s</string>
-    <string name="button_scan"/>
-    <string name="button_send"/>
-    <string name="edit_message"/>
-    <string name="missing_web_browser"/>
-    <string name="binomial"/>
-    <string name="family"/>
-    <string name="source"/>
-    <string name="n_of_pictures"/>
-    <string name="acquisition"/>
+    <string name="not_found">未找到：%s</string>
+    <string name="button_scan">扫描</string>
+    <string name="button_send">搜索</string>
+    <string name="edit_message">输入植物编码</string>
+    <string name="missing_web_browser">未找到处理本请求的程序。 请安装网页浏览器</string>
+    <string name="binomial">学名</string>
+    <string name="family">科</string>
+    <string name="source">数据源</string>
+    <string name="n_of_pictures"># 张图片</string>
+    <string name="acquisition">获取方式</string>
     <string name="dismission"/>
-    <string name="location"/>
-    <string name="wikipedia"/>
-    <string name="empty_lookup"/>
-    <string name="next"/>
-    <string name="collect"/>
+    <string name="location">地点</string>
+    <string name="wikipedia">维基百科</string>
+    <string name="empty_lookup">空字符串不能搜索</string>
+    <string name="next">下一条</string>
+    <string name="collect">采集</string>
 </resources>
