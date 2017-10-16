@@ -17,4 +17,6 @@
     <string name="empty_lookup">не вдається знайти пустий рядок</string>
     <string name="next">Далі</string>
     <string name="collect">Зібрати</string>
+<string name="zero_log">скинути журнал</string>
+    <string name="location_code">Введіть код місцеположення</string>
 </resources>
