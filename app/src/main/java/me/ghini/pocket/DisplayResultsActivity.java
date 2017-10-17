@@ -82,6 +82,8 @@ public class DisplayResultsActivity extends AppCompatActivity {
         try {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setType(FORMS_CHOOSER_INTENT_TYPE);
+            i.putExtra("form_id", "plant_form_s");
+            i.putExtra("plant_id", searchedPlantCode);
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("last plant search", searchedPlantCode);
             clipboard.setPrimaryClip(clip);
