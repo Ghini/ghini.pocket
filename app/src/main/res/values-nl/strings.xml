@@ -3,4 +3,9 @@
     <string name="app_name">ghini.pocket</string>
     <string name="button_send">Zoeken</string>
     <string name="collect">Verbeteren</string>
+    <string name="edit_message">Plantcode invoegen</string>
+    <string name="family"></string>
+    <string name="n_of_pictures">Aantal plaatjes</string>
+    <string name="next">Nogmaals</string>
+    <string name="empty_lookup"></string>
 </resources>
