@@ -2,19 +2,21 @@
 <resources>
     <string name="app_name">ghini.pocket</string>
     <string name="not_found">%s</string>
-    <string name="button_scan"/>
-    <string name="button_send"/>
-    <string name="edit_message"/>
-    <string name="missing_web_browser"/>
-    <string name="binomial"/>
-    <string name="family"/>
-    <string name="source"/>
-    <string name="n_of_pictures"/>
-    <string name="acquisition"/>
-    <string name="dismission"/>
-    <string name="location"/>
-    <string name="wikipedia"/>
-    <string name="empty_lookup"/>
-    <string name="next"/>
-    <string name="collect"/>
+    <string name="button_scan">Digitalizar</string>
+    <string name="button_send">Pesquisa</string>
+    <string name="edit_message">Digite um código de planta</string>
+    <string name="missing_web_browser">Nenhum aplicativo pode processar este pedido. Por favor, instale um navegador da web</string>
+    <string name="binomial">Binomial</string>
+    <string name="family">Família</string>
+    <string name="source">Origem</string>
+    <string name="n_of_pictures">nº de fotos</string>
+    <string name="acquisition">Aquisição</string>
+    <string name="dismission">Dismission</string>
+    <string name="location">Localização</string>
+    <string name="wikipedia">Wikipédia</string>
+    <string name="empty_lookup">Não posso olhar a sequência de caracteres vazia</string>
+    <string name="next">Na próxima</string>
+    <string name="collect">Coletar</string>
+<string name="zero_log">Limpar Log</string>
+    <string name="location_code">Digite o código de localização</string>
 </resources>
