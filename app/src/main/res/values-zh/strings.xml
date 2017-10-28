@@ -10,8 +10,8 @@
     <string name="family">科</string>
     <string name="source">数据源</string>
     <string name="n_of_pictures"># 张图片</string>
-    <string name="acquisition">获取方式</string>
-    <string name="dismission"/>
+    <string name="acquisition">获得日期</string>
+    <string name="dismission">退出日期</string>
     <string name="location">地点</string>
     <string name="wikipedia">维基百科</string>
     <string name="empty_lookup">空字符串不能搜索</string>
