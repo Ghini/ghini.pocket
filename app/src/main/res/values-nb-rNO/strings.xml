@@ -1,2 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="edit_message">Skriv inn en plantekode</string>
+    <string name="button_scan">Skann</string>
+    <string name="button_send">Søk</string>
+    <string name="not_found">Ikke funnet: %s</string>
+    <string name="missing_web_browser">Ingen programmer kan håndtere denne forespørselen. Installer en nettleser</string>
+    <string name="source">Kilde</string>
+    <string name="family">Familie</string>
+    <string name="binomial">Binomenal (latin - «dobbelt navn»)</string>
+    <string name="n_of_pictures">Antall bilder</string>
+    <string name="acquisition">Ervervelse</string>
+    <string name="dismission">Avslag</string>
+    <string name="location">Plassering</string>
+    <string name="wikipedia">Wikipedia</string>
+    <string name="empty_lookup">kan ikke sjekke tom streng</string>
+    <string name="collect">Samle</string>
+    <string name="next">Neste</string>
+    <string name="zero_log">tilbakestill logg</string>
+    <string name="location_code">Skriv inn plasseringskode</string>
+</resources>
