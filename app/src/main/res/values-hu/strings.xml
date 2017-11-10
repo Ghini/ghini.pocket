@@ -3,7 +3,7 @@
     <string name="button_scan">Szkennelés</string>
     <string name="button_send">Keresés</string>
     <string name="not_found">%s nem található</string>
-    <string name="missing_web_browser">Nincs telepített alkalmazás a kérés kiszolgálásához. Kérjük, telepítsen böngészőt!</string>
+    <string name="missing_web_browser">Nincs telepített alkalmazás a kérés kiszolgálásához. Kérjük, telepítsen böngészőt</string>
     <string name="source">Forrás</string>
     <string name="family">Család</string>
     <string name="binomial">Binomiális</string>
