@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="edit_message">Skriv inn en plantekode</string>
+<resources>
+    <string name="edit_message">Skriv inn en plantekode</string>
     <string name="button_scan">Skann</string>
     <string name="button_send">Søk</string>
     <string name="not_found">Ikke funnet: %s</string>

@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="app_name">ghini.pocket</string>
     <string name="not_found">%s</string>
     <string name="button_scan">Digitalizar</string>
     <string name="button_send">Pesquisa</string>
