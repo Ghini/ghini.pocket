@@ -1,20 +1,3 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="edit_message"></string>
-    <string name="button_scan"></string>
-    <string name="button_send"></string>
-    <string name="not_found"></string>
-    <string name="missing_web_browser"></string>
-    <string name="source"></string>
-    <string name="family"></string>
-    <string name="binomial"></string>
-    <string name="n_of_pictures"></string>
-    <string name="acquisition"></string>
-    <string name="dismission"></string>
-    <string name="location"></string>
-    <string name="wikipedia"></string>
-    <string name="empty_lookup"></string>
-    <string name="collect"></string>
-    <string name="next"></string>
-    <string name="zero_log"></string>
-    <string name="location_code"></string>
+<resources>
 </resources>
