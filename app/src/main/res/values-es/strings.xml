@@ -16,4 +16,6 @@
     <string name="empty_lookup">no hay binomial que buscar</string>
     <string name="next">Otra</string>
 <string name="collect">Corregir</string>
-    </resources>
+    <string name="zero_log">vaciar log</string>
+    <string name="location_code">Digite código localización</string>
+</resources>
