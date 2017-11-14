@@ -16,4 +16,6 @@
     <string name="empty_lookup">specificare una ricerca</string>
     <string name="next">Ancora</string>
     <string name="collect">Correggi</string>
+<string name="zero_log">resettare log</string>
+    <string name="location_code">Inserire codice ubicazione</string>
 </resources>
