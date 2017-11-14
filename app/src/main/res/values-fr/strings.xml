@@ -10,10 +10,12 @@
     <string name="source">Source</string>
     <string name="n_of_pictures">nombre de photos</string>
     <string name="acquisition">Acquisition</string>
-    <string name="dismission"/>
+    <string name="dismission">Dismission</string>
     <string name="location">Emplacement</string>
     <string name="wikipedia">Wikipédia</string>
     <string name="empty_lookup">On ne peut pas rechercher la chaîne vide</string>
     <string name="next">Suivant</string>
     <string name="collect">Recueillir</string>
+<string name="zero_log">réinitialiser le journal</string>
+    <string name="location_code">Entrez le code de lieu</string>
 </resources>
