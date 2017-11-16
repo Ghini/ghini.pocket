@@ -1,8 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="button_send">Zoeken</string>
     <string name="collect">Verbeteren</string>
     <string name="edit_message">Plantcode invoegen</string>
     <string name="n_of_pictures">Aantal plaatjes</string>
     <string name="next">Nogmaals</string>
+<string name="not_found">Niet gevonden: %s</string>
+    <string name="source">Bron</string>
+    <string name="family">Familie</string>
+    <string name="binomial">Binomiaal</string>
+    <string name="acquisition">Acquisitie</string>
+    <string name="location">Plaatsing</string>
+    <string name="wikipedia">Wikipedia</string>
+    <string name="empty_lookup">Typ een code in</string>
+    <string name="zero_log">Log leegmaken</string>
+    <string name="location_code">plaatsingscode</string>
 </resources>
