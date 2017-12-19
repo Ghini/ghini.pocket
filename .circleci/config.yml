@@ -36,7 +36,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: ls $ANDROID_HOME
+      - run: find $ANDROID_HOME -type f
 
       - save_cache:
           paths:
