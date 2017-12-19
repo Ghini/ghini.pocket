@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">ghini.pocket</string>
     <string name="edit_message">Enter a plant code</string>
     <string name="button_scan">Scan</string>
