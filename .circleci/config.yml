@@ -2,10 +2,6 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-machine:
-  environment:
-    ANDROID_HOME: /usr/local/android-sdk-linux
-    GRADLE_OPTS: -Xmx512m
 
 version: 2
 jobs:
@@ -36,7 +32,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: find $ANDROID_HOME -type f
+      - run: ANDROID_HOME=/usr/local/android-sdk-linux gradle dependencies
 
       - save_cache:
           paths:
