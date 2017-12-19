@@ -2,6 +2,11 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
+machine:
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+    GRADLE_OPTS: -Xmx512m
+
 version: 2
 jobs:
   build:
