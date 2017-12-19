@@ -36,7 +36,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: gradle dependencies
+      - run:
+          - ls $ANDROID_HOME
+          - gradle dependencies
 
       - save_cache:
           paths:
