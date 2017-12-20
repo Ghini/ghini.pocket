@@ -2,26 +2,39 @@ language: android
 
 jdk: oraclejdk8
 
+env:
+  global:
+    - API=25                   # Android API level 25 by default
+    - TAG=google_apis          # Google APIs by default, alternatively use default
+    - QEMU_AUDIO_DRV=none      # Disable emulator audio to avoid warning
+    - TARGET=android-25
+    - ABI=armeabi-v7a          # ARM ABI v7a by default
+
 android:
   components:
     - tools
     - build-tools-25.0.2
     - platform-tools
     - tools
-    - android-24
-    - android-25
+    - $TARGET
+    - sys-img-$ABI-$TARGET
 
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-armeabi-v7a-android-22
 
-env:
-  global:
-    - API=25 # Android API level 25 by default
-    - TAG=google_apis # Google APIs by default, alternatively use default
-    - ABI=armeabi-v7a # ARM ABI v7a by default
-    - QEMU_AUDIO_DRV=none # Disable emulator audio to avoid warning
-  
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-23.0.2
+
+# Emulator Management: Create, Start and Wait
+before_script:
+    - echo no | android create avd --force -n test -t $TARGET --abi $ABI
+    - emulator -avd test -no-skin -no-audio -no-window &
+    - android-wait-for-device
+    - adb shell input keyevent 82 &
+
 before_install:
   - mkdir "$ANDROID_HOME/licenses" || true
   - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
