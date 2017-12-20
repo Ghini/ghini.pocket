@@ -4,4 +4,5 @@
     <issue id="UnusedResources" severity="error"/>
     <issue id="GradleDependency" severity="informational" />
     <issue id="OldTargetApi" severity="informational" />
+    <issue id="GoogleAppIndexingWarning" severity="informational" />
 </lint>
