@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 String timeStamp = simpleDateFormat.format(calendar.getTime());
                 String newNameForOldFile = String.format(fileFormat, "_", timeStamp);
                 File newFile = new File(newNameForOldFile);
-                boolean ok = file.renameTo(newFile);
+                file.renameTo(newFile);
             }
             new PrintWriter(filename).close();
         } catch (FileNotFoundException e) {
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     /** Called when the user taps the Scan button */
     public void scanBarcode(View view) {
         IntentIntegrator integrator = new IntentIntegrator(this);
-        AlertDialog scan = integrator.initiateScan();
+        integrator.initiateScan();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
