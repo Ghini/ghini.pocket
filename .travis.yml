@@ -31,7 +31,7 @@ android:
 # Emulator Management: Create, Start and Wait
 before_script:
     - android list sdk --extended --no-ui --all
-    - echo "y\ny\ny" | android update sdk -a --no-ui
+    - for j in 1 2 3; do echo y; done | android update sdk -a --no-ui
     - echo "y" | android create avd --force -n test -t $TARGET --abi $ABI
     - emulator -avd test -no-skin -no-audio -no-window &
     - android-wait-for-device
