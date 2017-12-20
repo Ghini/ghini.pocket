@@ -22,3 +22,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+lintOptions {
+    warningsAsErrors true
+    lintConfig file("lint.xml")    
+}

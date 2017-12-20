@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" tools:ignore="OldTargetApi"
     package="me.ghini.pocket">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
