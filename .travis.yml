@@ -31,10 +31,10 @@ android:
 # Emulator Management: Create, Start and Wait
 before_script:
     - android list sdk --extended --no-ui --all
-    - echo y | android update sdk -a --no-ui
-    - echo y | android update sdk -a --no-ui
-    - echo y | android update sdk -a --no-ui
-    - echo y | android update sdk -a --no-ui
+    - echo y | android update sdk -a --no-ui --filter mips-android-sysimage-license-acdab23e
+    - echo y | android update sdk -a --no-ui --filter android-sdk-preview-license-d099d938
+    - echo y | android update sdk -a --no-ui --filter android-sdk-license-2742d1c5
+    - echo y | android update sdk -a --no-ui --filter android-googletv-license-345b386f
     - echo "y" | android create avd --force -n test -t $TARGET --abi $ABI
     - emulator -avd test -no-skin -no-audio -no-window &
     - android-wait-for-device
