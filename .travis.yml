@@ -5,9 +5,9 @@ jdk: oraclejdk8
 android:
   components:
     - tools
+    - build-tools-25.0.2
     - platform-tools
     - tools
-    - build-tools-25.0.2
     - android-24
     - android-25
 
@@ -15,14 +15,22 @@ android:
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-22
 
+env:
+  global:
+    - API=25 # Android API level 25 by default
+    - TAG=google_apis # Google APIs by default, alternatively use default
+    - ABI=armeabi-v7a # ARM ABI v7a by default
+    - QEMU_AUDIO_DRV=none # Disable emulator audio to avoid warning
+  
 before_install:
-    - mkdir "$ANDROID_HOME/licenses" || true
-    - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
-    - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
+  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+  - echo 'count=0' > /home/travis/.android/repositories.cfg # Avoid warning
 
 licenses:
-    - 'android-.+'
-    - 'android-.+'
-    - 'google-.+'
-    - '.+'
+  - 'android-.+'
+  - 'android-.+'
+  - 'google-.+'
+  - '.+'
     
