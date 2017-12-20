@@ -30,7 +30,7 @@ android:
 
 # Emulator Management: Create, Start and Wait
 before_script:
-    - echo no | android create avd --force -n test -t $TARGET --abi $ABI
+    - echo no | android create avd --force -n test -t $TARGET
     - emulator -avd test -no-skin -no-audio -no-window &
     - android-wait-for-device
     - adb shell input keyevent 82 &
