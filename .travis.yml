@@ -31,8 +31,8 @@ android:
 # Emulator Management: Create, Start and Wait
 before_script:
     - android list sdk --extended --no-ui --all
-    - echo "y" | android update sdk -a --no-ui
-    - echo "y" | android create avd --force -n test -t $TARGET --abi $ABI
+    - yes | android update sdk -a --no-ui
+    - yes | android create avd --force -n test -t $TARGET --abi $ABI
     - emulator -avd test -no-skin -no-audio -no-window &
     - android-wait-for-device
     - adb shell input keyevent 82 &
