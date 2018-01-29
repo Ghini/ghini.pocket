@@ -34,15 +34,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that provides
-     * a fragment for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which keeps every
-     * fragment in memory. If this becomes too memory intensive, switch to
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
     private final List<Fragment> fragmentList;
     private final SimpleDateFormat simpleDateFormat;
 
@@ -68,7 +59,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // handle the fragments over to the adapter
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        /*
+      The {@link android.support.v4.view.PagerAdapter} that provides
+      a fragment for each of the sections. We use a
+      {@link FragmentPagerAdapter} derivative, which keeps every
+      fragment in memory. If this becomes too memory intensive, switch to
+      {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     */
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -119,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 String timeStamp = simpleDateFormat.format(calendar.getTime());
                 String newNameForOldFile = String.format(fileFormat, "_", timeStamp);
                 File newFile = new File(newNameForOldFile);
+                //noinspection ResultOfMethodCallIgnored
                 file.renameTo(newFile);
             }
             new PrintWriter(filename).close();
@@ -176,9 +175,9 @@ public class MainActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

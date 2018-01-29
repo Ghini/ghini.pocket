@@ -130,7 +130,9 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
             } catch (CursorIndexOutOfBoundsException e) {
                 Toast.makeText(getActivity(), "nothing matches", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                family = e.toString();
+                family = e.getClass().getSimpleName();
+                location = e.getLocalizedMessage().substring(0, 25).concat(" ...");
+                Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         }
 
