@@ -1,5 +1,9 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
+CREATE TABLE "android_metadata" (
+ "locale"       TEXT DEFAULT 'en_US'
+);
+INSERT INTO "android_metadata" VALUES('en_US');
 CREATE TABLE IF NOT EXISTS "taxon" (
 	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`epithet`	TEXT NOT NULL,
