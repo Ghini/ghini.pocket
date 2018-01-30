@@ -158,6 +158,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
             TelephonyManager telephonyManager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
             String deviceId = "";
             try {
+                //noinspection deprecation
                 deviceId = telephonyManager.getDeviceId();
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
