@@ -22,4 +22,5 @@
     <string name="next">Next</string>
     <string name="zero_log">reset log</string>
     <string name="location_code">Enter location code</string>
+    <string name="missing_odk_collect">missing ODK Collect</string>
 </resources>

@@ -1,6 +1,9 @@
 package me.ghini.pocket;
 
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final List<Fragment> fragmentList;
     private final SimpleDateFormat simpleDateFormat;
+    public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
 
     MainActivity() {
         // create the fragments
@@ -153,6 +157,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCollect(View view) {
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setType(FORMS_CHOOSER_INTENT_TYPE);
+            i.putExtra("form_id", "plant_form_s");
+            EditText searchEditText = (EditText) findViewById(R.id.searchText);
+            String searchedPlantCode = searchEditText.getText().toString();
+            i.putExtra("plant_id", searchedPlantCode);
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("last plant search", searchedPlantCode);
+            clipboard.setPrimaryClip(clip);
+            startActivity(i);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, R.string.missing_odk_collect, Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onWikipedia(View view) {
