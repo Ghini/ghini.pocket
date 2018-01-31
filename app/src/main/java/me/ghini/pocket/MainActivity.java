@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private final SimpleDateFormat simpleDateFormat;
     public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
 
-    MainActivity() {
+    public MainActivity() {
         // create the fragments
         simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
         fragmentList = new ArrayList<>(3);

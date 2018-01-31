@@ -120,20 +120,27 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
 class TaxonomyDatabase extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "taxonomy.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     TaxonomyDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        setForcedUpgrade();
     }
 
     Cursor getMatchingGenera(String s) {
         SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery(
-                "select epithet, authorship, accepted_id, parent_id " +
-                        "from taxon " +
-                        "where rank = 5 and epithet like ? " +
-                        "order by epithet",
-                new String[] {s + "%"});
+        Cursor c = null;
+        for (int rank = 5; rank >= 0; rank--) {
+            c = db.rawQuery(
+                    "select epithet, authorship, accepted_id, parent_id " +
+                            "from taxon " +
+                            "where rank = ? and epithet like ? " +
+                            "order by epithet",
+                    new String[]{Integer.toString(rank), s + "%"});
+            if (c.getCount() != 0)
+                return c;
+        }
+        return c;
     }
 
     Cursor getParentTaxon(Integer lookupId) {
