@@ -128,13 +128,12 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
 
     Cursor getMatchingGenera(String s) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery(
+        return db.rawQuery(
                 "select epithet, authorship, accepted_id, parent_id " +
                         "from taxon " +
                         "where rank = 5 and epithet like ? " +
                         "order by epithet",
                 new String[] {s + "%"});
-        return c;
     }
 
     Cursor getParentTaxon(Integer lookupId) {
