@@ -37,6 +37,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    static String lastGenusFound = "";
     private final List<Fragment> fragmentList;
     private final SimpleDateFormat simpleDateFormat;
     public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(2);
         ResultsFragment resultFragment = (ResultsFragment) fragmentList.get(2);
         resultFragment.setLocation(location);
-        resultFragment.refreshContent(editText.getText().toString());
+        MainActivity.lastGenusFound = resultFragment.refreshContent(editText.getText().toString());
     }
 
     public void onCollect(View view) {

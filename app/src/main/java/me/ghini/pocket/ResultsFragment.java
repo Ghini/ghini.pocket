@@ -64,7 +64,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
         return rootView;
     }
 
-    public void refreshContent(String fromScan) {
+    public String refreshContent(String fromScan) {
         searchedPlantCode = fromScan;
         logSearch();
         String fullPlantCode = String.format(getString(R.string.not_found), searchedPlantCode);
@@ -77,6 +77,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
         String noOfPics = "";
         species = "";
 
+        String genus_epithet = "";
         String accessionCode = searchedPlantCode;
         String plantCode = ".1";
         Pattern pattern = Pattern.compile("(.*)(\\.[1-9][0-9]?[0-9]?)");
@@ -101,7 +102,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
                                 "AND p.code = ? ", new String[]{accessionCode, plantCode});
                 resultSet.moveToFirst();
                 family = resultSet.getString(0);
-                String genus_epithet = resultSet.getString(1);
+                genus_epithet = resultSet.getString(1);
                 String sp_epithet = resultSet.getString(2);
                 if (sp_epithet == null)
                     sp_epithet = "";
@@ -145,6 +146,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
         tvAcqDate.setText(acqDate);
         tvDismissionDate.setText(dismissDate);
         tvNoOfPics.setText(noOfPics);
+        return genus_epithet;
     }
 
     @SuppressLint("HardwareIds")

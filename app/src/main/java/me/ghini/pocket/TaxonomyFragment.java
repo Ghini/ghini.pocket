@@ -66,6 +66,8 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
                 return false;
             }
         });
+        taxonomySearch.setText(MainActivity.lastGenusFound);
+        lookupName(MainActivity.lastGenusFound);
         return rootView;
     }
 
@@ -91,14 +93,18 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
 
     void lookupName(String s) {
         listAdapter.clear();
+        if(s == null || s.length() == 0) {
+            listAdapter.add("empty lookup");
+            return;
+        }
         try {
             TaxonomyDatabase db = new TaxonomyDatabase(getContext());
             Cursor cr = db.getMatchingGenera(s);
 
             while (cr.moveToNext()) {
-                Integer parentId = addLineFromCursor(cr);
+                Cursor cr2;
                 //noinspection StatementWithEmptyBody
-                for (Cursor cr2;
+                for (Integer parentId = addLineFromCursor(cr);
                      parentId != 0;
                      cr2 = db.getParentTaxon(parentId), parentId = addLineFromCursor(cr2));
                 listAdapter.add("");
