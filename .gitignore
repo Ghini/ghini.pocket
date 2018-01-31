@@ -11,4 +11,4 @@
 build.gradle
 cantupdate.txt
 
-app-release.apk
+*.apk
