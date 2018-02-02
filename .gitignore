@@ -13,3 +13,4 @@ cantupdate.txt
 
 *.apk
 ./
+.idea/dictionaries/*.xml
