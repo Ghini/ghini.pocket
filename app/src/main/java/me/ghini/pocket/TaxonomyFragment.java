@@ -10,6 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +25,8 @@ import android.widget.TextView;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+import org.apache.commons.codec.language.DoubleMetaphone;
+
 /**
  * Created by mario on 2018-01-30.
  */
@@ -28,6 +35,9 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
 
     List<String> stringList;  // think of it as the model.
     ArrayAdapter<String> listAdapter;  // and this would be the presenter
+
+    // change this static field to calculate the metaphone codes
+    public static boolean recomputeMetaphone = false;
 
     public TaxonomyFragment() {
         // once and for all.
@@ -99,6 +109,11 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
         }
         try {
             TaxonomyDatabase db = new TaxonomyDatabase(getContext());
+            if (recomputeMetaphone) {
+                String filename = new File(getActivity().getExternalFilesDir(null), "metaphone.txt").getAbsolutePath();
+                db.updateMetaphone(filename);
+                recomputeMetaphone = false;
+            }
             Cursor cr = db.getMatchingGenera(s);
 
             while (cr.moveToNext()) {
@@ -120,7 +135,7 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
 class TaxonomyDatabase extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "taxonomy.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
 
     TaxonomyDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -155,5 +170,31 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
         return c;
     }
 
+    void updateMetaphone(String dst) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        Cursor c1 = db.rawQuery("select id, epithet from taxon", null);
+        DoubleMetaphone e = new DoubleMetaphone();
+        e.setMaxCodeLen(12);
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(new BufferedWriter(new FileWriter(dst, true)));
+            while (c1.moveToNext()) {
+                Integer id = c1.getInt(0);
+                String epithet = c1.getString(1);
+                String metaphone = e.doubleMetaphone(epithet);
+                out.println(String.format("%s : %s : %s", id, epithet, metaphone));
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } finally {
+            if(out != null){
+                out.close();
+            }
+        }
+        c1.close();
+        db.endTransaction();
+        db.close();
+    }
 }
 

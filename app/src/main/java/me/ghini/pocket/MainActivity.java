@@ -38,14 +38,12 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     static String lastGenusFound = "";
-    private final List<Fragment> fragmentList;
-    private final SimpleDateFormat simpleDateFormat;
+    private final List<Fragment> fragmentList = new ArrayList<>(3);
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
     public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
 
     public MainActivity() {
         // create the fragments
-        simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
-        fragmentList = new ArrayList<>(3);
         fragmentList.add(new TaxonomyFragment());
         fragmentList.add(new SearchFragment());
         fragmentList.add(new ResultsFragment());
