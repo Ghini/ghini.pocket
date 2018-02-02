@@ -25,8 +25,6 @@ import android.widget.TextView;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-import org.apache.commons.codec.language.DoubleMetaphone;
-
 /**
  * Created by mario on 2018-01-30.
  */
@@ -135,7 +133,7 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
 class TaxonomyDatabase extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "taxonomy.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     TaxonomyDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -143,19 +141,49 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
     }
 
     Cursor getMatchingGenera(String s) {
+        String field;
+        if(s.toUpperCase().equals(s)) {
+            field = "metaphone";
+            s = shorten(s);
+        } else {
+            field = "epithet";
+        }
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = null;
         for (int rank = 5; rank >= 0; rank--) {
             c = db.rawQuery(
                     "select epithet, authorship, accepted_id, parent_id " +
                             "from taxon " +
-                            "where rank = ? and epithet like ? " +
+                            "where rank = ? and " + field + " like ? " +
                             "order by epithet",
                     new String[]{Integer.toString(rank), s + "%"});
             if (c.getCount() != 0)
                 return c;
         }
         return c;
+    }
+
+    /**
+     * return a shortened, simplified, typo-tolerant name, corresponding to the given epithet
+     * @param epithet the epithet to simplify
+     * @return the typo-tolerant equivalent
+     */
+    private String shorten(String epithet) {
+        epithet = epithet.toLowerCase();  // ignore case
+        epithet = epithet.replaceAll("-", "");  // remove hyphen
+        epithet = epithet.replaceAll("c([ie])", "z$1");  // palatal c sounds like z
+        epithet = epithet.replaceAll("g([ie])", "j$1");  // palatal g sounds like j
+        epithet = epithet.replaceAll("ph", "f");  // ph sounds like f
+        epithet = epithet.replaceAll("v", "f");  // v sounds like f // fricative (voiced or not)
+
+        epithet = epithet.replaceAll("h", "");  // h sounds like nothing
+        epithet = epithet.replaceAll("[gcq]", "k");  // g, c, q sound like k // guttural
+        epithet = epithet.replaceAll("[xz]", "s");  // x, z sound like s
+        epithet = epithet.replaceAll("ae", "e");  // ae sounds like e
+        epithet = epithet.replaceAll("[ye]", "i");  // y, e sound like i
+        epithet = epithet.replaceAll("[ou]", "u");  // o, u sound like u // so we only have a, i, u
+        epithet = epithet.replaceAll("(.)\\1", "$1");  // doubled letters sound like single
+        return epithet;
     }
 
     Cursor getParentTaxon(Integer lookupId) {
@@ -174,15 +202,13 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         Cursor c1 = db.rawQuery("select id, epithet from taxon", null);
-        DoubleMetaphone e = new DoubleMetaphone();
-        e.setMaxCodeLen(12);
         PrintWriter out = null;
         try {
             out = new PrintWriter(new BufferedWriter(new FileWriter(dst, true)));
             while (c1.moveToNext()) {
                 Integer id = c1.getInt(0);
                 String epithet = c1.getString(1);
-                String metaphone = e.doubleMetaphone(epithet);
+                String metaphone = shorten(epithet);
                 out.println(String.format("%s : %s : %s", id, epithet, metaphone));
             }
         } catch (IOException e1) {
