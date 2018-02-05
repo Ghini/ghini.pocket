@@ -108,7 +108,7 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
         try {
             TaxonomyDatabase db = new TaxonomyDatabase(getContext());
             if (recomputeMetaphone) {
-                String filename = new File(getActivity().getExternalFilesDir(null), "metaphone.txt").getAbsolutePath();
+                String filename = new File(getActivity().getExternalFilesDir(null), "metaphone.sql").getAbsolutePath();
                 db.updateMetaphone(filename);
                 recomputeMetaphone = false;
             }
@@ -133,7 +133,7 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
 class TaxonomyDatabase extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "taxonomy.db";
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
 
     TaxonomyDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -182,16 +182,17 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
         epithet = epithet.replaceAll("ae", "e");  // ae sounds like e
         epithet = epithet.replaceAll("[ye]", "i");  // y, e sound like i
         epithet = epithet.replaceAll("[ou]", "u");  // o, u sound like u // so we only have a, i, u
+        epithet = epithet.replaceAll("[aiu]([aiu])[aiu]*", "$1");  // remove diphtongs
         epithet = epithet.replaceAll("(.)\\1", "$1");  // doubled letters sound like single
         return epithet;
     }
 
     Cursor getParentTaxon(Integer lookupId) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery(
-                "select epithet, authorship, accepted_id, parent_id " +
-                        "from taxon " +
-                        "where id =  ?",
+        String query = "SELECT epithet, authorship, accepted_id, parent_id " +
+                "FROM taxon " +
+                "WHERE id=?";
+        Cursor c = db.rawQuery(query,
                 new String[] {lookupId.toString()});
 
         c.moveToFirst();
@@ -205,12 +206,14 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
         PrintWriter out = null;
         try {
             out = new PrintWriter(new BufferedWriter(new FileWriter(dst, true)));
+            out.println("begin transaction;");
             while (c1.moveToNext()) {
                 Integer id = c1.getInt(0);
                 String epithet = c1.getString(1);
                 String metaphone = shorten(epithet);
-                out.println(String.format("%s : %s : %s", id, epithet, metaphone));
+                out.println(String.format("update taxon set metaphone='%s' where id=%s;", metaphone, id));
             }
+            out.println("commit;");
         } catch (IOException e1) {
             e1.printStackTrace();
         } finally {

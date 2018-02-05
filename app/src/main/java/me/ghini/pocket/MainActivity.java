@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("plant_id", searchedPlantCode);
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("last plant search", searchedPlantCode);
-            clipboard.setPrimaryClip(clip);
+            if (clipboard != null) clipboard.setPrimaryClip(clip);
             startActivity(i);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.missing_odk_collect, Toast.LENGTH_LONG).show();

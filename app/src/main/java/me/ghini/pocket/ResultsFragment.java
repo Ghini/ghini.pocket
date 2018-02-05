@@ -93,13 +93,13 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
         } else {
             try {
                 SQLiteDatabase database = getActivity().openOrCreateDatabase(filename, MODE_PRIVATE, null);
-                Cursor resultSet = database.rawQuery(
-                        "SELECT s.family, s.genus, s.epithet, a.code, p.code, a.source, p.location, a.start_date, p.end_date, p.n_of_pics " +
-                                "FROM species s, accession a, plant p " +
-                                "WHERE p.accession_id = a._id " +
-                                "AND a.species_id = s._id " +
-                                "AND a.code = ? " +
-                                "AND p.code = ? ", new String[]{accessionCode, plantCode});
+                String query = "SELECT s.family, s.genus, s.epithet, a.code, p.code, a.source, p.location, a.start_date, p.end_date, p.n_of_pics " +
+                        "FROM species s, accession a, plant p " +
+                        "WHERE p.accession_id = a._id " +
+                        "AND a.species_id = s._id " +
+                        "AND a.code = ? " +
+                        "AND p.code = ? ";
+                Cursor resultSet = database.rawQuery(query, new String[]{accessionCode, plantCode});
                 resultSet.moveToFirst();
                 family = resultSet.getString(0);
                 genus_epithet = resultSet.getString(1);
@@ -160,8 +160,9 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
             TelephonyManager telephonyManager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
             String deviceId = "";
             try {
-                //noinspection deprecation
-                deviceId = telephonyManager.getDeviceId();
+                if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
+            } catch (SecurityException e) {
+                Toast.makeText(getActivity(), "Please grant permission to get phone's IMEI.", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
