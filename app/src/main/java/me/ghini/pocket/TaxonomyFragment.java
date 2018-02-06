@@ -171,7 +171,7 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
     private String shorten(String epithet) {
         epithet = epithet.toLowerCase();  // ignore case
         epithet = epithet.replaceAll("-", "");  // remove hyphen
-        epithet = epithet.replaceAll("c([ie])", "z$1");  // palatal c sounds like z
+        epithet = epithet.replaceAll("c([yie])", "z$1");  // palatal c sounds like z
         epithet = epithet.replaceAll("g([ie])", "j$1");  // palatal g sounds like j
         epithet = epithet.replaceAll("ph", "f");  // ph sounds like f
         epithet = epithet.replaceAll("v", "f");  // v sounds like f // fricative (voiced or not)
