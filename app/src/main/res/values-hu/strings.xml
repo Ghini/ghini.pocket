@@ -18,4 +18,10 @@
     <string name="next">Tovább</string>
     <string name="zero_log">reset napló</string>
     <string name="location_code">Adja meg a helyszínkódot</string>
+    <string name="action_settings">Settings</string>
+    <string name="search_message">Adjon meg egy növénykódot</string>
+    <string name="missing_odk_collect">missing ODK Collect</string>
+    <string name="title_1">Taxonomy reminder</string>
+    <string name="title_2">Lookup</string>
+    <string name="title_3">Results</string>
 </resources>

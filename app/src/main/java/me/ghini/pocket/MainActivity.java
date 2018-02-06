@@ -1,28 +1,26 @@
-/*
-  This file is part of ghini.pocket.
-  
-  ghini.pocket is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  ghini.pocket is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with ghini.pocket.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package me.ghini.pocket;
 
-import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -32,27 +30,84 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String PLANT_CODE = "me.ghini.pocket.code.plant";
-    public static final String LOCATION_CODE = "me.ghini.pocket.code.location";
-    EditText locationText;
-    EditText editText;
-    static String location = null;
-    private SimpleDateFormat simpleDateFormat;
+
+    static String lastGenusFound = "";
+    private final List<Fragment> fragmentList = new ArrayList<>(3);
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
+    public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
+
+    public MainActivity() {
+        // create the fragments
+        fragmentList.add(new TaxonomyFragment());
+        fragmentList.add(new SearchFragment());
+        fragmentList.add(new ResultsFragment());
+    }
+    /**
+     * The {@link ViewPager} that will host the section contents.
+     */
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
         setContentView(R.layout.activity_main);
-        locationText = (EditText) findViewById(R.id.locationText);
-        editText = (EditText) findViewById(R.id.editText);
-        if (location != null) {
-            locationText.setText(location);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // handle the fragments over to the adapter
+        /*
+      The {@link android.support.v4.view.PagerAdapter} that provides
+      a fragment for each of the sections. We use a
+      {@link FragmentPagerAdapter} derivative, which keeps every
+      fragment in memory. If this becomes too memory intensive, switch to
+      {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     */
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(1);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void onZeroSearchLog(View view) {
@@ -65,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
                 String timeStamp = simpleDateFormat.format(calendar.getTime());
                 String newNameForOldFile = String.format(fileFormat, "_", timeStamp);
                 File newFile = new File(newNameForOldFile);
-                boolean ok = file.renameTo(newFile);
+                //noinspection ResultOfMethodCallIgnored
+                file.renameTo(newFile);
             }
             new PrintWriter(filename).close();
         } catch (FileNotFoundException e) {
@@ -73,28 +129,96 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /** Called when the user taps the Send button */
-    public void searchData(View view) {
-        location = locationText.getText().toString();
-        String message = editText.getText().toString();
-        Intent intent = new Intent(this, DisplayResultsActivity.class);
-        intent.putExtra(PLANT_CODE, message);
-        intent.putExtra(LOCATION_CODE, location);
-        startActivity(intent);
-    }
-
-    /** Called when the user taps the Scan button */
     public void scanBarcode(View view) {
         IntentIntegrator integrator = new IntentIntegrator(this);
-        AlertDialog scan = integrator.initiateScan();
+        integrator.initiateScan();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
-            EditText editText = (EditText) findViewById(R.id.editText);
+            EditText editText = (EditText) findViewById(R.id.searchText);
             String contents = scanResult.getContents();
             editText.setText(contents);
+            searchData(null);
+        }
+    }
+
+    public void searchData(View view) {
+        EditText locationText = (EditText) findViewById(R.id.locationText);
+        EditText editText = (EditText) findViewById(R.id.searchText);
+
+        String location = locationText.getText().toString();
+        mViewPager.setCurrentItem(2);
+        ResultsFragment resultFragment = (ResultsFragment) fragmentList.get(2);
+        resultFragment.setLocation(location);
+        MainActivity.lastGenusFound = resultFragment.refreshContent(editText.getText().toString());
+    }
+
+    public void onCollect(View view) {
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setType(FORMS_CHOOSER_INTENT_TYPE);
+            i.putExtra("form_id", "plant_form_s");
+            EditText searchEditText = (EditText) findViewById(R.id.searchText);
+            String searchedPlantCode = searchEditText.getText().toString();
+            i.putExtra("plant_id", searchedPlantCode);
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("last plant search", searchedPlantCode);
+            if (clipboard != null) clipboard.setPrimaryClip(clip);
+            startActivity(i);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, R.string.missing_odk_collect, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void onWikipedia(View view) {
+        TextView tvSpecies = (TextView) findViewById(R.id.tvSpecies);
+        String species = tvSpecies.getText().toString();
+        try {
+            if(species.equals(""))
+                throw new AssertionError("empty lookup");
+            String wikiLink = String.format("https://en.wikipedia.org/wiki/%s", species);
+            Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(wikiLink));
+            startActivity(myIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, R.string.missing_web_browser, Toast.LENGTH_LONG).show();
+        } catch(AssertionError e){
+            Toast.makeText(this, R.string.empty_lookup, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    private class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return getString(R.string.title_1);
+                case 1:
+                    return getString(R.string.title_2);
+                case 2:
+                    return getString(R.string.title_3);
+            }
+            return null;
         }
     }
 }

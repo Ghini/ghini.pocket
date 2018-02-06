@@ -10,3 +10,7 @@
 *~
 build.gradle
 cantupdate.txt
+
+*.apk
+./
+.idea/dictionaries/*.xml
