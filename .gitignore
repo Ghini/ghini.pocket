@@ -14,3 +14,4 @@ cantupdate.txt
 *.apk
 ./
 .idea/dictionaries/*.xml
+/app/release
