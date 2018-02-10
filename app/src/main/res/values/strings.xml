@@ -24,4 +24,8 @@
     <string name="location_code">Enter location code</string>
     <string name="missing_odk_collect">missing ODK Collect</string>
     <string name="edit_message">insert a plant code</string>
+    <string name="action_photo">take a photo</string>
+    <string name="action_edit">change taxon</string>
+    <string name="action_delete">plant has died</string>
+    <string name="action_plant_add">add this plant</string>
 </resources>

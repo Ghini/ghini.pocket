@@ -3,8 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="me.ghini.pocket.MainActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/action_plant_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:orderInCategory="103"
+        android:title="@string/action_delete" />
+    <item
+        android:id="@+id/action_plant_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:orderInCategory="102"
+        android:title="@string/action_plant_add" />
+    <item
+        android:id="@+id/action_plant_edit"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:orderInCategory="104"
+        android:title="@string/action_edit" />
+    <item
+        android:id="@+id/action_plant_photo"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:orderInCategory="105"
+        android:title="@string/action_photo" />
 </menu>
