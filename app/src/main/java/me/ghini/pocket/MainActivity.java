@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +18,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private final List<Fragment> fragmentList = new ArrayList<>(3);
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
     public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
+    private Uri imageUri;
+    private int TAKE_PICTURE=1978;
 
     public MainActivity() {
         // create the fragments
@@ -75,6 +80,17 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(getBaseContext(), view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.menu_main, popup.getMenu());
+                popup.show();
+            }
+        });
 
     }
 
@@ -126,6 +142,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onTakePhoto(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File photo = new File(getExternalFilesDir(null),  "Pic.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                Uri.fromFile(photo));
+        imageUri = Uri.fromFile(photo);
+        startActivityForResult(intent, TAKE_PICTURE);
+    }
+
     public void scanBarcode(View view) {
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.initiateScan();
@@ -150,23 +175,6 @@ public class MainActivity extends AppCompatActivity {
         ResultsFragment resultFragment = (ResultsFragment) fragmentList.get(2);
         resultFragment.setLocation(location);
         MainActivity.lastGenusFound = resultFragment.refreshContent(editText.getText().toString());
-    }
-
-    public void onCollect(View view) {
-        try {
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setType(FORMS_CHOOSER_INTENT_TYPE);
-            i.putExtra("form_id", "plant_form_s");
-            EditText searchEditText = (EditText) findViewById(R.id.searchText);
-            String searchedPlantCode = searchEditText.getText().toString();
-            i.putExtra("plant_id", searchedPlantCode);
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("last plant search", searchedPlantCode);
-            if (clipboard != null) clipboard.setPrimaryClip(clip);
-            startActivity(i);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, R.string.missing_odk_collect, Toast.LENGTH_LONG).show();
-        }
     }
 
     public void onWikipedia(View view) {

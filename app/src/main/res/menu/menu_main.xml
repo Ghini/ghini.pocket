@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_plant_delete"
         android:icon="@android:drawable/ic_menu_delete"
-        android:orderInCategory="103"
+        android:orderInCategory="107"
         android:title="@string/action_delete" />
     <item
         android:id="@+id/action_plant_add"

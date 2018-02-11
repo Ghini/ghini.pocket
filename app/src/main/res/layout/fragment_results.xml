@@ -2,6 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,8 +11,6 @@
         android:id="@+id/tvAccession"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -157,25 +157,12 @@
         android:id="@+id/wikipedia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
         android:onClick="onWikipedia"
         android:text="@string/wikipedia"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateOfDeath"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <Button
-        android:id="@+id/collect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:onClick="onCollect"
-        android:text="@string/collect"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintLeft_toLeftOf="@+id/wikipedia"
+        app:layout_constraintEnd_toEndOf="@+id/tvDateOfDeath"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wikipedia" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDateOfDeath" />
 
     <Button
         android:id="@+id/next"
@@ -185,9 +172,6 @@
         android:text="@string/next"
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintTop_toTopOf="@+id/wikipedia"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/collect"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginLeft="0dp" />
 
 </android.support.constraint.ConstraintLayout>
