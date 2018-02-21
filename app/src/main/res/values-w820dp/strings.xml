@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_to_log">save to log file</string>
+    <string name="take_picture">take a picture</string>
+    <string name="mark_dead">zero</string>
+    <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
+    <string name="log_overrides">edit pending</string>
+    <string name="n_of_plants">number of plants</string>
+</resources>

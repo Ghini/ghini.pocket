@@ -6,7 +6,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="me.ghini.pocket.MainActivity$PlaceholderFragment">
+    tools:context="me.ghini.pocket.MainActivity">
 
     <EditText
         android:id="@+id/searchText"

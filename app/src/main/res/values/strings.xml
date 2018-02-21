@@ -4,9 +4,8 @@
     <string name="title_1">Taxonomy reminder</string>
     <string name="title_2">Lookup</string>
     <string name="title_3">Results</string>
+    <string name="title_4">Collect</string>
     <string name="search_message">Enter a plant code</string>
-    <string name="button_scan">Scan</string>
-    <string name="button_send">Search</string>
     <string name="not_found">Not Found: %s</string>
     <string name="missing_web_browser">No application can handle this request. Please install a web browser</string>
     <string name="source">Source</string>
@@ -20,12 +19,21 @@
     <string name="empty_lookup">can\'t look up empty string</string>
     <string name="collect">Collect</string>
     <string name="next">Next</string>
-    <string name="zero_log">reset log</string>
     <string name="location_code">Enter location code</string>
     <string name="missing_odk_collect">missing ODK Collect</string>
+    <string name="log_overrides">Edit pending</string>
+
     <string name="edit_message">insert a plant code</string>
+
+    <string name="button_scan">Scan</string>
+    <string name="button_send">Search</string>
+    <string name="zero_log">reset log</string>
     <string name="action_photo">take a picture</string>
     <string name="action_edit">change taxon</string>
     <string name="action_delete">plant has died</string>
     <string name="action_plant_add">add this plant</string>
+    <string name="save_to_log">save to log file</string>
+    <string name="take_picture">take a picture</string>
+    <string name="mark_dead">make zero</string>
+    <string name="n_of_plants"># of plants</string>
 </resources>

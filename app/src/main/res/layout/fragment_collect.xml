@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="me.ghini.pocket.MainActivity">
+
+    <TextView
+        android:id="@+id/tvCollectAccession"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCollectSpeciesLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/binomial"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCollectSpecies"
+        app:layout_constraintLeft_toLeftOf="@+id/tvCollectAccession" />
+
+    <EditText
+        android:id="@+id/tvCollectSpecies"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintRight_toRightOf="@+id/tvCollectAccession"
+        app:layout_constraintTop_toBottomOf="@+id/tvCollectAccession"
+        app:layout_constraintLeft_toRightOf="@+id/tvCollectSpeciesLabel"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvCollectNumberOfPicsLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/n_of_pictures"
+        app:layout_constraintBottom_toBottomOf="@+id/takePictureButton"
+        app:layout_constraintLeft_toLeftOf="@+id/tvCollectAccession" />
+
+    <TextView
+        android:id="@+id/tvCollectNumberOfPics"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/takePictureButton"
+        app:layout_constraintEnd_toStartOf="@+id/takePictureButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/tvCollectNumberOfPicsLabel"
+        app:layout_constraintRight_toRightOf="@+id/tvCollectAccession"
+        app:layout_constraintStart_toStartOf="@+id/tvCollectSpecies" />
+
+    <TextView
+        android:id="@+id/tvCollectDateOfDeathLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/n_of_plants"
+        app:layout_constraintBottom_toBottomOf="@+id/markDeadButton"
+        app:layout_constraintLeft_toLeftOf="@+id/tvCollectAccession" />
+
+    <EditText
+        android:id="@+id/tvCollectNumberOfPlants"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/markDeadButton"
+        app:layout_constraintEnd_toStartOf="@+id/markDeadButton"
+        app:layout_constraintLeft_toRightOf="@+id/tvCollectDateOfDeathLabel"
+        app:layout_constraintStart_toStartOf="@+id/tvCollectSpecies" />
+
+    <TextView
+        android:id="@+id/tvCollectOverrideLabel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/log_overrides"
+        app:layout_constraintBottom_toBottomOf="@+id/placeholderButton"
+        app:layout_constraintLeft_toLeftOf="@+id/tvCollectAccession" />
+
+    <TextView
+        android:id="@+id/tvCollectOverride"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/placeholderButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/tvCollectOverrideLabel"
+        app:layout_constraintRight_toRightOf="@+id/tvCollectAccession"
+        app:layout_constraintStart_toStartOf="@+id/tvCollectSpecies" />
+
+    <Button
+        android:id="@+id/takePictureButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onTakePicture"
+        android:text="@string/take_picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCollectSpecies" />
+
+    <Button
+        android:id="@+id/markDeadButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onMakeZeroPlants"
+        android:text="@string/mark_dead"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/takePictureButton"
+        app:layout_constraintTop_toBottomOf="@+id/takePictureButton" />
+
+    <Button
+        android:id="@+id/placeholderButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/mark_dead"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/takePictureButton"
+        app:layout_constraintTop_toBottomOf="@+id/markDeadButton" />
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:onClick="onSaveToLog"
+        android:text="@string/save_to_log"
+        app:layout_constraintTop_toBottomOf="@id/tvCollectOverride"
+        tools:layout_editor_absoluteX="16dp" />
+
+</android.support.constraint.ConstraintLayout>

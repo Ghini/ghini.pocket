@@ -44,6 +44,11 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
     TextView tvNoOfPics;
     private String searchedPlantCode;
     private String locationCode;
+    public String accessionCode;
+    public String fullPlantCode;
+    public String noOfPics;
+    public String noOfPlants="1";
+    public String editPending="NO";
 
     public ResultsFragment() {
         simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
@@ -67,18 +72,18 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
     public String refreshContent(String fromScan) {
         searchedPlantCode = fromScan;
         logSearch();
-        String fullPlantCode = String.format(getString(R.string.not_found), searchedPlantCode);
+        fullPlantCode = String.format(getString(R.string.not_found), searchedPlantCode);
 
         String family = "";
         String acqDate = "";
         String source = "";
         String location = "";
         String dismissDate = "";
-        String noOfPics = "";
+        noOfPics = "";
         species = "";
 
         String genus_epithet = "";
-        String accessionCode = searchedPlantCode;
+        accessionCode = searchedPlantCode;
         String plantCode = ".1";
         Pattern pattern = Pattern.compile("(.*)(\\.[1-9][0-9]?[0-9]?)");
         Matcher m = pattern.matcher(searchedPlantCode);
@@ -93,7 +98,8 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
         } else {
             try {
                 SQLiteDatabase database = getActivity().openOrCreateDatabase(filename, MODE_PRIVATE, null);
-                String query = "SELECT s.family, s.genus, s.epithet, a.code, p.code, a.source, p.location, a.start_date, p.end_date, p.n_of_pics " +
+                String query = "SELECT s.family, s.genus, s.epithet, a.code, p.code, a.source, p.location, "+
+                        "a.start_date, p.end_date, p.n_of_pics, p.quantity " +
                         "FROM species s, accession a, plant p " +
                         "WHERE p.accession_id = a._id " +
                         "AND a.species_id = s._id " +
@@ -127,6 +133,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
                     dismissDate = dismissDate.substring(0, 16);
                 } catch (Exception ignored) {}
                 noOfPics = String.valueOf(resultSet.getInt(9));
+                noOfPlants = String.valueOf(resultSet.getInt(10));
                 resultSet.close();
             } catch (CursorIndexOutOfBoundsException e) {
                 Toast.makeText(getActivity(), "nothing matches", Toast.LENGTH_SHORT).show();
