@@ -36,6 +36,7 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
 
     // change this static field to calculate the metaphone codes
     public static boolean recomputeMetaphone = false;
+    EditText taxonomySearch = null;
 
     public TaxonomyFragment() {
         // once and for all.
@@ -56,7 +57,7 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
         // Set the ArrayAdapter as the ListView's adapter.
         mainListView.setAdapter( listAdapter );
 
-        EditText taxonomySearch = rootView.findViewById(R.id.taxonomy_search);
+        taxonomySearch = rootView.findViewById(R.id.taxonomy_search);
         taxonomySearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -74,8 +75,6 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
                 return false;
             }
         });
-        taxonomySearch.setText(MainActivity.lastGenusFound);
-        lookupName(MainActivity.lastGenusFound);
         return rootView;
     }
 
@@ -127,6 +126,12 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
             listAdapter.add(e.getClass().getSimpleName());
             listAdapter.add(e.getLocalizedMessage());
         }
+    }
+
+    public void refreshContent(Object genus) {
+        if (taxonomySearch != null)
+            taxonomySearch.setText((String) genus);
+        lookupName((String) genus);
     }
 }
 

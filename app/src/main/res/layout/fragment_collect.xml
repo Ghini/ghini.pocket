@@ -2,20 +2,18 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="me.ghini.pocket.MainActivity">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tvCollectAccession"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -24,9 +22,10 @@
 
     <TextView
         android:id="@+id/tvCollectSpeciesLabel"
-        android:layout_width="80dp"
+        android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:labelFor="@+id/tvCollectSpecies"
         android:text="@string/binomial"
         app:layout_constraintBottom_toBottomOf="@+id/tvCollectSpecies"
         app:layout_constraintLeft_toLeftOf="@+id/tvCollectAccession" />
@@ -36,11 +35,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintRight_toRightOf="@+id/tvCollectAccession"
-        app:layout_constraintTop_toBottomOf="@+id/tvCollectAccession"
+        android:inputType="text"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/tvCollectSpeciesLabel"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintRight_toRightOf="@+id/tvCollectAccession"
+        app:layout_constraintTop_toBottomOf="@+id/tvCollectAccession" />
 
     <TextView
         android:id="@+id/tvCollectNumberOfPicsLabel"
@@ -56,8 +56,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="20sp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/takePictureButton"
         app:layout_constraintEnd_toStartOf="@+id/takePictureButton"
         app:layout_constraintHorizontal_bias="0.0"
@@ -66,7 +67,8 @@
         app:layout_constraintStart_toStartOf="@+id/tvCollectSpecies" />
 
     <TextView
-        android:id="@+id/tvCollectDateOfDeathLabel"
+        android:id="@+id/tvCollectNumberOfPlantsLabel"
+        android:labelFor="@+id/tvCollectNumberOfPlants"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -78,11 +80,11 @@
         android:id="@+id/tvCollectNumberOfPlants"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:inputType="number"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/markDeadButton"
-        app:layout_constraintEnd_toStartOf="@+id/markDeadButton"
-        app:layout_constraintLeft_toRightOf="@+id/tvCollectDateOfDeathLabel"
-        app:layout_constraintStart_toStartOf="@+id/tvCollectSpecies" />
+        app:layout_constraintEnd_toEndOf="@+id/tvCollectNumberOfPics"
+        app:layout_constraintStart_toStartOf="@+id/tvCollectNumberOfPics" />
 
     <TextView
         android:id="@+id/tvCollectOverrideLabel"
@@ -98,11 +100,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/placeholderButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/tvCollectOverrideLabel"
         app:layout_constraintRight_toRightOf="@+id/tvCollectAccession"
-        app:layout_constraintStart_toStartOf="@+id/tvCollectSpecies" />
+        app:layout_constraintStart_toStartOf="@+id/tvCollectNumberOfPics" />
 
     <Button
         android:id="@+id/takePictureButton"
@@ -110,7 +111,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="onTakePicture"
+        android:onClick="onCollectTakePicture"
         android:text="@string/take_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCollectSpecies" />
@@ -121,7 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="onMakeZeroPlants"
+        android:onClick="onCollectMakeZeroPlants"
         android:text="@string/mark_dead"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/takePictureButton"
@@ -144,10 +145,13 @@
         android:id="@+id/confirmButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:onClick="onSaveToLog"
+        android:onClick="onCollectSaveToLog"
         android:text="@string/save_to_log"
-        app:layout_constraintTop_toBottomOf="@id/tvCollectOverride"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCollectOverride" />
 
 </android.support.constraint.ConstraintLayout>

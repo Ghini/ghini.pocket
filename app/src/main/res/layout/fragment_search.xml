@@ -12,12 +12,13 @@
         android:id="@+id/searchText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/search_message"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/send"
@@ -25,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="0dp"
-        android:onClick="searchData"
+        android:onClick="onSearchDoSearch"
         android:text="@string/button_send"
         android:layout_below="@+id/searchText"
         android:layout_alignEnd="@+id/searchText" />
@@ -36,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="0dp"
-        android:onClick="scanBarcode"
+        android:onClick="onSharedScanBarcode"
         android:text="@string/button_scan"
         android:layout_below="@+id/send"
         android:layout_alignStart="@+id/send" />
@@ -58,7 +59,7 @@
         android:id="@+id/zero_log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onZeroSearchLog"
+        android:onClick="onSearchZeroLog"
         android:text="@string/zero_log"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="0dp"
