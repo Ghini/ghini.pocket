@@ -20,21 +20,14 @@
     <string name="location_code">Inserire codice ubicazione</string>
     <string name="action_settings">Configurazione</string>
     <string name="search_message">Inserire il codice di una pianta</string>
-<<<<<<< HEAD
-    <string name="missing_odk_collect">missing ODK Collect</string>
-    <string name="title_1">Taxonomy reminder</string>
-    <string name="title_2">Lookup</string>
-    <string name="title_3">Results</string>
-    <string name="save_to_log">save to log file</string>
-    <string name="take_picture">take a picture</string>
-    <string name="mark_dead">mark as dead</string>
-    <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
-    <string name="log_overrides">edit pending</string>
-    <string name="n_of_plants">number of plants</string>
-=======
-    <string name="missing_odk_collect">maca ODK Collect</string>
+    <string name="save_to_log"/>
+    <string name="take_picture"/>
+    <string name="mark_dead"/>
+    <string name="collect_instructions"/>
+    <string name="log_overrides"/>
+    <string name="n_of_plants"/>
+    <string name="missing_odk_collect">manca ODK Collect</string>
     <string name="title_1">Aiuto tassonomico</string>
     <string name="title_2">Cerca</string>
     <string name="title_3">Risultati</string>
->>>>>>> weblate/master
 </resources>
