@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+    <string name="not_found"/>
+    <string name="button_scan"/>
+    <string name="button_send"/>
+    <string name="edit_message"/>
+    <string name="missing_web_browser"/>
+    <string name="binomial"/>
+    <string name="family"/>
+    <string name="source"/>
+    <string name="n_of_pictures"/>
+    <string name="acquisition"/>
+    <string name="dismission"/>
+    <string name="location"/>
+    <string name="wikipedia"/>
+    <string name="empty_lookup"/>
+    <string name="next"/>
+    <string name="collect"/>
+    <string name="action_settings"/>
+    <string name="search_message"/>
+    <string name="missing_odk_collect"/>
+    <string name="title_1"/>
+    <string name="title_2"/>
+    <string name="title_3"/>
+    <string name="zero_log"/>
+    <string name="location_code"/>
+    <string name="save_to_log"/>
+    <string name="take_picture"/>
+    <string name="mark_dead"/>
+    <string name="collect_instructions"/>
+    <string name="log_overrides"/>
+    <string name="n_of_plants"/>
+</resources>
