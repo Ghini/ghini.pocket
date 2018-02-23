@@ -20,7 +20,6 @@
     <string name="location_code">Adja meg a helyszínkódot</string>
     <string name="action_settings">Beállítások</string>
     <string name="search_message">Adjon meg egy növénykódot</string>
-    <string name="missing_odk_collect">missing ODK Collect</string>
     <string name="title_1">Taxonomy reminder</string>
     <string name="title_2">Keresés</string>
     <string name="title_3">Eredmények</string>
@@ -29,5 +28,4 @@
     <string name="mark_dead">mark as dead</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
     <string name="log_overrides">edit pending</string>
-    <string name="n_of_plants">number of plants</string>
 </resources>
