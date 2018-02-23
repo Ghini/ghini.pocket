@@ -133,8 +133,8 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
     @Override
     public void setArguments(Bundle b) {
         if (taxonomySearch != null)
-            taxonomySearch.setText(b.getString(GENUS));
-        lookupName(b.getString(GENUS));
+            taxonomySearch.setText(b.getString(GENUS, ""));
+        lookupName(b.getString(GENUS, ""));
     }
 }
 

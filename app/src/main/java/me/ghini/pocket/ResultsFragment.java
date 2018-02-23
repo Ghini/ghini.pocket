@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -34,7 +35,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
     TextView tvLocation;
     TextView tvDismissDate;
     TextView tvNoOfPics;
-    TextView tvOverride;
+    CheckBox cbOverride;
 
     public ResultsFragment() {
         simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
@@ -52,22 +53,22 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
         tvLocation = rootView.findViewById(R.id.tvLocation);
         tvDismissDate = rootView.findViewById(R.id.tvDateOfDeath);
         tvNoOfPics = rootView.findViewById(R.id.tvNumberOfPics);
-        tvOverride = rootView.findViewById(R.id.tvOverride);
+        cbOverride = rootView.findViewById(R.id.cbOverride);
         return rootView;
     }
 
     @Override
     public void setArguments(Bundle b) {
         try {
-            tvAccession.setText(b.getString(PLANT_CODE));
-            tvFamily.setText(b.getString(FAMILY));
-            tvSpecies.setText(b.getString(BINOMIAL));
-            tvAcqDate.setText(b.getString("acqDate,"));
-            tvSource.setText(b.getString("source"));
-            tvLocation.setText(b.getString(LOCATION_CODE));
-            tvDismissDate.setText(b.getString("dismissDate"));
-            tvNoOfPics.setText(b.getString(NO_OF_PICS));
-            tvOverride.setText(b.getString(OVERRIDE));
+            tvAccession.setText(b.getString(PLANT_CODE, ""));
+            tvFamily.setText(b.getString(FAMILY, ""));
+            tvSpecies.setText(b.getString(BINOMIAL, ""));
+            tvAcqDate.setText(b.getString("acqDate", ""));
+            tvSource.setText(b.getString("source", ""));
+            tvLocation.setText(b.getString(LOCATION_CODE, ""));
+            tvDismissDate.setText(b.getString("dismissDate", ""));
+            tvNoOfPics.setText(b.getString(NO_OF_PICS, "0"));
+            cbOverride.setChecked(b.getBoolean(OVERRIDE, true));
         }
         catch (NullPointerException ignore) {}
      }

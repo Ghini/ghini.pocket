@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -36,7 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:inputType="text"
-        android:onClick="onBinomialEdit"
         android:textSize="18sp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/tvCollectSpeciesLabel"
@@ -82,30 +82,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:onClick="onNumberEdit"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/markDeadButton"
         app:layout_constraintEnd_toEndOf="@+id/tvCollectNumberOfPics"
         app:layout_constraintStart_toStartOf="@+id/tvCollectNumberOfPics" />
 
-    <TextView
-        android:id="@+id/tvCollectOverrideLabel"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/log_overrides"
-        app:layout_constraintBottom_toBottomOf="@+id/placeholderButton"
-        app:layout_constraintLeft_toLeftOf="@+id/tvCollectAccession" />
-
-    <TextView
-        android:id="@+id/tvCollectOverride"
+    <CheckBox
+        android:id="@+id/cbCollectOverride"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:textSize="18sp"
+        android:text="@string/log_overrides"
+        android:clickable="false"
         app:layout_constraintBottom_toBottomOf="@+id/placeholderButton"
-        app:layout_constraintRight_toRightOf="@+id/tvCollectAccession"
-        app:layout_constraintStart_toStartOf="@+id/tvCollectNumberOfPics" />
+        app:layout_constraintEnd_toEndOf="@+id/tvCollectNumberOfPics"
+        app:layout_constraintLeft_toLeftOf="@+id/tvCollectAccession" />
 
     <Button
         android:id="@+id/takePictureButton"
@@ -154,6 +144,16 @@
         android:text="@string/save_to_log"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCollectOverride" />
+        app:layout_constraintTop_toBottomOf="@+id/cbGrabPosition" />
+
+    <CheckBox
+        android:id="@+id/cbGrabPosition"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="onGrabPosition"
+        android:text="@string/grab_position"
+        app:layout_constraintBottom_toBottomOf="@+id/placeholderButton"
+        app:layout_constraintEnd_toEndOf="@+id/takePictureButton"
+        app:layout_constraintStart_toStartOf="@+id/takePictureButton" />
 
 </android.support.constraint.ConstraintLayout>

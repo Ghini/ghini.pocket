@@ -1,16 +1,21 @@
 package me.ghini.pocket;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -18,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     static final String LOCATION_CODE = "location";
     static final String PICTURE_NAMES = "file_name_list";
     static final String PLANT_ID = "plant_id";
+    static final String GRAB_POSITION = "grab_position";
 
     private final List<Fragment> fragmentList = new ArrayList<>(4);
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
@@ -68,8 +75,9 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     private SearchFragment searchFragment = null;
     private ResultsFragment resultsFragment = null;
     private CollectFragment collectFragment = null;
+    LocationManager locationManager;
     private Uri imageUri;
-    private static final int TAKE_PICTURE=1978;
+    private static final int TAKE_PICTURE = 1978;
     private Bundle state;
     private int plantId = -1;
 
@@ -84,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         fragmentList.add(resultsFragment);
         fragmentList.add(collectFragment);
     }
+
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -99,12 +108,18 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         state = new Bundle();
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             state.putAll(savedInstanceState);
         } else {
             state.putString("searchedPlantCode", "");
             state.putString(PLANT_CODE, "");
-            state.putString("binomial", "");
+            state.putString(BINOMIAL, "");
+            state.putInt(PLANT_ID, -1);
+            state.putBoolean(GRAB_POSITION, false);
+        }
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            locationManager = null;
         }
         setContentView(R.layout.activity_main);
 
@@ -124,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             public Fragment getItem(int position) {
                 return fragmentList.get(position);
             }
+
             @Override
             public int getCount() {
                 return 4;
@@ -137,10 +153,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
+
             @Override
             public void onPageSelected(int position) {
                 switchToPage(position);
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -194,14 +212,14 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         String noOfPics = "";
         String noOfPlants = "";
         String species = "";
-        String editPending = "";
+        int editPending = 0;
 
         String genus_epithet = "";
         String accessionCode = fromScan;
         String plantCode = ".1";
         Pattern pattern = Pattern.compile("(.*)(\\.[1-9][0-9]?[0-9]?)");
         Matcher m = pattern.matcher(fromScan);
-        if(m.find()) {
+        if (m.find()) {
             accessionCode = m.group(1);
             plantCode = m.group(2);
         }
@@ -212,8 +230,8 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         } else {
             try {
                 SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
-                String query = "SELECT s.family, s.genus, s.epithet, "+
-                        "a.code, p.code, a.source, p.location, "+
+                String query = "SELECT s.family, s.genus, s.epithet, " +
+                        "a.code, p.code, a.source, p.location, " +
                         "a.start_date, p.end_date, p.n_of_pics, p.quantity, p.edit_pending," +
                         "p._id " +
                         "FROM species s, accession a, plant p " +
@@ -243,14 +261,16 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
                 acqDate = resultSet.getString(7);
                 try {
                     acqDate = acqDate.substring(0, 16);
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
                 dismissDate = resultSet.getString(8);
                 try {
                     dismissDate = dismissDate.substring(0, 16);
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
                 noOfPics = String.valueOf(resultSet.getInt(9));
                 noOfPlants = String.valueOf(resultSet.getInt(10));
-                editPending = String.valueOf(resultSet.getInt(11));
+                editPending = resultSet.getInt(11);
                 plantId = resultSet.getInt(12);
                 resultSet.close();
             } catch (CursorIndexOutOfBoundsException e) {
@@ -270,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         state.putString(LOCATION_CODE, location);
         state.putString("dismissDate", dismissDate);
         state.putString(NO_OF_PICS, noOfPics);
-        state.putString(OVERRIDE, editPending);
+        state.putBoolean(OVERRIDE, editPending != 0);
 
         state.putString(NO_OF_PLANTS, noOfPlants);
         state.putString(GENUS, genus_epithet);
@@ -285,22 +305,23 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         TextView tvSpecies = findViewById(R.id.tvSpecies);
         String species = tvSpecies.getText().toString();
         try {
-            if(species.equals(""))
+            if (species.equals(""))
                 throw new AssertionError("empty lookup");
             String wikiLink = String.format("https://en.wikipedia.org/wiki/%s", species);
             Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(wikiLink));
             startActivity(myIntent);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.missing_web_browser, Toast.LENGTH_LONG).show();
-        } catch(AssertionError e){
+        } catch (AssertionError e) {
             Toast.makeText(this, R.string.empty_lookup, Toast.LENGTH_SHORT).show();
         }
     }
 
     // coming from CollectFragment
+    @SuppressLint("MissingPermission")
     public void onCollectSaveToLog(View view) {
         ArrayList<String> listOfNames = state.getStringArrayList(PICTURE_NAMES);
-        if(listOfNames == null) {
+        if (listOfNames == null) {
             return;
         }
         String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
@@ -310,13 +331,28 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             Cursor resultSet = database.rawQuery(query, new String[]{String.valueOf(plantId)});
             resultSet.moveToLast();
             resultSet.close();
-        } catch (Exception ignore) {}
+        } catch (Exception ignore) {
+        }
 
         StringBuilder sb = new StringBuilder();
+        Location location = null;
+        if(state.getBoolean(GRAB_POSITION, false)) {
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+        if(location != null) {
+            sb.append(" : (");
+            sb.append(location.getLatitude());
+            sb.append(";");
+            sb.append(location.getLongitude());
+            sb.append(")");
+        } else {
+            sb.append(" : (-;-)");
+        }
         for (String s : listOfNames) {
             sb.append(" : ");
             sb.append(s);
         }
+
         writeLogLine(String.format("%s : %s : %s%s",
                 state.getString(PLANT_CODE), state.getString(BINOMIAL),
                 state.getString(NO_OF_PLANTS), sb.toString()));
@@ -325,23 +361,40 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     }
 
     public void onCollectMakeZeroPlants(View view) {
-        state.putString(NO_OF_PLANTS, "0");
-        state.putString(OVERRIDE, "1");
-        collectFragment.setArguments(state);
+        TextView t = (TextView)view;
+        String previousValue = state.getString(NO_OF_PLANTS, "0");
+        if(!previousValue.equals("0")) {
+            state.putString(NO_OF_PLANTS, "0");
+            state.putBoolean(OVERRIDE, true);
+            collectFragment.setArguments(state);
+        }
     }
 
     public void onNumberEdit(View view) {
         TextView t = (TextView)view;
-        state.putString(NO_OF_PLANTS, String.valueOf(t.getText()));
-        state.putString(OVERRIDE, "1");
-        collectFragment.setArguments(state);
+        String newValue = String.valueOf(t.getText());
+        String previousValue = state.getString(NO_OF_PLANTS, "0");
+        if(!previousValue.equals(newValue)) {
+            state.putString(NO_OF_PLANTS, newValue);
+            state.putBoolean(OVERRIDE, true);
+            collectFragment.setArguments(state);
+        }
     }
 
     public void onBinomialEdit(View view) {
         TextView t = (TextView)view;
-        state.putString(BINOMIAL, String.valueOf(t.getText()));
-        state.putString(OVERRIDE, "1");
-        collectFragment.setArguments(state);
+        String newValue = String.valueOf(t.getText());
+        String previousValue = state.getString(BINOMIAL, "");
+        if(!previousValue.equals(newValue)) {
+            state.putString(BINOMIAL, newValue);
+            state.putBoolean(OVERRIDE, true);
+            collectFragment.setArguments(state);
+        }
+    }
+
+    public void onGrabPosition(View view) {
+        CheckBox t = (CheckBox)view;
+        state.putBoolean(GRAB_POSITION, t.isChecked());
     }
 
     public void onCollectTakePicture(View view) {
@@ -389,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
                 assert nameList != null;
                 nameList.add(String.valueOf(imageUri));
                 state.putStringArrayList(PICTURE_NAMES, nameList);
-                state.putString(OVERRIDE, "1");
+                state.putBoolean(OVERRIDE, true);
                 collectFragment.setArguments(state);
             }
             break;
@@ -449,4 +502,5 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
                 storageDir      /* directory */
         );
     }
+
 }
