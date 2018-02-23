@@ -1,2 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources></resources>
+<resources><string name="action_settings">Nastavení</string>
+    <string name="title_2">Vyhledání</string>
+    <string name="title_3">Výsledky</string>
+    <string name="not_found">Nebyl nalezen: %s</string>
+    <string name="family">Rodina</string>
+    <string name="binomial">Binomické</string>
+    <string name="acquisition">Akvizice</string>
+    <string name="wikipedia">Wikipedie</string>
+    <string name="next">Další</string>
+    <string name="location_code">Zadejte kód lokace</string>
+    <string name="button_scan">Skenování</string>
+    <string name="button_send">Hledat</string>
+    <string name="action_edit">Změna taxonu</string>
+    <string name="action_plant_add">přidat tuto rostlinu</string>
+    <string name="save_to_log">uložit do souboru protokolu</string>
+    <string name="n_of_plants"># rostlin</string>
+</resources>

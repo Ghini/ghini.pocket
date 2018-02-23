@@ -17,7 +17,7 @@
     <string name="next">التالي</string>
     <string name="collect"/>
     <string name="action_settings">الإعدادات</string>
-<string name="action_photo">التقط صوره</string>
+    <string name="action_photo">التقط صوره</string>
     <string name="search_message">أدخل رمز النبات</string>
     <string name="zero_log">إعادة تعيين</string>
     <string name="location_code">أدخل رمز الموقع</string>
