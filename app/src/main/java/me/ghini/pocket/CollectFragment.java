@@ -15,6 +15,12 @@ import android.widget.TextView;
 
 import java.io.File;
 
+import static me.ghini.pocket.MainActivity.BINOMIAL;
+import static me.ghini.pocket.MainActivity.NO_OF_PICS;
+import static me.ghini.pocket.MainActivity.NO_OF_PLANTS;
+import static me.ghini.pocket.MainActivity.OVERRIDE;
+import static me.ghini.pocket.MainActivity.PLANT_CODE;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,21 +41,18 @@ public class CollectFragment extends Fragment {
         return rootView;
     }
 
-    public void refreshContent(Object accessionCode,
-                               Object binomial,
-                               Object numberOfPics,
-                               Object numberOfPlants,
-                               Object editPending) {
+    @Override
+    public void setArguments(Bundle b) {
         TextView t = getActivity().findViewById(R.id.tvCollectAccession);
-        t.setText((String)accessionCode);
+        t.setText(b.getString(PLANT_CODE));
         t = getActivity().findViewById(R.id.tvCollectSpecies);
-        t.setText((String)binomial);
+        t.setText(b.getString(BINOMIAL));
         t = getActivity().findViewById(R.id.tvCollectNumberOfPics);
-        t.setText((String)numberOfPics);
+        t.setText(b.getString(NO_OF_PICS));
         t = getActivity().findViewById(R.id.tvCollectNumberOfPlants);
-        t.setText((String)numberOfPlants);
+        t.setText(b.getString(NO_OF_PLANTS));
         t = getActivity().findViewById(R.id.tvCollectOverride);
-        t.setText((String)editPending);
+        t.setText(b.getString(OVERRIDE));
     }
    
 }

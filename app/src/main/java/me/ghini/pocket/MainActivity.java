@@ -9,6 +9,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -30,13 +31,17 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.spec.ECField;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.google.zxing.integration.android.IntentIntegrator.REQUEST_CODE;
 
 public class MainActivity extends AppCompatActivity implements CommunicationInterface {
 
@@ -45,19 +50,39 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     public final static int RESULT_PAGE = 2;
     public final static int COLLECT_PAGE = 3;
 
+    static final String BINOMIAL = "species";
+    static final String NO_OF_PICS = "noOfPics";
+    static final String FAMILY = "family";
+    static final String OVERRIDE = "editPending";
+    static final String NO_OF_PLANTS = "noOfPlants";
+    static final String GENUS = "genus";
+    static final String PLANT_CODE = "fullPlantCode";
+    static final String LOCATION_CODE = "location";
+    static final String PICTURE_NAMES = "file_name_list";
+    static final String PLANT_ID = "plant_id";
+
     private final List<Fragment> fragmentList = new ArrayList<>(4);
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
     public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
+    private TaxonomyFragment taxonomyFragment = null;
+    private SearchFragment searchFragment = null;
+    private ResultsFragment resultsFragment = null;
+    private CollectFragment collectFragment = null;
     private Uri imageUri;
-    private int TAKE_PICTURE=1978;
-    private Bundle myb;
+    private static final int TAKE_PICTURE=1978;
+    private Bundle state;
+    private int plantId = -1;
 
     public MainActivity() {
         // create the fragments
-        fragmentList.add(new TaxonomyFragment());
-        fragmentList.add(new SearchFragment());
-        fragmentList.add(new ResultsFragment());
-        fragmentList.add(new CollectFragment());
+        taxonomyFragment = new TaxonomyFragment();
+        searchFragment = new SearchFragment();
+        resultsFragment = new ResultsFragment();
+        collectFragment = new CollectFragment();
+        fragmentList.add(taxonomyFragment);
+        fragmentList.add(searchFragment);
+        fragmentList.add(resultsFragment);
+        fragmentList.add(collectFragment);
     }
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -66,20 +91,20 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
-        state.putAll(myb);
+        state.putAll(this.state);
         super.onSaveInstanceState(state);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myb = new Bundle();
+        state = new Bundle();
         if(savedInstanceState != null) {
-            myb.putAll(savedInstanceState);
+            state.putAll(savedInstanceState);
         } else {
-            myb.putString("searchedPlantCode", "");
-            myb.putString("fullPlantCode", "");
-            myb.putString("binomial", "");
+            state.putString("searchedPlantCode", "");
+            state.putString(PLANT_CODE, "");
+            state.putString("binomial", "");
         }
         setContentView(R.layout.activity_main);
 
@@ -144,19 +169,14 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         }
     }
 
-    public void onSharedScanBarcode(View view) {
-        IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.initiateScan();
-    }
-
     public void onSearchDoSearch(View view) {
         EditText locationText = findViewById(R.id.locationText);
         EditText searchText = findViewById(R.id.searchText);
         String searchPlantCode = searchText.getText().toString();
         String locationCode = locationText.getText().toString();
 
-        myb.putString("locationCode", locationCode);
-        myb.putString("searchedPlantCode", searchPlantCode);
+        state.putString("locationCode", locationCode);
+        state.putString("searchedPlantCode", searchPlantCode);
 
         executeSearch(searchPlantCode);
         switchToPage(RESULT_PAGE);
@@ -194,7 +214,8 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
                 SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
                 String query = "SELECT s.family, s.genus, s.epithet, "+
                         "a.code, p.code, a.source, p.location, "+
-                        "a.start_date, p.end_date, p.n_of_pics, p.quantity, p.edit_pending " +
+                        "a.start_date, p.end_date, p.n_of_pics, p.quantity, p.edit_pending," +
+                        "p._id " +
                         "FROM species s, accession a, plant p " +
                         "WHERE p.accession_id = a._id " +
                         "AND a.species_id = s._id " +
@@ -230,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
                 noOfPics = String.valueOf(resultSet.getInt(9));
                 noOfPlants = String.valueOf(resultSet.getInt(10));
                 editPending = String.valueOf(resultSet.getInt(11));
+                plantId = resultSet.getInt(12);
                 resultSet.close();
             } catch (CursorIndexOutOfBoundsException e) {
                 Toast.makeText(this, "nothing matches", Toast.LENGTH_SHORT).show();
@@ -240,17 +262,21 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             }
         }
 
-        myb.putString("fullPlantCode", fullPlantCode);
-        myb.putString("family", family);
-        myb.putString("species", species);
-        myb.putString("location", location);
-        myb.putString("source", source);
-        myb.putString("acqDate", acqDate);
-        myb.putString("dismissDate", dismissDate);
-        myb.putString("noOfPics", noOfPics);
-        myb.putString("noOfPlants", noOfPlants);
-        myb.putString("genus", genus_epithet);
-        myb.putString("editPending", editPending);
+        state.putString(PLANT_CODE, fullPlantCode);
+        state.putString(FAMILY, family);
+        state.putString(BINOMIAL, species);
+        state.putString("acqDate", acqDate);
+        state.putString("source", source);
+        state.putString(LOCATION_CODE, location);
+        state.putString("dismissDate", dismissDate);
+        state.putString(NO_OF_PICS, noOfPics);
+        state.putString(OVERRIDE, editPending);
+
+        state.putString(NO_OF_PLANTS, noOfPlants);
+        state.putString(GENUS, genus_epithet);
+
+        state.putStringArrayList(PICTURE_NAMES, new ArrayList<String>());
+        state.putInt(PLANT_ID, plantId);
 
         switchToPage(RESULT_PAGE);
     }
@@ -273,66 +299,106 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
     // coming from CollectFragment
     public void onCollectSaveToLog(View view) {
-        mViewPager.setCurrentItem(RESULT_PAGE);
-    }
+        ArrayList<String> listOfNames = state.getStringArrayList(PICTURE_NAMES);
+        if(listOfNames == null) {
+            return;
+        }
+        String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
+        try {
+            SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
+            String query = "UPDATE plant SET edit_pending=1 WHERE _id=?";
+            Cursor resultSet = database.rawQuery(query, new String[]{String.valueOf(plantId)});
+            resultSet.moveToLast();
+            resultSet.close();
+        } catch (Exception ignore) {}
 
-    public void onCollectTakePicture(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File photo = new File(getExternalFilesDir(null),  "Pic.jpg");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                Uri.fromFile(photo));
-        imageUri = Uri.fromFile(photo);
-        startActivityForResult(intent, TAKE_PICTURE);
+        StringBuilder sb = new StringBuilder();
+        for (String s : listOfNames) {
+            sb.append(" : ");
+            sb.append(s);
+        }
+        writeLogLine(String.format("%s : %s : %s%s",
+                state.getString(PLANT_CODE), state.getString(BINOMIAL),
+                state.getString(NO_OF_PLANTS), sb.toString()));
+
+        switchToPage(RESULT_PAGE);
     }
 
     public void onCollectMakeZeroPlants(View view) {
-        TextView t = findViewById(R.id.tvCollectNumberOfPlants);
-        t.setText("0");
+        state.putString(NO_OF_PLANTS, "0");
+        state.putString(OVERRIDE, "1");
+        collectFragment.setArguments(state);
+    }
+
+    public void onNumberEdit(View view) {
+        TextView t = (TextView)view;
+        state.putString(NO_OF_PLANTS, String.valueOf(t.getText()));
+        state.putString(OVERRIDE, "1");
+        collectFragment.setArguments(state);
+    }
+
+    public void onBinomialEdit(View view) {
+        TextView t = (TextView)view;
+        state.putString(BINOMIAL, String.valueOf(t.getText()));
+        state.putString(OVERRIDE, "1");
+        collectFragment.setArguments(state);
+    }
+
+    public void onCollectTakePicture(View view) {
+        if (state.get(PICTURE_NAMES) == null) {
+            Toast.makeText(this, R.string.picture_of_nothing, Toast.LENGTH_LONG).show();
+            return;
+        }
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) == null) {
+            Toast.makeText(this, R.string.unavailable_camera, Toast.LENGTH_LONG).show();
+            return;
+        }
+        try {
+            File photo = createImageFile();
+            imageUri = Uri.fromFile(photo);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(intent, TAKE_PICTURE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onSharedScanBarcode(View view) {
+        // invokes startActivityForResult (REQUEST_CODE)
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.initiateScan();
     }
 
     // general callbacks
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanResult != null) {
-            EditText editText = findViewById(R.id.searchText);
-            String contents = scanResult.getContents();
-            editText.setText(contents);
-            onSearchDoSearch(null);
+        switch (requestCode) {
+            case REQUEST_CODE: {
+                IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+                if (scanResult != null) {
+                    EditText editText = findViewById(R.id.searchText);
+                    String contents = scanResult.getContents();
+                    editText.setText(contents);
+                    onSearchDoSearch(null);
+                }
+            }
+            break;
+            case TAKE_PICTURE: {
+                ArrayList<String> nameList = state.getStringArrayList(PICTURE_NAMES);
+                assert nameList != null;
+                nameList.add(String.valueOf(imageUri));
+                state.putStringArrayList(PICTURE_NAMES, nameList);
+                state.putString(OVERRIDE, "1");
+                collectFragment.setArguments(state);
+            }
+            break;
         }
     }
 
     @Override
     public void switchToPage(int page) {
-        Fragment f = fragmentList.get(page);
-        switch (page) {
-            case TAXONOMY_PAGE:
-                TaxonomyFragment tf = (TaxonomyFragment) f;
-                tf.refreshContent(myb.get("genus"));
-                break;
-            case SEARCH_PAGE:
-                break;
-            case RESULT_PAGE:
-                ResultsFragment rf = (ResultsFragment) f;
-                rf.updateFields(myb.get("fullPlantCode"),
-                        myb.get("family"),
-                        myb.get("species"),
-                        myb.get("acqDate,"),
-                        myb.get("source"),
-                        myb.get("location"),
-                        myb.get("dismissDate"),
-                        myb.get("noOfPics"),
-                        myb.get("editPending"));
-                break;
-            case COLLECT_PAGE:
-                CollectFragment cf = (CollectFragment) f;
-                cf.refreshContent(myb.get("fullPlantCode"),
-                        myb.get("species"),
-                        myb.get("noOfPics"),
-                        myb.get("noOfPlants"),
-                        myb.get("editPending"));
-                break;
-        }
+        fragmentList.get(page).setArguments(state);
         if (mViewPager.getCurrentItem() != page ) {
             mViewPager.setCurrentItem(page);
         }
@@ -340,31 +406,47 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
     @SuppressLint("HardwareIds")
     private void logSearch() {
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        String deviceId = "";
+        try {
+            if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
+        } catch (SecurityException e) {
+            Toast.makeText(this, "Please grant permission to get phone's IMEI.", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
+        String locationCode = state.getString("locationCode");
+        String fullPlantCode = state.getString(PLANT_CODE);
+        writeLogLine(String.format("%s : %s : %s", locationCode, fullPlantCode, deviceId));
+    }
+
+    private void writeLogLine(String line) {
+        Calendar calendar = Calendar.getInstance();
+        String timeStamp = simpleDateFormat.format(calendar.getTime());
         PrintWriter out = null;
         try {
             String filename = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
             out = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)));
-            Calendar calendar = Calendar.getInstance();
-            String timeStamp = simpleDateFormat.format(calendar.getTime());
-            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-            String deviceId = "";
-            try {
-                if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
-            } catch (SecurityException e) {
-                Toast.makeText(this, "Please grant permission to get phone's IMEI.", Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-            String locationCode = myb.getString("locationCode");
-            String fullPlantCode = myb.getString("fullPlantCode");
-            out.println(String.format("%s : %s : %s : %s", timeStamp, locationCode, fullPlantCode, deviceId));
+            out.println(String.format("%s : %s", timeStamp, line));
         } catch (IOException e) {
-            Toast.makeText(this, "can't log search", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "can't write to log", Toast.LENGTH_SHORT).show();
         } finally {
             if(out != null){
                 out.close();
             }
         }
+
     }
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = simpleDateFormat.format(new Date());
+        String imageFileName = "GPP_" + timeStamp;
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+    }
 }

@@ -10,6 +10,13 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import static me.ghini.pocket.MainActivity.BINOMIAL;
+import static me.ghini.pocket.MainActivity.FAMILY;
+import static me.ghini.pocket.MainActivity.LOCATION_CODE;
+import static me.ghini.pocket.MainActivity.NO_OF_PICS;
+import static me.ghini.pocket.MainActivity.OVERRIDE;
+import static me.ghini.pocket.MainActivity.PLANT_CODE;
+
 /**
  * Created by mario on 2018-01-28.
  */
@@ -49,25 +56,18 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
         return rootView;
     }
 
-    public void updateFields(Object accession,
-                             Object family,
-                             Object species,
-                             Object acqDate,
-                             Object source,
-                             Object location,
-                             Object dismissDate,
-                             Object noOfPics,
-                             Object isUpdatePending) {
+    @Override
+    public void setArguments(Bundle b) {
         try {
-            tvAccession.setText((String)accession);
-            tvFamily.setText((String)family);
-            tvSpecies.setText((String)species);
-            tvAcqDate.setText((String)acqDate);
-            tvSource.setText((String)source);
-            tvLocation.setText((String)location);
-            tvDismissDate.setText((String)dismissDate);
-            tvNoOfPics.setText((String)noOfPics);
-            tvOverride.setText((String)isUpdatePending);
+            tvAccession.setText(b.getString(PLANT_CODE));
+            tvFamily.setText(b.getString(FAMILY));
+            tvSpecies.setText(b.getString(BINOMIAL));
+            tvAcqDate.setText(b.getString("acqDate,"));
+            tvSource.setText(b.getString("source"));
+            tvLocation.setText(b.getString(LOCATION_CODE));
+            tvDismissDate.setText(b.getString("dismissDate"));
+            tvNoOfPics.setText(b.getString(NO_OF_PICS));
+            tvOverride.setText(b.getString(OVERRIDE));
         }
         catch (NullPointerException ignore) {}
      }

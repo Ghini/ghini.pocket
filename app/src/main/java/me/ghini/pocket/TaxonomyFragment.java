@@ -25,6 +25,8 @@ import android.widget.TextView;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+import static me.ghini.pocket.MainActivity.GENUS;
+
 /**
  * Created by mario on 2018-01-30.
  */
@@ -128,10 +130,11 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public void refreshContent(Object genus) {
+    @Override
+    public void setArguments(Bundle b) {
         if (taxonomySearch != null)
-            taxonomySearch.setText((String) genus);
-        lookupName((String) genus);
+            taxonomySearch.setText(b.getString(GENUS));
+        lookupName(b.getString(GENUS));
     }
 }
 

@@ -31,4 +31,6 @@
     <string name="take_picture">take a picture</string>
     <string name="mark_dead">make zero</string>
     <string name="n_of_plants"># of plants</string>
+    <string name="picture_of_nothing">I can\'t let you take a picture of nothing</string>
+    <string name="unavailable_camera">camera is not available</string>
 </resources>
