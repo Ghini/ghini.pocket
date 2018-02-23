@@ -103,20 +103,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             public int getCount() {
                 return 4;
             }
-            @Override
-            public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return getString(R.string.title_1);
-                    case 1:
-                        return getString(R.string.title_2);
-                    case 2:
-                        return getString(R.string.title_3);
-                    case 3:
-                        return getString(R.string.title_4);
-                }
-                return null;
-            }
         };
 
         // Set up the ViewPager with the sections adapter.

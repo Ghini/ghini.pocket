@@ -19,8 +19,6 @@
 <string name="zero_log">Limpar Log</string>
     <string name="location_code">Digite o código de localização</string>
     <string name="search_message">Digite um código de planta</string>
-    <string name="title_2">Lookup</string>
-    <string name="title_3">Results</string>
     <string name="save_to_log">save to log file</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
     <string name="log_overrides">edit pending</string>

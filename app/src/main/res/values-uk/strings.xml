@@ -19,7 +19,6 @@
 <string name="zero_log">скинути журнал</string>
     <string name="location_code">Введіть код місцеположення</string>
     <string name="search_message">Введіть код рослини</string>
-    <string name="title_2">Lookup</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
     <string name="log_overrides">edit pending</string>
 </resources>

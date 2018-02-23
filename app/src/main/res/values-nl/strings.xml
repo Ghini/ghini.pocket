@@ -20,9 +20,6 @@
     <string name="missing_odk_collect">missing ODK Collect</string>
     <string name="dismission">Weggehaald</string>
     <string name="button_scan">Scannen</string>
-    <string name="title_1">Taxonomy reminder</string>
-    <string name="title_2">Lookup</string>
-    <string name="title_3">Uitkomsten</string>
     <string name="missing_web_browser">Geen programma is met deze actie geassocieerd. Instaleer een browser aub.</string>
     <string name="save_to_log">save to log file</string>
     <string name="take_picture">take a picture</string>

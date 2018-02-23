@@ -27,9 +27,6 @@
     <string name="log_overrides">Modifica in sospeso</string>
     <string name="n_of_plants"># di piante</string>
     <string name="missing_odk_collect">manca ODK Collect</string>
-    <string name="title_1">Aiuto tassonomico</string>
-    <string name="title_2">Cerca</string>
-    <string name="title_3">Risultati</string>
     <string name="action_delete">marca come morta</string>
     <string name="action_edit">correggi l\'identificazione</string>
     <string name="action_plant_add">aggiungi pianta</string>

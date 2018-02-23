@@ -20,9 +20,6 @@
     <string name="location_code">Adja meg a helyszínkódot</string>
     <string name="action_settings">Beállítások</string>
     <string name="search_message">Adjon meg egy növénykódot</string>
-    <string name="title_1">Taxonomy reminder</string>
-    <string name="title_2">Keresés</string>
-    <string name="title_3">Eredmények</string>
     <string name="save_to_log">save to log file</string>
     <string name="take_picture">take a picture</string>
     <string name="mark_dead">mark as dead</string>

@@ -20,6 +20,4 @@
     <string name="location_code">Skriv inn plasseringskode</string>
     <string name="action_settings">Innstillinger</string>
     <string name="search_message">Skriv inn en plantekode</string>
-    <string name="title_2">Oppslag</string>
-    <string name="title_3">Resultater</string>
 </resources>
