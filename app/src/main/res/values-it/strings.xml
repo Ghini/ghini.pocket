@@ -26,7 +26,6 @@
     <string name="collect_instructions"/>
     <string name="log_overrides">Modifica in sospeso</string>
     <string name="n_of_plants"># di piante</string>
-    <string name="missing_odk_collect">manca ODK Collect</string>
     <string name="action_delete">marca come morta</string>
     <string name="action_edit">correggi l\'identificazione</string>
     <string name="action_plant_add">aggiungi pianta</string>

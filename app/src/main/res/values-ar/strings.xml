@@ -19,7 +19,6 @@
     <string name="action_settings">الإعدادات</string>
 <string name="action_photo">التقط صوره</string>
     <string name="search_message">أدخل رمز النبات</string>
-    <string name="missing_odk_collect"/>
     <string name="zero_log">إعادة تعيين</string>
     <string name="location_code">أدخل رمز الموقع</string>
     <string name="save_to_log">حفظ إلى ملف</string>

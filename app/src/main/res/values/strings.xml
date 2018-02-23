@@ -16,7 +16,6 @@
     <string name="collect">Collect</string>
     <string name="next">Next</string>
     <string name="location_code">Enter location code</string>
-    <string name="missing_odk_collect">missing ODK Collect</string>
     <string name="log_overrides">Edit pending</string>
 
     <string name="edit_message">insert a plant code</string>
