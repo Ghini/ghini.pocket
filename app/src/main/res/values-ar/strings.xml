@@ -20,7 +20,7 @@
 <string name="action_photo">التقط صوره</string>
     <string name="search_message">أدخل رمز النبات</string>
     <string name="missing_odk_collect"/>
-    <string name="title_1"/>
+    <string name="title_1">تذكير بالتصنيف</string>
     <string name="title_2">بحث</string>
     <string name="title_3">النتائج</string>
     <string name="zero_log">إعادة تعيين</string>
