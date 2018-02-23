@@ -16,20 +16,22 @@
     <string name="empty_lookup">specificare una ricerca</string>
     <string name="next">Ancora</string>
     <string name="collect">Correggi</string>
-<string name="zero_log">vuotare il giornale</string>
+    <string name="zero_log">vuotare il giornale</string>
     <string name="location_code">Inserire codice ubicazione</string>
     <string name="action_settings">Configurazione</string>
     <string name="search_message">Inserire il codice di una pianta</string>
-    <string name="save_to_log">salva nel log</string>
-    <string name="take_picture"/>
-    <string name="mark_dead"/>
+    <string name="save_to_log">salva nel file di log</string>
+    <string name="take_picture">scatta una foto</string>
+    <string name="mark_dead">azzera</string>
     <string name="collect_instructions"/>
-    <string name="log_overrides"/>
-    <string name="n_of_plants">numero di piante</string>
+    <string name="log_overrides">Modifica in sospeso</string>
+    <string name="n_of_plants"># di piante</string>
     <string name="missing_odk_collect">manca ODK Collect</string>
     <string name="title_1">Aiuto tassonomico</string>
     <string name="title_2">Cerca</string>
     <string name="title_3">Risultati</string>
-    <string name="action_delete">marca morta</string>
+    <string name="action_delete">marca come morta</string>
+    <string name="action_edit">correggi l\'identificazione</string>
     <string name="action_plant_add">aggiungi pianta</string>
 </resources>
+
