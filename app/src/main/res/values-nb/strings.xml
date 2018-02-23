@@ -20,4 +20,13 @@
     <string name="location_code">Skriv inn plasseringskode</string>
     <string name="action_settings">Innstillinger</string>
     <string name="search_message">Skriv inn en plantekode</string>
+<string name="log_overrides">Redigering venter</string>
+
+    <string name="action_photo">ta et bilde</string>
+    <string name="action_delete">en plante har dødd</string>
+    <string name="action_plant_add">legg til denne planten</string>
+    <string name="save_to_log">lagre til loggfil</string>
+    <string name="take_picture">ta et bilde</string>
+    <string name="mark_dead">merk som død</string>
+    <string name="n_of_plants">antall planter</string>
 </resources>
