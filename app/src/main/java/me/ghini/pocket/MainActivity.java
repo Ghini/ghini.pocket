@@ -397,16 +397,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         }
     }
 
-    @Override
-    public void onCollectSpeciesChanged(Editable editable) {
-
-    }
-
-    @Override
-    public void onCollectNumberOfPlantsChanged(Editable editable) {
-
-    }
-
     public void onSearchZeroLog(View view) {
         try {
             String fileFormat = new File(getExternalFilesDir(null), "searches%s%s.txt").getAbsolutePath();
