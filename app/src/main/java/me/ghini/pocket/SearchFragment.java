@@ -15,4 +15,8 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
+
+    @Override
+    public void setArguments(Bundle b) {
+    }
 }

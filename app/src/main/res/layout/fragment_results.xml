@@ -155,24 +155,16 @@
         app:layout_constraintTop_toBottomOf="@+id/tvAcqDate"
         app:layout_constraintHorizontal_bias="0.0" />
 
-    <TextView
-        android:id="@+id/tvOverrideLabel"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="@string/log_overrides"
-        app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
-        app:layout_constraintTop_toTopOf="@+id/tvOverride" />
-
-    <TextView
-        android:id="@+id/tvOverride"
+    <CheckBox
+        android:id="@+id/cbOverride"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        app:layout_constraintLeft_toRightOf="@+id/tvOverrideLabel"
+        android:clickable="false"
+        android:text="@string/log_overrides"
         app:layout_constraintRight_toRightOf="@+id/tvAccession"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateOfDeath"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintStart_toStartOf="@+id/tvAccession"
+        app:layout_constraintTop_toBottomOf="@+id/tvDateOfDeath" />
 
     <Button
         android:id="@+id/wikipedia"
@@ -183,7 +175,7 @@
         android:text="@string/wikipedia"
         app:layout_constraintEnd_toEndOf="@+id/tvDateOfDeath"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOverride" />
+        app:layout_constraintTop_toBottomOf="@+id/cbOverride" />
 
     <Button
         android:id="@+id/next"
