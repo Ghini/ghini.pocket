@@ -219,7 +219,7 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
                 Integer id = c1.getInt(0);
                 String epithet = c1.getString(1);
                 String metaphone = shorten(epithet);
-                out.println(String.format("update taxon set metaphone='%s' where id=%s;", metaphone, id));
+                out.println(String.format("updateView taxon set metaphone='%s' where id=%s;", metaphone, id));
             }
             out.println("commit;");
         } catch (IOException e1) {

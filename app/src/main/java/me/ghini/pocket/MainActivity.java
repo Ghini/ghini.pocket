@@ -73,10 +73,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     private final List<Fragment> fragmentList = new ArrayList<>(4);
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
     public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
-    private TaxonomyFragment taxonomyFragment = null;
-    private SearchFragment searchFragment = null;
-    private ResultsFragment resultsFragment = null;
-    private CollectFragment collectFragment = null;
+    FragmentWithState collectFragment = null;
     LocationManager locationManager;
     private Uri imageUri;
     private static final int TAKE_PICTURE = 1978;
@@ -85,14 +82,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
     public MainActivity() {
         // create the fragments
-        taxonomyFragment = new TaxonomyFragment();
-        searchFragment = new SearchFragment();
-        resultsFragment = new ResultsFragment();
-        collectFragment = new CollectFragment();
-        fragmentList.add(taxonomyFragment);
-        fragmentList.add(searchFragment);
-        fragmentList.add(resultsFragment);
-        fragmentList.add(collectFragment);
+        fragmentList.add(new TaxonomyFragment());
+        fragmentList.add(new SearchFragment());
+        fragmentList.add(new ResultsFragment());
+        Fragment fragment = new CollectFragment();
+        fragmentList.add(fragment);
+        collectFragment = (FragmentWithState) fragment;
     }
 
     /**
@@ -278,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         state.putString(NO_OF_PLANTS, noOfPlants);
         state.putString(GENUS, genus_epithet);
 
-        state.putStringArrayList(PICTURE_NAMES, new ArrayList<String>());
         state.putInt(PLANT_ID, plantId);
 
         switchToPage(RESULT_PAGE);
@@ -304,9 +298,9 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         TextView t = (TextView)view;
         String previousValue = state.getString(NO_OF_PLANTS, "0");
         if(!previousValue.equals("0")) {
-            state.putString(NO_OF_PLANTS, "0");
-            state.putBoolean(OVERRIDE, true);
-            collectFragment.setArguments(state);
+            collectFragment.state.putString(NO_OF_PLANTS, "0");
+            collectFragment.state.putBoolean(OVERRIDE, true);
+            collectFragment.updateView();
         }
     }
 
@@ -315,9 +309,9 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         String newValue = String.valueOf(t.getText());
         String previousValue = state.getString(NO_OF_PLANTS, "0");
         if(!previousValue.equals(newValue)) {
-            state.putString(NO_OF_PLANTS, newValue);
-            state.putBoolean(OVERRIDE, true);
-            collectFragment.setArguments(state);
+            collectFragment.state.putString(NO_OF_PLANTS, newValue);
+            collectFragment.state.putBoolean(OVERRIDE, true);
+            collectFragment.updateView();
         }
     }
 
@@ -326,15 +320,15 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         String newValue = String.valueOf(t.getText());
         String previousValue = state.getString(BINOMIAL, "");
         if(!previousValue.equals(newValue)) {
-            state.putString(BINOMIAL, newValue);
-            state.putBoolean(OVERRIDE, true);
-            collectFragment.setArguments(state);
+            collectFragment.state.putString(BINOMIAL, newValue);
+            collectFragment.state.putBoolean(OVERRIDE, true);
+            collectFragment.updateView();
         }
     }
 
     public void onGrabPosition(View view) {
         CheckBox t = (CheckBox)view;
-        state.putBoolean(GRAB_POSITION, t.isChecked());
+        collectFragment.state.putBoolean(GRAB_POSITION, t.isChecked());
     }
 
     public void onCollectTakePicture(View view) {
@@ -378,12 +372,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             }
             break;
             case TAKE_PICTURE: {
-                ArrayList<String> nameList = state.getStringArrayList(PICTURE_NAMES);
+                ArrayList<String> nameList = collectFragment.state.getStringArrayList(PICTURE_NAMES);
                 assert nameList != null;
                 nameList.add(String.valueOf(imageUri));
-                state.putStringArrayList(PICTURE_NAMES, nameList);
-                state.putBoolean(OVERRIDE, true);
-                collectFragment.setArguments(state);
+                collectFragment.state.putStringArrayList(PICTURE_NAMES, nameList);
+                collectFragment.state.putBoolean(OVERRIDE, true);
+                collectFragment.updateView();
             }
             break;
         }
@@ -419,18 +413,26 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     // coming from CollectFragment
     @SuppressLint("MissingPermission")
     public void onCollectSaveToLog(View view) {
-        ArrayList<String> listOfNames = state.getStringArrayList(PICTURE_NAMES);
+        ArrayList<String> listOfNames = collectFragment.state.
+                getStringArrayList(PICTURE_NAMES);
         if (listOfNames == null) {
             return;
         }
-        String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
+        // Fragment.state gets accepted in Activity.state,
+        // then we write in the local database that we have local edits,
+        // then we save the edits in the log file, so they can be imported,
+        // finally we move back to the ResultsFragment.
+        state.putAll(collectFragment.state);
+        String filename = new File(getExternalFilesDir(null), "pocket.db").
+                getAbsolutePath();
         try {
             SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
             String query = "UPDATE plant SET edit_pending=1 WHERE _id=?";
             Cursor resultSet = database.rawQuery(query, new String[]{String.valueOf(plantId)});
             resultSet.moveToLast();
             resultSet.close();
-        } catch (Exception ignore) {
+        }
+        catch (Exception ignore) {
         }
 
         StringBuilder sb = new StringBuilder();
@@ -439,20 +441,20 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
         if(location != null) {
-            sb.append(" : (");
+            sb.append("(");
             sb.append(location.getLatitude());
             sb.append(";");
             sb.append(location.getLongitude());
             sb.append(")");
         } else {
-            sb.append(" : (-;-)");
+            sb.append("(@;@)");
         }
         for (String s : listOfNames) {
             sb.append(" : ");
             sb.append(s);
         }
 
-        writeLogLine(String.format("%s : %s : %s%s",
+        writeLogLine(String.format("%s : %s : %s : %s",
                 state.getString(PLANT_CODE), state.getString(BINOMIAL),
                 state.getString(NO_OF_PLANTS), sb.toString()));
 
@@ -507,11 +509,3 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
 }
 
-abstract class AfterTextChangedWatcher implements TextWatcher {
-    View rootView;
-    AfterTextChangedWatcher(View view) { rootView = view; }
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {/*empty*/}
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {/*empty*/}
-}
