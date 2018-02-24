@@ -26,13 +26,13 @@
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:labelFor="@+id/tvCollectSpecies"
+        android:labelFor="@+id/etCollectSpecies"
         android:text="@string/binomial"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCollectSpecies"
+        app:layout_constraintBottom_toBottomOf="@+id/etCollectSpecies"
         app:layout_constraintLeft_toLeftOf="@+id/tvCollectAccession" />
 
     <EditText
-        android:id="@+id/tvCollectSpecies"
+        android:id="@+id/etCollectSpecies"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -65,11 +65,11 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/tvCollectNumberOfPicsLabel"
         app:layout_constraintRight_toRightOf="@+id/tvCollectAccession"
-        app:layout_constraintStart_toStartOf="@+id/tvCollectSpecies" />
+        app:layout_constraintStart_toStartOf="@+id/etCollectSpecies" />
 
     <TextView
         android:id="@+id/tvCollectNumberOfPlantsLabel"
-        android:labelFor="@+id/tvCollectNumberOfPlants"
+        android:labelFor="@+id/etCollectNumberOfPlants"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -78,7 +78,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/tvCollectAccession" />
 
     <EditText
-        android:id="@+id/tvCollectNumberOfPlants"
+        android:id="@+id/etCollectNumberOfPlants"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:inputType="number"
@@ -106,7 +106,7 @@
         android:onClick="onCollectTakePicture"
         android:text="@string/take_picture"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCollectSpecies" />
+        app:layout_constraintTop_toBottomOf="@+id/etCollectSpecies" />
 
     <Button
         android:id="@+id/markDeadButton"

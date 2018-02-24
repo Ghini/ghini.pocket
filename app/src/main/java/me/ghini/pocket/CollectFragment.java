@@ -1,23 +1,15 @@
 package me.ghini.pocket;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.io.File;
 
 import static me.ghini.pocket.MainActivity.BINOMIAL;
 import static me.ghini.pocket.MainActivity.GRAB_POSITION;
@@ -43,6 +35,19 @@ public class CollectFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_collect, container, false);
+        // mark local changes in local checkbox
+        ((EditText) rootView.findViewById(R.id.etCollectSpecies)).addTextChangedListener(new AfterTextChangedWatcher(rootView) {
+            @Override
+            public void afterTextChanged(Editable editable) {
+                ((CheckBox) rootView.findViewById(R.id.cbCollectOverride)).setChecked(true);
+            }
+        });
+        ((EditText) rootView.findViewById(R.id.etCollectNumberOfPlants)).addTextChangedListener(new AfterTextChangedWatcher(rootView) {
+            @Override
+            public void afterTextChanged(Editable editable) {
+                ((CheckBox) rootView.findViewById(R.id.cbCollectOverride)).setChecked(true);
+            }
+        });
         return rootView;
     }
 
@@ -50,11 +55,11 @@ public class CollectFragment extends Fragment {
     public void setArguments(Bundle b) {
         TextView t = getActivity().findViewById(R.id.tvCollectAccession);
         t.setText(b.getString(PLANT_CODE, ""));
-        t = getActivity().findViewById(R.id.tvCollectSpecies);
+        t = getActivity().findViewById(R.id.etCollectSpecies);
         t.setText(b.getString(BINOMIAL, ""));
         t = getActivity().findViewById(R.id.tvCollectNumberOfPics);
         t.setText(b.getString(NO_OF_PICS, "0"));
-        t = getActivity().findViewById(R.id.tvCollectNumberOfPlants);
+        t = getActivity().findViewById(R.id.etCollectNumberOfPlants);
         t.setText(b.getString(NO_OF_PLANTS, "1"));
         CheckBox v = getActivity().findViewById(R.id.cbGrabPosition);
         v.setChecked(b.getBoolean(GRAB_POSITION, false));

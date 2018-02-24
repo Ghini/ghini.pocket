@@ -22,6 +22,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -168,25 +170,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         mViewPager.setCurrentItem(SEARCH_PAGE);
     }
 
-    public void onSearchZeroLog(View view) {
-        try {
-            String fileFormat = new File(getExternalFilesDir(null), "searches%s%s.txt").getAbsolutePath();
-            String filename = String.format(fileFormat, "", "");
-            File file = new File(filename);
-            if (file.length() > 0) {
-                Calendar calendar = Calendar.getInstance();
-                String timeStamp = simpleDateFormat.format(calendar.getTime());
-                String newNameForOldFile = String.format(fileFormat, "_", timeStamp);
-                File newFile = new File(newNameForOldFile);
-                //noinspection ResultOfMethodCallIgnored
-                file.renameTo(newFile);
-            }
-            new PrintWriter(filename).close();
-        } catch (FileNotFoundException e) {
-            Toast.makeText(this, "can't create log file", Toast.LENGTH_LONG).show();
-        }
-    }
-
     public void onSearchDoSearch(View view) {
         EditText locationText = findViewById(R.id.locationText);
         EditText searchText = findViewById(R.id.searchText);
@@ -317,49 +300,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         }
     }
 
-    // coming from CollectFragment
-    @SuppressLint("MissingPermission")
-    public void onCollectSaveToLog(View view) {
-        ArrayList<String> listOfNames = state.getStringArrayList(PICTURE_NAMES);
-        if (listOfNames == null) {
-            return;
-        }
-        String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
-        try {
-            SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
-            String query = "UPDATE plant SET edit_pending=1 WHERE _id=?";
-            Cursor resultSet = database.rawQuery(query, new String[]{String.valueOf(plantId)});
-            resultSet.moveToLast();
-            resultSet.close();
-        } catch (Exception ignore) {
-        }
-
-        StringBuilder sb = new StringBuilder();
-        Location location = null;
-        if(state.getBoolean(GRAB_POSITION, false)) {
-            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        }
-        if(location != null) {
-            sb.append(" : (");
-            sb.append(location.getLatitude());
-            sb.append(";");
-            sb.append(location.getLongitude());
-            sb.append(")");
-        } else {
-            sb.append(" : (-;-)");
-        }
-        for (String s : listOfNames) {
-            sb.append(" : ");
-            sb.append(s);
-        }
-
-        writeLogLine(String.format("%s : %s : %s%s",
-                state.getString(PLANT_CODE), state.getString(BINOMIAL),
-                state.getString(NO_OF_PLANTS), sb.toString()));
-
-        switchToPage(RESULT_PAGE);
-    }
-
     public void onCollectMakeZeroPlants(View view) {
         TextView t = (TextView)view;
         String previousValue = state.getString(NO_OF_PLANTS, "0");
@@ -457,6 +397,78 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         }
     }
 
+    @Override
+    public void onCollectSpeciesChanged(Editable editable) {
+
+    }
+
+    @Override
+    public void onCollectNumberOfPlantsChanged(Editable editable) {
+
+    }
+
+    public void onSearchZeroLog(View view) {
+        try {
+            String fileFormat = new File(getExternalFilesDir(null), "searches%s%s.txt").getAbsolutePath();
+            String filename = String.format(fileFormat, "", "");
+            File file = new File(filename);
+            if (file.length() > 0) {
+                Calendar calendar = Calendar.getInstance();
+                String timeStamp = simpleDateFormat.format(calendar.getTime());
+                String newNameForOldFile = String.format(fileFormat, "_", timeStamp);
+                File newFile = new File(newNameForOldFile);
+                //noinspection ResultOfMethodCallIgnored
+                file.renameTo(newFile);
+            }
+            new PrintWriter(filename).close();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, "can't create log file", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // coming from CollectFragment
+    @SuppressLint("MissingPermission")
+    public void onCollectSaveToLog(View view) {
+        ArrayList<String> listOfNames = state.getStringArrayList(PICTURE_NAMES);
+        if (listOfNames == null) {
+            return;
+        }
+        String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
+        try {
+            SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
+            String query = "UPDATE plant SET edit_pending=1 WHERE _id=?";
+            Cursor resultSet = database.rawQuery(query, new String[]{String.valueOf(plantId)});
+            resultSet.moveToLast();
+            resultSet.close();
+        } catch (Exception ignore) {
+        }
+
+        StringBuilder sb = new StringBuilder();
+        Location location = null;
+        if(state.getBoolean(GRAB_POSITION, false)) {
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+        if(location != null) {
+            sb.append(" : (");
+            sb.append(location.getLatitude());
+            sb.append(";");
+            sb.append(location.getLongitude());
+            sb.append(")");
+        } else {
+            sb.append(" : (-;-)");
+        }
+        for (String s : listOfNames) {
+            sb.append(" : ");
+            sb.append(s);
+        }
+
+        writeLogLine(String.format("%s : %s : %s%s",
+                state.getString(PLANT_CODE), state.getString(BINOMIAL),
+                state.getString(NO_OF_PLANTS), sb.toString()));
+
+        switchToPage(RESULT_PAGE);
+    }
+
     @SuppressLint("HardwareIds")
     private void logSearch() {
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
@@ -503,4 +515,13 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         );
     }
 
+}
+
+abstract class AfterTextChangedWatcher implements TextWatcher {
+    View rootView;
+    AfterTextChangedWatcher(View view) { rootView = view; }
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {/*empty*/}
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {/*empty*/}
 }
