@@ -60,3 +60,45 @@ the ghini family
 and the place of ghini.pocket within the family
 
 .. image:: images/ghini-family.png
+
+
+Technical Information
+-----------------------------------
+
+The program is written in Java, and only runs on Android.
+
+There is one `Activity` and several `Fragments` (at the time of writing it's
+four `Fragments`: taxonomy, search, results, collect).
+
+`Fragments` have the role to manage the view elements, while the `Activity`
+implements callbacks, manages the internal `state`, passes the internal
+`state` to `Fragments` upon activation.
+
+Users staying in the first three `Fragments`, need not worry about
+synchronizing with the database.  Just consider `ghini.pocket` as a *read
+only* application, periodically export from `ghini.desktop` to
+`ghini.pocket` and you will be fine.
+
+However, `ghini.pocket` can also be used to collect data to be imported into
+the `ghini.desktop` database.  This is the role of the `CollectFragment`.
+
+Consider that anything written in view elements isn't automatically
+persisted, so when the user swipes left or right to leave a `Fragment`, all
+that was written in the `Fragment` visible elements is lost and will be
+recovered from the database, according to the last searched plant code.
+
+The only persistent data written in a visible element is the searched plant
+code.
+
+Users can make the data written in the `CollectFragment` form manually
+persistent, by writing the values to the log file and into the
+`ghini.pocket` database.  Once your edits have been saved, `ghini.pocket`
+will show them, but it will also remind you that you are looking at locally
+edited data, meaning that what you now see does not necessarily match the
+central database.  Users should consider this as an alert: it is their task
+to import the log file in `ghini.desktop`, and to again export the database
+to `ghini.pocket`.
+
+The internal `state` contains all that the user inserted in the visible
+elements and that was manually persisted.  In this, it just reflects the
+same contents as the `ghini.pocket` database
