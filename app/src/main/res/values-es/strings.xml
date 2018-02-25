@@ -15,7 +15,6 @@
     <string name="wikipedia">Wikipedia</string>
     <string name="empty_lookup">no hay binomial que buscar</string>
     <string name="next">Otra</string>
-<string name="collect">Corregir</string>
     <string name="zero_log">vaciar log</string>
     <string name="location_code">Digite código localización</string>
     <string name="search_message">Insertar un código de planta</string>
@@ -23,5 +22,4 @@
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
     <string name="log_overrides">edit pending</string>
     <string name="n_of_plants">número de plantas</string>
-    <string name="action_settings">Configuración</string>
 </resources>

@@ -15,6 +15,5 @@
     <string name="wikipedia">维基百科</string>
     <string name="empty_lookup">空字符串不能搜索</string>
     <string name="next">下一条</string>
-    <string name="collect">采集</string>
     <string name="search_message">输入植物编码</string>
 </resources>

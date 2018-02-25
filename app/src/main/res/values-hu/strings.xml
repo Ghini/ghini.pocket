@@ -14,11 +14,9 @@
     <string name="location">Elhelyezkedés</string>
     <string name="wikipedia">Wikipédia</string>
     <string name="empty_lookup">üres karakterláncra nem indítható keresés</string>
-    <string name="collect">Gyűjt</string>
     <string name="next">Tovább</string>
     <string name="zero_log">reset napló</string>
     <string name="location_code">Adja meg a helyszínkódot</string>
-    <string name="action_settings">Beállítások</string>
     <string name="search_message">Adjon meg egy növénykódot</string>
     <string name="save_to_log">save to log file</string>
     <string name="take_picture">take a picture</string>

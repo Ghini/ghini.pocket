@@ -15,10 +15,8 @@
     <string name="wikipedia">Wikipédia</string>
     <string name="empty_lookup">On ne peut pas rechercher la chaîne vide</string>
     <string name="next">Suivant</string>
-    <string name="collect">Recueillir</string>
-<string name="zero_log">réinitialiser le journal</string>
+    <string name="zero_log">réinitialiser le journal</string>
     <string name="location_code">Entrez le code de lieu</string>
-    <string name="action_settings">Settings</string>
     <string name="search_message">Entrez un code de plante</string>
     <string name="save_to_log">save to log file</string>
     <string name="mark_dead">mark as dead</string>

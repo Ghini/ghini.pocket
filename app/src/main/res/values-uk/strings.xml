@@ -15,8 +15,7 @@
     <string name="wikipedia">Вікіпедія</string>
     <string name="empty_lookup">не вдається знайти пустий рядок</string>
     <string name="next">Далі</string>
-    <string name="collect">Зібрати</string>
-<string name="zero_log">скинути журнал</string>
+    <string name="zero_log">скинути журнал</string>
     <string name="location_code">Введіть код місцеположення</string>
     <string name="search_message">Введіть код рослини</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
