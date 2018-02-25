@@ -332,10 +332,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     }
 
     public void onCollectTakePicture(View view) {
-        if (state.get(PICTURE_NAMES) == null) {
-            Toast.makeText(this, R.string.picture_of_nothing, Toast.LENGTH_LONG).show();
-            return;
-        }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) == null) {
             Toast.makeText(this, R.string.unavailable_camera, Toast.LENGTH_LONG).show();
@@ -454,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             sb.append(s);
         }
 
-        writeLogLine(String.format("%s : %s : %s : %s",
+        writeLogLine(String.format(" :PENDING_EDIT: %s : %s : %s : %s",
                 state.getString(PLANT_CODE), state.getString(BINOMIAL),
                 state.getString(NO_OF_PLANTS), sb.toString()));
 

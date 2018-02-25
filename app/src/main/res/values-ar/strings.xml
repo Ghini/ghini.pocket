@@ -24,7 +24,6 @@
     <string name="save_to_log">حفظ إلى ملف</string>
     <string name="take_picture">إلتقط صورة</string>
     <string name="mark_dead"/>
-    <string name="collect_instructions"/>
     <string name="log_overrides">يتم التعديل</string>
     <string name="n_of_plants"/>
 </resources>
