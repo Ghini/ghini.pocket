@@ -29,4 +29,8 @@
     <string name="take_picture">ta et bilde</string>
     <string name="mark_dead">merk som død</string>
     <string name="n_of_plants">antall planter</string>
+<string name="action_edit">endre gruppe</string>
+    <string name="picture_of_nothing">Jeg kan ikke la deg ta et bilde av ingenting</string>
+    <string name="unavailable_camera">kameraet er ikke tilgjengelig</string>
+    <string name="grab_position">ta med plasseringsdata</string>
 </resources>
