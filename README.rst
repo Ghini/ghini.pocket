@@ -13,7 +13,7 @@ the garden, just by scanning a plant label.
 - Use **ghini.desktop** to export your garden database to a reduced SQLite3 database,
 - Copy the reduced database file to the device (this and the previous step you repeat from time to time),
 
-ghini.pocket has four pages: taxonomy review, search, results, and correction (not implemented yet).  When you 
+ghini.pocket has four pages: taxonomy review, search, results, and correction. 
   
 - While in the search page:
   
@@ -26,15 +26,15 @@ ghini.pocket has four pages: taxonomy review, search, results, and correction (n
   - follow the link to the relative Wikipedia page,
   - swipe back to the search page,
   - swipe further back to the taxonomy review page,
-  - swipe forward to the correction page (not implemented yet).
+  - swipe forward to the correction page.
 
-- In the correction page (not implemented yet):
+- In the correction page:
 
   - you see the data as last exported from ghini.desktop,
   - two buttons also allow you:
     - grabbing your current coordinates,
-    - taking a picture and associate it to the plant.
-  - you click and hold on the field you want to correct,
+    - taking pictures to be associated to the plant.
+  - you click on the field you want to correct,
   - you type the new value,
   - you confirm your edits (which get logged),
   - or you swipe back (and abort your edits).
