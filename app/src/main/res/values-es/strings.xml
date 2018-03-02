@@ -24,4 +24,13 @@
     <string name="log_overrides">edit pending</string>
     <string name="n_of_plants">número de plantas</string>
     <string name="action_settings">Configuración</string>
+<string name="action_photo">toma una foto</string>
+    <string name="action_edit">cambia la identificación</string>
+    <string name="action_delete">la planta no existe</string>
+    <string name="action_plant_add">añade planta</string>
+    <string name="take_picture">toma una foto</string>
+    <string name="mark_dead">pon en cero</string>
+    <string name="picture_of_nothing">no hay nada a que asociar la foto</string>
+    <string name="unavailable_camera">no tengo cámara a disposición</string>
+    <string name="grab_position">graba la posición</string>
 </resources>
