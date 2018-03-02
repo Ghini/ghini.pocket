@@ -3,7 +3,7 @@
     <string name="not_found">Introuvable : %s</string>
     <string name="button_scan">Scan</string>
     <string name="button_send">Rechercher</string>
-    <string name="edit_message">Entrez un code de plante</string>
+    <string name="edit_message">entrez un code de plante</string>
     <string name="missing_web_browser">Aucune application ne peut gérer cette demande. Veuillez installer un navigateur web</string>
     <string name="binomial">Binôme</string>
     <string name="family">Famille</string>
@@ -22,4 +22,13 @@
     <string name="mark_dead">mark as dead</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
     <string name="log_overrides">edit pending</string>
+<string name="action_photo">prendre une photo</string>
+    <string name="action_edit">changer le taxon</string>
+    <string name="action_delete">la plante a mort</string>
+    <string name="action_plant_add">ajouter cette plante</string>
+    <string name="take_picture">prenez une photo</string>
+    <string name="n_of_plants">nombre de plantes</string>
+    <string name="picture_of_nothing">Je ne peux pas vous laisser prendre une photo de rien</string>
+    <string name="unavailable_camera">Caméra non disponible</string>
+    <string name="grab_position">prenez position</string>
 </resources>

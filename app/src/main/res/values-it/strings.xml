@@ -24,5 +24,11 @@
     <string name="collect_instructions"/>
     <string name="log_overrides">Modifica in sospeso</string>
     <string name="n_of_plants"># di piante</string>
+    <string name="action_delete">marca come morta</string>
+    <string name="action_edit">correggi l\'identificazione</string>
+    <string name="action_plant_add">aggiungi pianta</string>
+    <string name="action_photo">scatta una foto</string>
+    <string name="picture_of_nothing">non c\'è nulla a cui associare la foto</string>
+    <string name="unavailable_camera">apparato fotografico non disponibile</string>
+    <string name="grab_position">registra la posizione</string>
 </resources>
-
