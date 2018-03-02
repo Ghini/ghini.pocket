@@ -22,7 +22,7 @@
     <string name="mark_dead">mark as dead</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
     <string name="log_overrides">edit pending</string>
-<string name="action_photo">prendre une photo</string>
+    <string name="action_photo">prendre une photo</string>
     <string name="action_edit">changer le taxon</string>
     <string name="action_delete">la plante a mort</string>
     <string name="action_plant_add">ajouter cette plante</string>
