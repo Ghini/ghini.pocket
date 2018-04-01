@@ -27,4 +27,5 @@
     <string name="n_of_plants"># of plants</string>
     <string name="unavailable_camera">camera is not available</string>
     <string name="grab_position">grab position</string>
+    <string name="no_match">nothing matches</string>
 </resources>

@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
     public void executeSearch(String fromScan) {
         logSearch();
-        String fullPlantCode = String.format(getString(R.string.not_found), fromScan);
+        String fullPlantCode = fromScan;
 
         String family = "";
         String acqDate = "";
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
         String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
         if (accessionCode.equalsIgnoreCase("settings")) {
-            fullPlantCode = filename;
+            family = filename;
         } else {
             try {
                 SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
@@ -252,7 +252,8 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
                 plantId = resultSet.getInt(12);
                 resultSet.close();
             } catch (CursorIndexOutOfBoundsException e) {
-                Toast.makeText(this, "nothing matches", Toast.LENGTH_SHORT).show();
+                family = getString(R.string.no_match);
+                Toast.makeText(this, R.string.no_match, Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 family = e.getClass().getSimpleName();
                 location = e.getLocalizedMessage().substring(0, 25).concat(" ...");
