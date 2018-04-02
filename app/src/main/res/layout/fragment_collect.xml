@@ -31,12 +31,12 @@
         app:layout_constraintBottom_toBottomOf="@+id/etCollectSpecies"
         app:layout_constraintLeft_toLeftOf="@+id/tvCollectAccession" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/etCollectSpecies"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:inputType="text"
+        android:inputType="textNoSuggestions"
         android:textSize="18sp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/tvCollectSpeciesLabel"

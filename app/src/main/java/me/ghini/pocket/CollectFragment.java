@@ -7,6 +7,8 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -52,6 +54,12 @@ public class CollectFragment extends FragmentWithState {
                 ((CheckBox) rootView.findViewById(R.id.cbCollectOverride)).setChecked(true);
             }
         });
+        TaxonomyDatabase db = new TaxonomyDatabase(getContext());
+        EpithetAdapter hints = new EpithetAdapter(getContext(),
+                android.R.layout.select_dialog_item, db.getAllGenera());
+        AutoCompleteTextView widget = rootView.findViewById(R.id.etCollectSpecies);
+        widget.setThreshold(2); // start hinting from second character
+        widget.setAdapter(hints);
         return rootView;
     }
 

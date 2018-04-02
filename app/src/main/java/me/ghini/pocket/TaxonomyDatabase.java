@@ -10,6 +10,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mario on 2018-04-01.
@@ -25,6 +27,15 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
         setForcedUpgrade();
     }
 
+    List<Epithet> getAllGenera() {
+        Cursor cr = getMatchingGenera("");
+        ArrayList<Epithet> r = new ArrayList<>();
+        while (cr.moveToNext()) {
+            r.add(new Epithet(cr.getString(0), cr.getString(4)));
+        }
+        return r;
+    }
+
     Cursor getMatchingGenera(String s) {
         String field;
         if(s.toUpperCase().equals(s)) {
@@ -37,7 +48,7 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
         Cursor c = null;
         for (int rank = 5; rank >= 0; rank--) {
             c = db.rawQuery(
-                    "select epithet, authorship, accepted_id, parent_id " +
+                    "select epithet, authorship, accepted_id, parent_id, metaphone " +
                             "from taxon " +
                             "where rank = ? and " + field + " like ? " +
                             "order by epithet",
@@ -53,7 +64,7 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
      * @param epithet the epithet to simplify
      * @return the typo-tolerant equivalent
      */
-    private String shorten(String epithet) {
+    static String shorten(String epithet) {
         epithet = epithet.toLowerCase();  // ignore case
         epithet = epithet.replaceAll("-", "");  // remove hyphen
         epithet = epithet.replaceAll("c([yie])", "z$1");  // palatal c sounds like z
