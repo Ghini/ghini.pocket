@@ -18,18 +18,27 @@ public class EpithetAdapter extends ArrayAdapter<Epithet> {
     private Filter mFilter = new Filter() {
         @Override
         public String convertResultToString(Object resultValue) {
-            return ((Epithet)resultValue).show;
+            return ((Epithet)resultValue).epithet;
         }
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
             if (constraint != null) {
-                String phonetic = TaxonomyDatabase.shorten(constraint.toString());
+                String exact = constraint.toString();
+                String phonetic = TaxonomyDatabase.shorten(exact);
+                exact = exact.substring(0, 1).toUpperCase() + exact.substring(1).toLowerCase();
                 ArrayList<Epithet> suggestions = new ArrayList<>();
                 for (Epithet epithet : mEpithets) {
-                    if (epithet.phonetic.startsWith(phonetic)) {
-                        suggestions.add(epithet);
+                    if (epithet.isExact) {
+                        if (epithet.epithet.startsWith(exact)) {
+                            suggestions.add(epithet);
+                        }
+                    } else {
+                        if (epithet.phonetic.startsWith(phonetic) &&
+                                !epithet.epithet.startsWith(exact)) {
+                            suggestions.add(epithet);
+                        }
                     }
                 }
 
@@ -53,9 +62,14 @@ public class EpithetAdapter extends ArrayAdapter<Epithet> {
 
     EpithetAdapter(Context context, int textViewResourceId, List<Epithet> epithets) {
         super(context, textViewResourceId, epithets);
-        // copy all the epithets into a master list
-        mEpithets = new ArrayList<>(epithets.size());
+        // copy all the epithets twice
+        mEpithets = new ArrayList<>(epithets.size() * 2);
+        // first to be used as exact matches (String×4 constructor)
         mEpithets.addAll(epithets);
+        // then again to be used as phonetic matches (copy constructor)
+        for(Epithet e : epithets) {
+            mEpithets.add(new Epithet(e));
+        }
     }
 
     @NonNull

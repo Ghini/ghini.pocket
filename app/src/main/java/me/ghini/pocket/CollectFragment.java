@@ -55,8 +55,10 @@ public class CollectFragment extends FragmentWithState {
             }
         });
         TaxonomyDatabase db = new TaxonomyDatabase(getContext());
+        // we add all epithets twice, once for literal match, once for phonetic match
+        List<Epithet> allEpithets = db.getAllGenera();
         EpithetAdapter hints = new EpithetAdapter(getContext(),
-                android.R.layout.select_dialog_item, db.getAllGenera());
+                android.R.layout.select_dialog_item, allEpithets);
         AutoCompleteTextView widget = rootView.findViewById(R.id.etCollectSpecies);
         widget.setThreshold(2); // start hinting from second character
         widget.setAdapter(hints);

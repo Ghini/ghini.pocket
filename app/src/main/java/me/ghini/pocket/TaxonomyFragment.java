@@ -10,20 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.widget.TextView;
-
-import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import static me.ghini.pocket.MainActivity.GENUS;
 
@@ -36,8 +28,9 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
     List<String> stringList;  // think of it as the model.
     ArrayAdapter<String> listAdapter;  // and this would be the presenter
 
-    // change this static field to calculate the metaphone codes
-    public static boolean recomputeMetaphone = false;
+    // change this static field to calculate the phonetic 'metaphone' codes,
+    // and genus→family_name
+    public static boolean refreshDatabase = false;
     EditText taxonomySearch = null;
 
     public TaxonomyFragment() {
@@ -108,10 +101,10 @@ public class TaxonomyFragment extends android.support.v4.app.Fragment {
         }
         try {
             TaxonomyDatabase db = new TaxonomyDatabase(getContext());
-            if (recomputeMetaphone) {
+            if (refreshDatabase) {
                 String filename = new File(getActivity().getExternalFilesDir(null), "metaphone.sql").getAbsolutePath();
                 db.updateMetaphone(filename);
-                recomputeMetaphone = false;
+                refreshDatabase = false;
             }
             Cursor cr = db.getMatchingGenera(s);
 
