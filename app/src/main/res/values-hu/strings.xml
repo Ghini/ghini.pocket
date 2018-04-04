@@ -31,4 +31,5 @@
     <string name="picture_of_nothing">Üres kép nem készíthető</string>
     <string name="unavailable_camera">a kamera nem elérhető</string>
     <string name="grab_position">ezen pozíció használata</string>
+<string name="no_match">nincs találat</string>
 </resources>
