@@ -25,4 +25,12 @@
     <string name="mark_dead">mark as dead</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
     <string name="log_overrides">edit pending</string>
+<string name="action_photo">kép készítése</string>
+    <string name="action_edit">taxon megváltoztatása</string>
+    <string name="action_delete">a növény elpusztult</string>
+    <string name="action_plant_add">a növény hozzáadása</string>
+    <string name="n_of_plants">növények száma</string>
+    <string name="picture_of_nothing">Üres kép nem készíthető</string>
+    <string name="unavailable_camera">a kamera nem elérhető</string>
+    <string name="grab_position">ezen pozíció használata</string>
 </resources>
