@@ -14,17 +14,12 @@
     <string name="location">Plassering</string>
     <string name="wikipedia">Wikipedia</string>
     <string name="empty_lookup">kan ikke sjekke tom streng</string>
-    <string name="collect">Samle</string>
     <string name="next">Neste</string>
     <string name="zero_log">tilbakestill logg</string>
     <string name="location_code">Skriv inn plasseringskode</string>
-    <string name="action_settings">Innstillinger</string>
     <string name="search_message">Skriv inn en plantekode</string>
 <string name="log_overrides">Redigering venter</string>
 
-    <string name="action_photo">ta et bilde</string>
-    <string name="action_delete">en plante har dødd</string>
-    <string name="action_plant_add">legg til denne planten</string>
     <string name="save_to_log">lagre til loggfil</string>
     <string name="take_picture">ta et bilde</string>
     <string name="mark_dead">merk som død</string>

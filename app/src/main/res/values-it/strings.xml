@@ -15,10 +15,8 @@
     <string name="wikipedia">Wikipedia</string>
     <string name="empty_lookup">specificare una ricerca</string>
     <string name="next">Ancora</string>
-    <string name="collect">Correggi</string>
     <string name="zero_log">vuotare il giornale</string>
     <string name="location_code">Inserire codice ubicazione</string>
-    <string name="action_settings">Configurazione</string>
     <string name="search_message">Inserire il codice di una pianta</string>
     <string name="save_to_log">salva nel file di log</string>
     <string name="take_picture">scatta una foto</string>
@@ -29,7 +27,7 @@
     <string name="action_delete">marca come morta</string>
     <string name="action_edit">correggi l\'identificazione</string>
     <string name="action_plant_add">aggiungi pianta</string>
-<string name="action_photo">scatta una foto</string>
+    <string name="action_photo">scatta una foto</string>
     <string name="picture_of_nothing">non c\'è nulla a cui associare la foto</string>
     <string name="unavailable_camera">apparato fotografico non disponibile</string>
     <string name="grab_position">registra la posizione</string>

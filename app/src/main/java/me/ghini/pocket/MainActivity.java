@@ -22,6 +22,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -71,10 +73,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     private final List<Fragment> fragmentList = new ArrayList<>(4);
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
     public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
-    private TaxonomyFragment taxonomyFragment = null;
-    private SearchFragment searchFragment = null;
-    private ResultsFragment resultsFragment = null;
-    private CollectFragment collectFragment = null;
+    FragmentWithState collectFragment = null;
     LocationManager locationManager;
     private Uri imageUri;
     private static final int TAKE_PICTURE = 1978;
@@ -83,14 +82,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
     public MainActivity() {
         // create the fragments
-        taxonomyFragment = new TaxonomyFragment();
-        searchFragment = new SearchFragment();
-        resultsFragment = new ResultsFragment();
-        collectFragment = new CollectFragment();
-        fragmentList.add(taxonomyFragment);
-        fragmentList.add(searchFragment);
-        fragmentList.add(resultsFragment);
-        fragmentList.add(collectFragment);
+        fragmentList.add(new TaxonomyFragment());
+        fragmentList.add(new SearchFragment());
+        fragmentList.add(new ResultsFragment());
+        Fragment fragment = new CollectFragment();
+        fragmentList.add(fragment);
+        collectFragment = (FragmentWithState) fragment;
     }
 
     /**
@@ -168,25 +165,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         mViewPager.setCurrentItem(SEARCH_PAGE);
     }
 
-    public void onSearchZeroLog(View view) {
-        try {
-            String fileFormat = new File(getExternalFilesDir(null), "searches%s%s.txt").getAbsolutePath();
-            String filename = String.format(fileFormat, "", "");
-            File file = new File(filename);
-            if (file.length() > 0) {
-                Calendar calendar = Calendar.getInstance();
-                String timeStamp = simpleDateFormat.format(calendar.getTime());
-                String newNameForOldFile = String.format(fileFormat, "_", timeStamp);
-                File newFile = new File(newNameForOldFile);
-                //noinspection ResultOfMethodCallIgnored
-                file.renameTo(newFile);
-            }
-            new PrintWriter(filename).close();
-        } catch (FileNotFoundException e) {
-            Toast.makeText(this, "can't create log file", Toast.LENGTH_LONG).show();
-        }
-    }
-
     public void onSearchDoSearch(View view) {
         EditText locationText = findViewById(R.id.locationText);
         EditText searchText = findViewById(R.id.searchText);
@@ -202,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
     public void executeSearch(String fromScan) {
         logSearch();
-        String fullPlantCode = String.format(getString(R.string.not_found), fromScan);
+        String fullPlantCode = fromScan;
 
         String family = "";
         String acqDate = "";
@@ -226,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
         String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
         if (accessionCode.equalsIgnoreCase("settings")) {
-            fullPlantCode = filename;
+            family = filename;
         } else {
             try {
                 SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
@@ -274,7 +252,8 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
                 plantId = resultSet.getInt(12);
                 resultSet.close();
             } catch (CursorIndexOutOfBoundsException e) {
-                Toast.makeText(this, "nothing matches", Toast.LENGTH_SHORT).show();
+                family = getString(R.string.no_match);
+                Toast.makeText(this, R.string.no_match, Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 family = e.getClass().getSimpleName();
                 location = e.getLocalizedMessage().substring(0, 25).concat(" ...");
@@ -295,7 +274,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         state.putString(NO_OF_PLANTS, noOfPlants);
         state.putString(GENUS, genus_epithet);
 
-        state.putStringArrayList(PICTURE_NAMES, new ArrayList<String>());
         state.putInt(PLANT_ID, plantId);
 
         switchToPage(RESULT_PAGE);
@@ -317,56 +295,13 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         }
     }
 
-    // coming from CollectFragment
-    @SuppressLint("MissingPermission")
-    public void onCollectSaveToLog(View view) {
-        ArrayList<String> listOfNames = state.getStringArrayList(PICTURE_NAMES);
-        if (listOfNames == null) {
-            return;
-        }
-        String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
-        try {
-            SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
-            String query = "UPDATE plant SET edit_pending=1 WHERE _id=?";
-            Cursor resultSet = database.rawQuery(query, new String[]{String.valueOf(plantId)});
-            resultSet.moveToLast();
-            resultSet.close();
-        } catch (Exception ignore) {
-        }
-
-        StringBuilder sb = new StringBuilder();
-        Location location = null;
-        if(state.getBoolean(GRAB_POSITION, false)) {
-            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        }
-        if(location != null) {
-            sb.append(" : (");
-            sb.append(location.getLatitude());
-            sb.append(";");
-            sb.append(location.getLongitude());
-            sb.append(")");
-        } else {
-            sb.append(" : (-;-)");
-        }
-        for (String s : listOfNames) {
-            sb.append(" : ");
-            sb.append(s);
-        }
-
-        writeLogLine(String.format("%s : %s : %s%s",
-                state.getString(PLANT_CODE), state.getString(BINOMIAL),
-                state.getString(NO_OF_PLANTS), sb.toString()));
-
-        switchToPage(RESULT_PAGE);
-    }
-
     public void onCollectMakeZeroPlants(View view) {
         TextView t = (TextView)view;
         String previousValue = state.getString(NO_OF_PLANTS, "0");
         if(!previousValue.equals("0")) {
-            state.putString(NO_OF_PLANTS, "0");
-            state.putBoolean(OVERRIDE, true);
-            collectFragment.setArguments(state);
+            collectFragment.state.putString(NO_OF_PLANTS, "0");
+            collectFragment.state.putBoolean(OVERRIDE, true);
+            collectFragment.updateView();
         }
     }
 
@@ -375,9 +310,9 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         String newValue = String.valueOf(t.getText());
         String previousValue = state.getString(NO_OF_PLANTS, "0");
         if(!previousValue.equals(newValue)) {
-            state.putString(NO_OF_PLANTS, newValue);
-            state.putBoolean(OVERRIDE, true);
-            collectFragment.setArguments(state);
+            collectFragment.state.putString(NO_OF_PLANTS, newValue);
+            collectFragment.state.putBoolean(OVERRIDE, true);
+            collectFragment.updateView();
         }
     }
 
@@ -386,22 +321,18 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         String newValue = String.valueOf(t.getText());
         String previousValue = state.getString(BINOMIAL, "");
         if(!previousValue.equals(newValue)) {
-            state.putString(BINOMIAL, newValue);
-            state.putBoolean(OVERRIDE, true);
-            collectFragment.setArguments(state);
+            collectFragment.state.putString(BINOMIAL, newValue);
+            collectFragment.state.putBoolean(OVERRIDE, true);
+            collectFragment.updateView();
         }
     }
 
     public void onGrabPosition(View view) {
         CheckBox t = (CheckBox)view;
-        state.putBoolean(GRAB_POSITION, t.isChecked());
+        collectFragment.state.putBoolean(GRAB_POSITION, t.isChecked());
     }
 
     public void onCollectTakePicture(View view) {
-        if (state.get(PICTURE_NAMES) == null) {
-            Toast.makeText(this, R.string.picture_of_nothing, Toast.LENGTH_LONG).show();
-            return;
-        }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) == null) {
             Toast.makeText(this, R.string.unavailable_camera, Toast.LENGTH_LONG).show();
@@ -438,12 +369,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             }
             break;
             case TAKE_PICTURE: {
-                ArrayList<String> nameList = state.getStringArrayList(PICTURE_NAMES);
+                ArrayList<String> nameList = collectFragment.state.getStringArrayList(PICTURE_NAMES);
                 assert nameList != null;
                 nameList.add(String.valueOf(imageUri));
-                state.putStringArrayList(PICTURE_NAMES, nameList);
-                state.putBoolean(OVERRIDE, true);
-                collectFragment.setArguments(state);
+                collectFragment.state.putStringArrayList(PICTURE_NAMES, nameList);
+                collectFragment.state.putBoolean(OVERRIDE, true);
+                collectFragment.updateView();
             }
             break;
         }
@@ -455,6 +386,76 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         if (mViewPager.getCurrentItem() != page ) {
             mViewPager.setCurrentItem(page);
         }
+    }
+
+    public void onSearchZeroLog(View view) {
+        try {
+            String fileFormat = new File(getExternalFilesDir(null), "searches%s%s.txt").getAbsolutePath();
+            String filename = String.format(fileFormat, "", "");
+            File file = new File(filename);
+            if (file.length() > 0) {
+                Calendar calendar = Calendar.getInstance();
+                String timeStamp = simpleDateFormat.format(calendar.getTime());
+                String newNameForOldFile = String.format(fileFormat, "_", timeStamp);
+                File newFile = new File(newNameForOldFile);
+                //noinspection ResultOfMethodCallIgnored
+                file.renameTo(newFile);
+            }
+            new PrintWriter(filename).close();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, "can't create log file", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // coming from CollectFragment
+    @SuppressLint("MissingPermission")
+    public void onCollectSaveToLog(View view) {
+        ArrayList<String> listOfNames = collectFragment.state.
+                getStringArrayList(PICTURE_NAMES);
+        if (listOfNames == null) {
+            return;
+        }
+        // Fragment.state gets accepted in Activity.state,
+        // then we write in the local database that we have local edits,
+        // then we save the edits in the log file, so they can be imported,
+        // finally we move back to the ResultsFragment.
+        state.putAll(collectFragment.state);
+        String filename = new File(getExternalFilesDir(null), "pocket.db").
+                getAbsolutePath();
+        try {
+            SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
+            String query = "UPDATE plant SET edit_pending=1 WHERE _id=?";
+            Cursor resultSet = database.rawQuery(query, new String[]{String.valueOf(plantId)});
+            resultSet.moveToLast();
+            resultSet.close();
+        }
+        catch (Exception ignore) {
+        }
+
+        StringBuilder sb = new StringBuilder();
+        Location location = null;
+        if(state.getBoolean(GRAB_POSITION, false)) {
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+        if(location != null) {
+            sb.append("(");
+            sb.append(location.getLatitude());
+            sb.append(";");
+            sb.append(location.getLongitude());
+            sb.append(")");
+        } else {
+            sb.append("(@;@)");
+        }
+        for (String s : listOfNames) {
+            sb.append(" : ");
+            sb.append(s);
+        }
+
+        writeLogLine(String.format(" :PENDING_EDIT: %s : %s : %s : %s",
+                state.getString(PLANT_CODE), state.getString(BINOMIAL),
+                state.getString(NO_OF_PLANTS), sb.toString()));
+
+        switchToPage(RESULT_PAGE);
     }
 
     @SuppressLint("HardwareIds")
@@ -504,3 +505,4 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     }
 
 }
+

@@ -13,7 +13,7 @@ the garden, just by scanning a plant label.
 - Use **ghini.desktop** to export your garden database to a reduced SQLite3 database,
 - Copy the reduced database file to the device (this and the previous step you repeat from time to time),
 
-ghini.pocket has four pages: taxonomy review, search, results, and correction (not implemented yet).  When you 
+ghini.pocket has four pages: taxonomy review, search, results, and correction. 
   
 - While in the search page:
   
@@ -26,15 +26,15 @@ ghini.pocket has four pages: taxonomy review, search, results, and correction (n
   - follow the link to the relative Wikipedia page,
   - swipe back to the search page,
   - swipe further back to the taxonomy review page,
-  - swipe forward to the correction page (not implemented yet).
+  - swipe forward to the correction page.
 
-- In the correction page (not implemented yet):
+- In the correction page:
 
   - you see the data as last exported from ghini.desktop,
   - two buttons also allow you:
     - grabbing your current coordinates,
-    - taking a picture and associate it to the plant.
-  - you click and hold on the field you want to correct,
+    - taking pictures to be associated to the plant.
+  - you click on the field you want to correct,
   - you type the new value,
   - you confirm your edits (which get logged),
   - or you swipe back (and abort your edits).
@@ -87,18 +87,40 @@ persisted, so when the user swipes left or right to leave a `Fragment`, all
 that was written in the `Fragment` visible elements is lost and will be
 recovered from the database, according to the last searched plant code.
 
-The only persistent data written in a visible element is the searched plant
-code.
+Speaking in terms of database interaction, getting into a view, that is
+activating a `Fragment`, corresponds to begining a transaction.  There are
+two ways to close a transaction, that is either aborting or committing it.
+To swipe back corresponds to aborting the transaction while to activate the
+`write` button corresponds to committing it.
 
-Users can make the data written in the `CollectFragment` form manually
-persistent, by writing the values to the log file and into the
-`ghini.pocket` database.  Once your edits have been saved, `ghini.pocket`
-will show them, but it will also remind you that you are looking at locally
-edited data, meaning that what you now see does not necessarily match the
-central database.  Users should consider this as an alert: it is their task
-to import the log file in `ghini.desktop`, and to again export the database
-to `ghini.pocket`.
+The only `Fragment` which lets users provide data is the `CollectFragment`.
+Consequently, this is the only `Fragment` that has a `confirm` button to it.
 
-The internal `state` contains all that the user inserted in the visible
-elements and that was manually persisted.  In this, it just reflects the
-same contents as the `ghini.pocket` database
+To handle this, `CollectFragment` has its own `state`, that is kept for as
+long as the `Fragment` stays active, which is committed to the global
+`state` upon confirmation, which is overwritten with the global `state` when
+the `Fragment` becomes active again.
+
+Wherever we have callbacks in the `Activity` that need read/write access to
+the corresponding `Fragment` internal `state`, we have the `Fragment`
+implement `FragmentWithState`, an interface that exposes the internal
+`Fragment` `state` and offers an `updateView` method.  (Yes, it is
+cumbersome, and yes, I prefer Python dynamic types, and I wish we could
+define this all in the XSL gui definition file.)
+
+After you confirm your edits, `ghini.pocket` will save them in logs and
+local database, and it will show them as edited, but it will also remind you
+that you are looking at data containing edits which are local to your
+handheld device, meaning that what you now see does not necessarily match
+the central database.  Please consider this as an alert: it is you task to
+import the log file in `ghini.desktop`, and to again export the database to
+`ghini.pocket`.
+
+Pictures taken in the `CollectFragment` are saved when the user confirms the
+edits, and are removed and lost together with all other edits if the user
+swipes back to the `ResultFragment`, because all references to them are lost
+when the edits are not persisted in the logs.
+
+The global application `state` contains all that the user inserted in the
+visible elements and that was manually persisted.  In this, it just reflects
+the same contents as the `ghini.pocket` database

@@ -15,12 +15,9 @@
     <string name="wikipedia">Wikipedia</string>
     <string name="empty_lookup">Nicht möglich leere Zeile einzusehen</string>
     <string name="next">Nächste</string>
-    <string name="collect">Sammeln</string>
-<string name="location_code">Standortcode eingeben</string>
-    <string name="action_settings">Settings</string>
+    <string name="location_code">Standortcode eingeben</string>
     <string name="search_message">Code der Pflanze eingeben</string>
     <string name="zero_log">zero log</string>
-    <string name="mark_dead">mark as dead</string>
-    <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
+    <string name="mark_dead">gestorben</string>
     <string name="log_overrides">edit pending</string>
 </resources>
