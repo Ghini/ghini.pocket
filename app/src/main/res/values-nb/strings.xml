@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="edit_message">Skriv inn en plantekode</string>
+    <string name="edit_message">skriv inn en plantekode</string>
     <string name="button_scan">Skann</string>
     <string name="button_send">Søk</string>
     <string name="not_found">Ikke funnet: %s</string>
@@ -28,4 +28,5 @@
     <string name="picture_of_nothing">Jeg kan ikke la deg ta et bilde av ingenting</string>
     <string name="unavailable_camera">kameraet er ikke tilgjengelig</string>
     <string name="grab_position">ta med plasseringsdata</string>
+<string name="no_match">ingenting samsvarer</string>
 </resources>
