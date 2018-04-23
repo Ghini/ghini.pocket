@@ -118,8 +118,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             state.putInt(PLANT_ID, -1);
             state.putBoolean(GRAB_POSITION, false);
         }
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+        // we have permission to access location?
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        } else {
             locationManager = null;
         }
         setContentView(R.layout.activity_main);
@@ -345,7 +349,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
     public void onGrabPosition(View view) {
         CheckBox t = (CheckBox)view;
-        collectFragment.state.putBoolean(GRAB_POSITION, t.isChecked());
+        if(locationManager == null) {
+            t.setChecked(false);
+            Toast.makeText(this, R.string.permit_gps, Toast.LENGTH_SHORT).show();
+        } else {
+            collectFragment.state.putBoolean(GRAB_POSITION, t.isChecked());
+        }
     }
 
     public void onCollectTakePicture(View view) {
@@ -450,9 +459,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
         StringBuilder sb = new StringBuilder();
         Location location = null;
-        if(state.getBoolean(GRAB_POSITION, false)) {
-            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(state.getBoolean(GRAB_POSITION, true)) {
+            if (locationManager != null) {
+                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            }
         }
+
         if(location != null) {
             sb.append("(");
             sb.append(location.getLatitude());
@@ -481,7 +493,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         try {
             if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
         } catch (SecurityException e) {
-            Toast.makeText(this, "Please grant permission to get phone's IMEI.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.permit_imei, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }

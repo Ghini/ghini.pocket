@@ -28,4 +28,6 @@
     <string name="unavailable_camera">camera is not available</string>
     <string name="grab_position">grab position</string>
     <string name="no_match">nothing matches</string>
+    <string name="permit_imei">Please grant permission to get phone\'s IMEI.</string>
+    <string name="permit_gps">Please grant permission to read from your GPS.</string>
 </resources>
