@@ -2,6 +2,7 @@ package me.ghini.pocket;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     private static final int TAKE_PICTURE = 1978;
     private Bundle state;
     private int plantId = -1;
+    Activity that;
 
     public MainActivity() {
         // create the fragments
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         Fragment fragment = new CollectFragment();
         fragmentList.add(fragment);
         collectFragment = (FragmentWithState) fragment;
+        that = this;
     }
 
     /**
@@ -147,19 +151,27 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         mViewPager = findViewById(R.id.container);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
-                switchToPage(position);
+                if(position == 2) {
+                    EditText searchText = findViewById(R.id.searchText);
+                    String searchPlantCode = searchText.getText().toString();
+                    if (searchPlantCode.length() == 0) {
+                        Toast.makeText(that, R.string.empty_lookup, Toast.LENGTH_SHORT).show();
+                        switchToPage(1);
+                    } else {
+                        executeSearch(searchPlantCode);
+                        switchToPage(2);
+                    }
+                } else {
+                    switchToPage(position);
+                }
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(SEARCH_PAGE);
@@ -174,8 +186,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         state.putString("locationCode", locationCode);
         state.putString("searchedPlantCode", searchPlantCode);
 
-        executeSearch(searchPlantCode);
-        switchToPage(RESULT_PAGE);
+        if(searchPlantCode.length() > 0) {
+            executeSearch(searchPlantCode);
+            switchToPage(RESULT_PAGE);
+        } else {
+            Toast.makeText(this, R.string.empty_lookup, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void executeSearch(String fromScan) {
