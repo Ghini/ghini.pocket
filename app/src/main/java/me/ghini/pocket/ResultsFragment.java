@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import static me.ghini.pocket.MainActivity.BINOMIAL;
+import static me.ghini.pocket.MainActivity.DB_LOCATION_CODE;
 import static me.ghini.pocket.MainActivity.FAMILY;
 import static me.ghini.pocket.MainActivity.LOCATION_CODE;
 import static me.ghini.pocket.MainActivity.NO_OF_PICS;
@@ -65,7 +66,7 @@ public class ResultsFragment extends android.support.v4.app.Fragment {
             tvSpecies.setText(b.getString(BINOMIAL, ""));
             tvAcqDate.setText(b.getString("acqDate", ""));
             tvSource.setText(b.getString("source", ""));
-            tvLocation.setText(b.getString(LOCATION_CODE, ""));
+            tvLocation.setText(b.getString(DB_LOCATION_CODE, ""));
             tvDismissDate.setText(b.getString("dismissDate", ""));
             tvNoOfPics.setText(b.getString(NO_OF_PICS, "0"));
             cbOverride.setChecked(b.getBoolean(OVERRIDE, true));

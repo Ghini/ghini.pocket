@@ -7,9 +7,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -23,9 +20,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -41,15 +35,12 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.spec.ECField;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.google.zxing.integration.android.IntentIntegrator.REQUEST_CODE;
 
@@ -67,10 +58,14 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     static final String NO_OF_PLANTS = "noOfPlants";
     static final String GENUS = "genus";
     static final String PLANT_CODE = "fullPlantCode";
-    static final String LOCATION_CODE = "location";
+    static final String LOCATION_CODE = "locationCode";
+    static final String DB_LOCATION_CODE = "locationCodeDB";
     static final String PICTURE_NAMES = "file_name_list";
     static final String PLANT_ID = "plant_id";
     static final String GRAB_POSITION = "grab_position";
+    static final String SOURCE = "source";
+    static final String ACQUISITION = "acqDate";
+    static final String DISMISSAL = "dismissDate";
 
     private final List<Fragment> fragmentList = new ArrayList<>(4);
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
@@ -82,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     private Bundle state;
     private int plantId = -1;
     Activity that;
+    private DesktopSource desktopSource;
+    private PocketSource pocketSource;
+    private int lastPosition = 0;
 
     public MainActivity() {
         // create the fragments
@@ -91,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         Fragment fragment = new CollectFragment();
         fragmentList.add(fragment);
         collectFragment = (FragmentWithState) fragment;
+        pocketSource = new PocketSource(this);
+        desktopSource = new DesktopSource(this);
         that = this;
     }
 
@@ -133,12 +133,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
         // handle the fragments over to the adapter
         /*
-      The {@link android.support.v4.view.PagerAdapter} that provides
-      a fragment for each of the sections. We use a
-      {@link FragmentPagerAdapter} derivative, which keeps every
-      fragment in memory. If this becomes too memory intensive, switch to
-      {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+          The {@link android.support.v4.view.PagerAdapter} that provides
+          a fragment for each of the sections. We use a
+          {@link FragmentPagerAdapter} derivative, which keeps every
+          fragment in memory. If this becomes too memory intensive, switch to
+          {@link android.support.v4.app.FragmentStatePagerAdapter}.
+        */
         FragmentPagerAdapter mSectionsPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -159,19 +159,20 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
             @Override
             public void onPageSelected(int position) {
-                if(position == 2) {
+                if(position == RESULT_PAGE && lastPosition == SEARCH_PAGE) {
                     EditText searchText = findViewById(R.id.searchText);
                     String searchPlantCode = searchText.getText().toString();
                     if (searchPlantCode.length() == 0) {
                         Toast.makeText(that, R.string.empty_lookup, Toast.LENGTH_SHORT).show();
-                        switchToPage(1);
+                        switchToPage(SEARCH_PAGE);
                     } else {
                         executeSearch(searchPlantCode);
-                        switchToPage(2);
+                        switchToPage(RESULT_PAGE);
                     }
                 } else {
                     switchToPage(position);
                 }
+                lastPosition = position;
             }
 
             @Override
@@ -179,122 +180,27 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         });
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(SEARCH_PAGE);
+        lastPosition = SEARCH_PAGE;
     }
 
     public void onSearchDoSearch(View view) {
-        EditText locationText = findViewById(R.id.locationText);
-        EditText searchText = findViewById(R.id.searchText);
-        String searchPlantCode = searchText.getText().toString();
-        String locationCode = locationText.getText().toString();
-
-        state.putString("locationCode", locationCode);
-        state.putString("searchedPlantCode", searchPlantCode);
-
-        if(searchPlantCode.length() > 0) {
-            executeSearch(searchPlantCode);
-            switchToPage(RESULT_PAGE);
-        } else {
-            Toast.makeText(this, R.string.empty_lookup, Toast.LENGTH_SHORT).show();
-        }
+        switchToPage(RESULT_PAGE);
     }
 
     public void executeSearch(String fromScan) {
+        EditText locationText = findViewById(R.id.locationText);
+        String locationCode = locationText.getText().toString();
+        state.putString(LOCATION_CODE, locationCode);
+        try {
+            state.putAll(desktopSource.getAt(fromScan));
+            state.putAll(pocketSource.getAt(state.getString(PLANT_CODE)));
+        } catch (Exception e) {
+            state.putString(FAMILY, e.getClass().getSimpleName());
+            state.putString(LOCATION_CODE, e.getLocalizedMessage().substring(0, 25).concat(" ..."));
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
+        // log late, because searching might fill-in the plant code.
         logSearch();
-        String fullPlantCode = fromScan;
-
-        String family = "";
-        String acqDate = "";
-        String source = "";
-        String location = "";
-        String dismissDate = "";
-        String noOfPics = "";
-        String noOfPlants = "";
-        String species = "";
-        int editPending = 0;
-
-        String genus_epithet = "";
-        String accessionCode = fromScan;
-        String plantCode = ".1";
-        Pattern pattern = Pattern.compile("(.*)(\\.[1-9][0-9]?[0-9]?)");
-        Matcher m = pattern.matcher(fromScan);
-        if (m.find()) {
-            accessionCode = m.group(1);
-            plantCode = m.group(2);
-        }
-
-        String filename = new File(getExternalFilesDir(null), "pocket.db").getAbsolutePath();
-        if (accessionCode.equalsIgnoreCase("settings")) {
-            family = filename;
-        } else {
-            try {
-                SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
-                String query = "SELECT s.family, s.genus, s.epithet, " +
-                        "a.code, p.code, a.source, p.location, " +
-                        "a.start_date, p.end_date, p.n_of_pics, p.quantity, p.edit_pending," +
-                        "p._id " +
-                        "FROM species s, accession a, plant p " +
-                        "WHERE p.accession_id = a._id " +
-                        "AND a.species_id = s._id " +
-                        "AND a.code = ? " +
-                        "AND p.code = ? ";
-                Cursor resultSet = database.rawQuery(query, new String[]{accessionCode, plantCode});
-                resultSet.moveToFirst();
-                family = resultSet.getString(0);
-                genus_epithet = resultSet.getString(1);
-                String sp_epithet = resultSet.getString(2);
-                if (sp_epithet == null)
-                    sp_epithet = "";
-                if (genus_epithet.startsWith("Zzz"))
-                    genus_epithet = "";
-                if (genus_epithet.startsWith("Zz") && genus_epithet.length() > 4)
-                    genus_epithet = genus_epithet.substring(4);
-                if (!genus_epithet.equals("") && !sp_epithet.equals("sp") && !sp_epithet.equals("")) {
-                    species = genus_epithet + " " + sp_epithet;
-                } else {
-                    species = genus_epithet;
-                }
-                fullPlantCode = resultSet.getString(3) + resultSet.getString(4);
-                source = resultSet.getString(5);
-                location = resultSet.getString(6);
-                acqDate = resultSet.getString(7);
-                try {
-                    acqDate = acqDate.substring(0, 16);
-                } catch (Exception ignored) {
-                }
-                dismissDate = resultSet.getString(8);
-                try {
-                    dismissDate = dismissDate.substring(0, 16);
-                } catch (Exception ignored) {
-                }
-                noOfPics = String.valueOf(resultSet.getInt(9));
-                noOfPlants = String.valueOf(resultSet.getInt(10));
-                editPending = resultSet.getInt(11);
-                plantId = resultSet.getInt(12);
-                resultSet.close();
-            } catch (CursorIndexOutOfBoundsException e) {
-                family = getString(R.string.no_match);
-                Toast.makeText(this, R.string.no_match, Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                family = e.getClass().getSimpleName();
-                location = e.getLocalizedMessage().substring(0, 25).concat(" ...");
-                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-
-        state.putString(PLANT_CODE, fullPlantCode);
-        state.putString(FAMILY, family);
-        state.putString(BINOMIAL, species);
-        state.putString("acqDate", acqDate);
-        state.putString("source", source);
-        state.putString(LOCATION_CODE, location);
-        state.putString("dismissDate", dismissDate);
-        state.putString(NO_OF_PICS, noOfPics);
-        state.putBoolean(OVERRIDE, editPending != 0);
-
-        state.putString(NO_OF_PLANTS, noOfPlants);
-        state.putString(GENUS, genus_epithet);
-
-        state.putInt(PLANT_ID, plantId);
 
         switchToPage(RESULT_PAGE);
     }
@@ -315,6 +221,10 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         }
     }
 
+    public void onResultsTaxonomy(View view) {
+        switchToPage(TAXONOMY_PAGE);
+    }
+
     public void onCollectMakeZeroPlants(View view) {
         TextView t = (TextView)view;
         String previousValue = state.getString(NO_OF_PLANTS, "0");
@@ -332,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         if(!previousValue.equals(newValue)) {
             collectFragment.state.putString(NO_OF_PLANTS, newValue);
             collectFragment.state.putBoolean(OVERRIDE, true);
-            collectFragment.updateView();
         }
     }
 
@@ -343,7 +252,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         if(!previousValue.equals(newValue)) {
             collectFragment.state.putString(BINOMIAL, newValue);
             collectFragment.state.putBoolean(OVERRIDE, true);
-            collectFragment.updateView();
         }
     }
 
@@ -440,30 +348,22 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         if (listOfNames == null) {
             return;
         }
-        // Fragment.state gets accepted in Activity.state,
-        // then we write in the local database that we have local edits,
-        // then we save the edits in the log file, so they can be imported,
-        // finally we move back to the ResultsFragment.
-        state.putAll(collectFragment.state);
-        String filename = new File(getExternalFilesDir(null), "pocket.db").
-                getAbsolutePath();
-        try {
-            SQLiteDatabase database = openOrCreateDatabase(filename, MODE_PRIVATE, null);
-            String query = "UPDATE plant SET edit_pending=1 WHERE _id=?";
-            Cursor resultSet = database.rawQuery(query, new String[]{String.valueOf(plantId)});
-            resultSet.moveToLast();
-            resultSet.close();
-        }
-        catch (Exception ignore) {
+
+        Location location = null;
+        if(state.getBoolean(GRAB_POSITION, true) && locationManager != null) {
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
 
+        // Fragment.state gets accepted in Activity.state,
+        // then we write in the local database that we have local edits,
+        // then we write the local edits to the local database,
+        // then we save the edits in the log file, so they can be imported,
+        // finally we move back to the ResultsFragment.
+
+        pocketSource.putAt(plantId, collectFragment.getState());
+        state.putAll(collectFragment.getState());
+
         StringBuilder sb = new StringBuilder();
-        Location location = null;
-        if(state.getBoolean(GRAB_POSITION, true)) {
-            if (locationManager != null) {
-                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            }
-        }
 
         if(location != null) {
             sb.append("(");
@@ -479,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             sb.append(s);
         }
 
-        writeLogLine(String.format(" :PENDING_EDIT: %s : %s : %s : %s",
+        writeLogLine("PENDING_EDIT", String.format("%s : %s : %s : %s",
                 state.getString(PLANT_CODE), state.getString(BINOMIAL),
                 state.getString(NO_OF_PLANTS), sb.toString()));
 
@@ -497,19 +397,19 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         } catch (Exception e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
-        String locationCode = state.getString("locationCode");
+        String locationCode = state.getString(LOCATION_CODE);
         String fullPlantCode = state.getString(PLANT_CODE);
-        writeLogLine(String.format("%s : %s : %s", locationCode, fullPlantCode, deviceId));
+        writeLogLine("INVENTORY", String.format("%s : %s : %s", locationCode, fullPlantCode, deviceId));
     }
 
-    private void writeLogLine(String line) {
+    private void writeLogLine(String tag, String line) {
         Calendar calendar = Calendar.getInstance();
         String timeStamp = simpleDateFormat.format(calendar.getTime());
         PrintWriter out = null;
         try {
             String filename = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
             out = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)));
-            out.println(String.format("%s : %s", timeStamp, line));
+            out.println(String.format("%s :%s: %s", timeStamp, tag, line));
         } catch (IOException e) {
             Toast.makeText(this, "can't write to log", Toast.LENGTH_SHORT).show();
         } finally {

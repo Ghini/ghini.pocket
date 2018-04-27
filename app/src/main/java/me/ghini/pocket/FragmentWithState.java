@@ -13,4 +13,5 @@ abstract class FragmentWithState extends Fragment {
         state = new Bundle();
     }
     public abstract void updateView();
+    public Bundle getState() { return state; }
 }

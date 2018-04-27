@@ -31,6 +31,7 @@ import static me.ghini.pocket.MainActivity.PLANT_CODE;
 public class CollectFragment extends FragmentWithState {
     private Uri imageUri;
     private int TAKE_PICTURE=1928003;
+    private boolean updating;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -46,12 +47,16 @@ public class CollectFragment extends FragmentWithState {
             @Override
             public void afterTextChanged(Editable editable) {
                 ((CheckBox) rootView.findViewById(R.id.cbCollectOverride)).setChecked(true);
+                if (!updating)
+                    ((MainActivity)getActivity()).onBinomialEdit(rootView.findViewById(R.id.etCollectSpecies));
             }
         });
         ((EditText) rootView.findViewById(R.id.etCollectNumberOfPlants)).addTextChangedListener(new AfterTextChangedWatcher(rootView) {
             @Override
             public void afterTextChanged(Editable editable) {
                 ((CheckBox) rootView.findViewById(R.id.cbCollectOverride)).setChecked(true);
+                if (!updating)
+                    ((MainActivity)getActivity()).onNumberEdit(rootView.findViewById(R.id.etCollectNumberOfPlants));
             }
         });
         TaxonomyDatabase db = new TaxonomyDatabase(getContext());
@@ -75,6 +80,7 @@ public class CollectFragment extends FragmentWithState {
 
     @Override
     public void updateView() {
+        updating = true;
         TextView t = getActivity().findViewById(R.id.tvCollectAccession);
         t.setText(state.getString(PLANT_CODE, ""));
         t = getActivity().findViewById(R.id.etCollectSpecies);
@@ -87,5 +93,6 @@ public class CollectFragment extends FragmentWithState {
         v.setChecked(state.getBoolean(GRAB_POSITION, false));
         v = getActivity().findViewById(R.id.cbCollectOverride);
         v.setChecked(state.getBoolean(OVERRIDE, false));
+        updating = false;
     }
 }

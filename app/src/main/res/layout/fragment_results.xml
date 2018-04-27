@@ -187,4 +187,17 @@
         app:layout_constraintLeft_toLeftOf="@+id/tvAccession"
         app:layout_constraintTop_toTopOf="@+id/wikipedia" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="onResultsTaxonomy"
+        android:text="Taxonomy"
+        app:layout_constraintBottom_toBottomOf="@+id/wikipedia"
+        app:layout_constraintEnd_toStartOf="@+id/wikipedia"
+        app:layout_constraintStart_toEndOf="@+id/next"
+        app:layout_constraintTop_toTopOf="@+id/wikipedia" />
+
 </android.support.constraint.ConstraintLayout>
