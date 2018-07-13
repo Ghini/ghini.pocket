@@ -1,27 +1,30 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="button_send">Zoeken</string>
-    <string name="edit_message">Plantcode invoegen</string>
-    <string name="n_of_pictures">Aantal plaatjes</string>
-    <string name="next">Nogmaals</string>
+    <string name="edit_message">Plantcode invoeren</string>
+    <string name="n_of_pictures">Aantal afbeeldingen</string>
+    <string name="next">Volgende</string>
 <string name="not_found">Niet gevonden: %s</string>
     <string name="source">Bron</string>
     <string name="family">Familie</string>
     <string name="binomial">Binomiaal</string>
     <string name="acquisition">Acquisitie</string>
-    <string name="location">Plaatsing</string>
+    <string name="location">Locatie</string>
     <string name="wikipedia">Wikipedia</string>
     <string name="empty_lookup">Typ een code in</string>
     <string name="zero_log">Log leegmaken</string>
-    <string name="location_code">plaatsingscode</string>
-    <string name="search_message">Plantcode invoegen</string>
+    <string name="location_code">Locatiecode invoeren</string>
+    <string name="search_message">Plantencode invoeren</string>
     <string name="dismission">Weggehaald</string>
     <string name="button_scan">Scannen</string>
     <string name="missing_web_browser">Geen programma is met deze actie geassocieerd. Instaleer een browser aub.</string>
-    <string name="save_to_log">save to log file</string>
-    <string name="take_picture">take a picture</string>
-    <string name="mark_dead">mark as dead</string>
+    <string name="save_to_log">opslaan in logboek</string>
+    <string name="take_picture">Neem een foto</string>
+    <string name="mark_dead">noteer als dood</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
-    <string name="log_overrides">edit pending</string>
+    <string name="log_overrides">verbetering in wachtrij</string>
     <string name="n_of_plants">aantal planten</string>
+<string name="unavailable_camera">camera is niet beschikbaar</string>
+    <string name="grab_position">noteer de GPS-locatie</string>
+    <string name="no_match">niets komt over</string>
 </resources>
