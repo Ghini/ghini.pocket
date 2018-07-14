@@ -29,4 +29,6 @@
     <string name="unavailable_camera">kameraet er ikke tilgjengelig</string>
     <string name="grab_position">ta med plasseringsdata</string>
 <string name="no_match">ingenting samsvarer</string>
+<string name="permit_imei">Innvilg tilgang for å hente telefonens IMEI-nummer.</string>
+    <string name="permit_gps">Innvilg tilgang for å lese data fra din GPS-enhet.</string>
 </resources>
