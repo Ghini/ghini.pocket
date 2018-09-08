@@ -36,6 +36,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -202,6 +205,33 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(SEARCH_PAGE);
         lastPosition = SEARCH_PAGE;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        // return true so that the menu pop up is opened
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.action_desktop:
+                break;
+            case R.id.action_rtfd:
+                break;
+            case R.id.action_news:
+                break;
+            case R.id.action_github:
+                break;
+            case R.id.action_about:
+                break;
+        }
+        return true;
     }
 
     public void onSearchDoSearch(View view) {
