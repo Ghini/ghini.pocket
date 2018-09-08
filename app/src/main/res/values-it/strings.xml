@@ -31,4 +31,6 @@
     <string name="picture_of_nothing">non c\'è nulla a cui associare la foto</string>
     <string name="unavailable_camera">apparato fotografico non disponibile</string>
     <string name="grab_position">registra la posizione</string>
+    <string name="action_github">Sito di sviluppo</string>
+    <string name="action_desktop">Connetti con g.desktop</string>
 </resources>

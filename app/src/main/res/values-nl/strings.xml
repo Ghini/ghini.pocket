@@ -27,4 +27,6 @@
 <string name="unavailable_camera">camera is niet beschikbaar</string>
     <string name="grab_position">noteer de GPS-locatie</string>
     <string name="no_match">niets komt overeen</string>
+    <string name="action_github">Ontwikkelingssite</string>
+    <string name="action_desktop">Verbind met g.desktop</string>
 </resources>

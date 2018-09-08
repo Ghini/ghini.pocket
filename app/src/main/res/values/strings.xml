@@ -30,4 +30,10 @@
     <string name="no_match">nothing matches</string>
     <string name="permit_imei">Please grant permission to get phone\'s IMEI.</string>
     <string name="permit_gps">Please grant permission to read from your GPS.</string>
+    <string name="action_github">Development Site</string>
+    <string name="action_rtfd">Online User Manual</string>
+    <string name="action_about">About …</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_desktop">Connect to g.desktop</string>
+    <string name="action_news">News</string>
 </resources>
