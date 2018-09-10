@@ -26,7 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DesktopClientActivity"></activity>
+        <activity android:name=".DesktopClientActivity" />
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>
