@@ -36,4 +36,12 @@
     <string name="action_settings">Settings</string>
     <string name="action_desktop">Connect to g.desktop</string>
     <string name="action_news">News</string>
+    <string name="user_name">User name</string>
+    <string name="security_code">Security code</string>
+    <string name="verify">Verify</string>
+    <string name="register">Register</string>
+    <string name="pull">Pull</string>
+    <string name="push">Push</string>
+    <string name="server_port">Server port</string>
+    <string name="server_address">Server address</string>
 </resources>
