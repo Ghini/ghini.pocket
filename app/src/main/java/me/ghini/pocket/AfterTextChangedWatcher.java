@@ -26,6 +26,7 @@ import android.view.View;
 
 abstract class AfterTextChangedWatcher implements TextWatcher {
     View rootView;
+    AfterTextChangedWatcher() { }
     AfterTextChangedWatcher(View view) { rootView = view; }
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {/*empty*/}

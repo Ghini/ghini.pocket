@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         }
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // handle the fragments over to the adapter
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         };
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             @Override
             public void onPageSelected(int position) {
                 if(position == RESULT_PAGE && lastPosition == SEARCH_PAGE) {
-                    EditText searchText = findViewById(R.id.searchText);
+                    EditText searchText = (EditText) findViewById(R.id.searchText);
                     String searchPlantCode = searchText.getText().toString();
                     if (searchPlantCode.length() == 0) {
                         Toast.makeText(that, R.string.empty_lookup, Toast.LENGTH_SHORT).show();
@@ -220,18 +220,32 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId())
         {
-            case R.id.action_desktop:
-                break;
+            case R.id.action_desktop: {
+                startDesktopClientActivity();
+            } break;
             case R.id.action_rtfd:
-                break;
             case R.id.action_news:
-                break;
-            case R.id.action_github:
-                break;
-            case R.id.action_about:
-                break;
+            case R.id.action_github: {
+                String url = "http://ghini.readthedocs.io/";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            } break;
+            case R.id.action_about: {
+                startAboutActivity();
+            } break;
         }
         return true;
+    }
+
+    private void startAboutActivity() {
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+    }
+
+    private void startDesktopClientActivity() {
+        Intent intent = new Intent(this, DesktopClientActivity.class);
+        startActivity(intent);
     }
 
     public void onSearchDoSearch(View view) {
@@ -239,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     }
 
     public void executeSearch(String fromScan) {
-        EditText locationText = findViewById(R.id.locationText);
+        EditText locationText = (EditText) findViewById(R.id.locationText);
         String locationCode = locationText.getText().toString();
         state.putString(LOCATION_CODE, locationCode);
         try {
@@ -257,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     }
 
     public void onResultsWikipedia(View view) {
-        TextView tvSpecies = findViewById(R.id.tvSpecies);
+        TextView tvSpecies = (TextView) findViewById(R.id.tvSpecies);
         String species = tvSpecies.getText().toString();
         try {
             if (species.equals(""))
@@ -345,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             case REQUEST_CODE: {
                 IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
                 if (scanResult != null) {
-                    EditText editText = findViewById(R.id.searchText);
+                    EditText editText = (EditText) findViewById(R.id.searchText);
                     String contents = scanResult.getContents();
                     editText.setText(contents);
                     onSearchDoSearch(null);
