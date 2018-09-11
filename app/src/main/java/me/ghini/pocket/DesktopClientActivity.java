@@ -54,6 +54,7 @@ public class DesktopClientActivity extends AppCompatActivity {
             state.putString(SERVER_IP_ADDRESS, "192.168.43.226");
             state.putString(SERVER_PORT, "44464");
             state.putString(USER_NAME, "");
+            state.putString(SECURITY_CODE, "");
         }
 
         // initialize references to widgets
@@ -72,31 +73,31 @@ public class DesktopClientActivity extends AppCompatActivity {
         etServerIPAddress.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
-                    afterTextViewChanged((TextView) target, SERVER_IP_ADDRESS);
+                    afterTextViewChanged(target, SERVER_IP_ADDRESS);
                 }
         });
         etServerPort.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
-                afterTextViewChanged((TextView) target, SERVER_PORT);
+                afterTextViewChanged(target, SERVER_PORT);
                 }
         });
         etUserName.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
-                afterTextViewChanged((TextView) target, USER_NAME);
+                afterTextViewChanged(target, USER_NAME);
                 }
         });
         etSecurityCode.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
-                afterTextViewChanged((TextView) target, SECURITY_CODE);
+                afterTextViewChanged(target, SECURITY_CODE);
                 }
         });
     }
 
-    private void afterTextViewChanged(TextView target, String fieldName) {
-        state.putString(fieldName, String.valueOf(target.getText()));
+    private void afterTextViewChanged(Editable target, String fieldName) {
+        state.putString(fieldName, String.valueOf(target.toString()));
     }
 
     private String recomputeUrlText() {

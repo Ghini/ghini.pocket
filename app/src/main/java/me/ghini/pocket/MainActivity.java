@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         super.onSaveInstanceState(state);
     }
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -206,6 +207,15 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(SEARCH_PAGE);
         lastPosition = SEARCH_PAGE;
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        try {
+            if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
+        } catch (SecurityException e) {
+            Toast.makeText(this, R.string.permit_imei, Toast.LENGTH_SHORT).show();
+            deviceId = "";
+        } catch (Exception e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -452,16 +462,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         switchToPage(RESULT_PAGE);
     }
 
-    @SuppressLint("HardwareIds")
     private void logSearch() {
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        try {
-            if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
-        } catch (SecurityException e) {
-            Toast.makeText(this, R.string.permit_imei, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        }
         String locationCode = state.getString(LOCATION_CODE);
         String fullPlantCode = state.getString(PLANT_CODE);
         writeLogLine("INVENTORY", String.format("%s : %s : %s", locationCode, fullPlantCode, deviceId));
