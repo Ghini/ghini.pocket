@@ -8,16 +8,10 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -25,6 +19,7 @@ import de.timroes.axmlrpc.XMLRPCCallback;
 import de.timroes.axmlrpc.XMLRPCClient;
 import de.timroes.axmlrpc.XMLRPCException;
 import de.timroes.axmlrpc.XMLRPCServerException;
+import de.timroes.base64.Base64;
 
 public class DesktopClientActivity extends AppCompatActivity {
 
@@ -217,9 +212,114 @@ public class DesktopClientActivity extends AppCompatActivity {
     }
 
     public void onPush(View view) {
+        final Activity activity = this;
+        try {
+            XMLRPCCallback listener = new XMLRPCCallback() {
+                public void onResponse(long id, Object result) {
+                    final Object o = result;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                public void onError(long id, XMLRPCException error) {
+                    final Object o = error;
+                    // Handling any error in the library
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                public void onServerError(long id, XMLRPCServerException error) {
+                    final Object o = error;
+                    // Handling an error response from the server
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            };
+            XMLRPCClient client = new XMLRPCClient(new URL(urlText));
+            client.callAsync(listener, "register", deviceId, state.getString(USER_NAME), securityCode);
+        } catch (MalformedURLException e) {
+            Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
+        } catch (Exception e){
+            Toast.makeText(this, "Some Error "+e, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onPull(View view) {
+        final Activity activity = this;
+        try {
+            XMLRPCCallback listener = new XMLRPCCallback() {
+                public void onResponse(long id, Object result) {
+                    final Object o = result;
+                    if(result instanceof Integer) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        String filename = new File(activity.getExternalFilesDir(null), "pocket.db").getAbsolutePath();
+                        FileOutputStream fos = null;
+                        try {
+                            fos = new FileOutputStream(filename);
+                            byte[] decoded = Base64.decode(result.toString());
+                            fos.write(decoded);
+                            fos.close();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(activity, "OK", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (Exception e) {
+                            final Exception ee = e;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(activity, ee.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                }
+                public void onError(long id, XMLRPCException error) {
+                    final Object o = error;
+                    // Handling any error in the library
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                public void onServerError(long id, XMLRPCServerException error) {
+                    final Object o = error;
+                    // Handling an error response from the server
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            };
+            XMLRPCClient client = new XMLRPCClient(new URL(urlText));
+            client.callAsync(listener, "current_snapshot", deviceId);
+        } catch (MalformedURLException e) {
+            Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
+        } catch (Exception e){
+            Toast.makeText(this, "Some Error "+e, Toast.LENGTH_SHORT).show();
+        }
     }
 }
 
