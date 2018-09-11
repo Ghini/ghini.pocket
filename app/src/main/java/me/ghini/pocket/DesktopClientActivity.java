@@ -1,17 +1,18 @@
 package me.ghini.pocket;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -21,20 +22,17 @@ import de.timroes.axmlrpc.XMLRPCException;
 import de.timroes.axmlrpc.XMLRPCServerException;
 import de.timroes.base64.Base64;
 
+import static me.ghini.pocket.MainActivity.deviceId;
+
 public class DesktopClientActivity extends AppCompatActivity {
 
     static final String SERVER_IP_ADDRESS = "ServerIPAddress";
     static final String SERVER_PORT = "ServerPort";
     static final String USER_NAME = "UserName";
+    static final String SECURITY_CODE = "SecurityCode";
 
     private Bundle state;
-    private String securityCode = "";
-    private String urlText;
-    private String deviceId = "";
-    private EditText etServerIPAddress;
-    private EditText etServerPort;
-    private EditText etSecurityCode;
-    private EditText etUserName;
+    Boolean abortLoop = false;
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
@@ -44,7 +42,11 @@ public class DesktopClientActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // basic initialization
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_desktop_client);
+
+        // restore state, or initialize it
         this.state = new Bundle();
         if (savedInstanceState != null) {
             state.putAll(savedInstanceState);
@@ -53,78 +55,67 @@ public class DesktopClientActivity extends AppCompatActivity {
             state.putString(SERVER_PORT, "44464");
             state.putString(USER_NAME, "");
         }
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        try {
-            if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
-        } catch (SecurityException e) {
-            Toast.makeText(this, R.string.permit_imei, Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        }
-        setContentView(R.layout.activity_desktop_client);
-        etServerIPAddress = (EditText) findViewById(R.id.etServerIPAddress);
+
+        // initialize references to widgets
+        EditText etServerIPAddress = findViewById(R.id.etServerIPAddress);
+        EditText etServerPort = findViewById(R.id.etServerPort);
+        EditText etUserName = findViewById(R.id.etUserName);
+        EditText etSecurityCode = findViewById(R.id.etSecurityCode);
+
+        // refresh widgets with state
+        etServerIPAddress.setText(state.getString(SERVER_IP_ADDRESS, ""));
+        etServerPort.setText(state.getString(SERVER_PORT, ""));
+        etUserName.setText(state.getString(USER_NAME, ""));
+        etSecurityCode.setText(state.getString(SECURITY_CODE, ""));
+
+        // set up edit callbacks as AfterTextChangedWatcher
         etServerIPAddress.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
-                    afterServerAddressChanged(target);
+                    afterTextViewChanged((TextView) target, SERVER_IP_ADDRESS);
                 }
         });
-        etServerPort = (EditText) findViewById(R.id.etServerPort);
         etServerPort.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
-                    afterServerPortChanged(target);
+                afterTextViewChanged((TextView) target, SERVER_PORT);
                 }
         });
-        etUserName = (EditText) findViewById(R.id.etUserName);
         etUserName.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
-                    afterUserNameChanged(target);
+                afterTextViewChanged((TextView) target, USER_NAME);
                 }
         });
-        etSecurityCode = (EditText) findViewById(R.id.etSecurityCode);
         etSecurityCode.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
-                    afterSecurityCodeChanged(target);
+                afterTextViewChanged((TextView) target, SECURITY_CODE);
                 }
         });
-        recomputeUrlText();
     }
 
-    private void afterSecurityCodeChanged(Editable target) {
-        securityCode = String.valueOf(etSecurityCode.getText());
+    private void afterTextViewChanged(TextView target, String fieldName) {
+        state.putString(fieldName, String.valueOf(target.getText()));
     }
 
-    private void afterServerPortChanged(Editable target) {
-        state.putString("ServerPort", String.valueOf(etServerPort.getText()));
-        recomputeUrlText();
-    }
-
-    private void afterUserNameChanged(Editable target) {
-        state.putString("UserName", String.valueOf(etUserName.getText()));
-    }
-
-    private void afterServerAddressChanged(Editable target) {
-        state.putString("ServerIPAddress", String.valueOf(etServerIPAddress.getText()));
-        recomputeUrlText();
-    }
-
-    private void recomputeUrlText() {
-        urlText = "http://"+ state.getString(SERVER_IP_ADDRESS) +":"+state.get(SERVER_PORT)+"/API1";
+    private String recomputeUrlText() {
+        return "http://" + state.getString(SERVER_IP_ADDRESS) + ":" + state.get(SERVER_PORT) + "/API1";
     }
 
     public void onVerify(final View view) {
         final Activity activity = this;
+        String urlText = recomputeUrlText();
         try {
             XMLRPCCallback listener = new XMLRPCCallback() {
                 public void onResponse(long id, Object result) {
                     final Object o = result;
-                    if((result instanceof Integer) && ((Integer) result).intValue() != 0) {
+                    if(result instanceof Integer) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                //If no user is registered for your phone, a notification will
+                                //briefly flash on your phone, asking you to please register.
                                 Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -163,13 +154,14 @@ public class DesktopClientActivity extends AppCompatActivity {
             client.callAsync(listener, "verify", deviceId);
         } catch (MalformedURLException e) {
             Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
-        } catch (Exception e){
-            Toast.makeText(this, "Some Error "+e, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Some Error " + e, Toast.LENGTH_SHORT).show();
         }
     }
 
     public void onRegister(View view) {
         final Activity activity = this;
+        String urlText = recomputeUrlText();
         try {
             XMLRPCCallback listener = new XMLRPCCallback() {
                 public void onResponse(long id, Object result) {
@@ -203,59 +195,72 @@ public class DesktopClientActivity extends AppCompatActivity {
                 }
             };
             XMLRPCClient client = new XMLRPCClient(new URL(urlText));
-            client.callAsync(listener, "register", deviceId, state.getString(USER_NAME), securityCode);
+            client.callAsync(listener, "register", deviceId, state.getString(USER_NAME), state.getString(SECURITY_CODE));
         } catch (MalformedURLException e) {
             Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
-        } catch (Exception e){
-            Toast.makeText(this, "Some Error "+e, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Some Error " + e, Toast.LENGTH_SHORT).show();
         }
     }
 
     public void onPush(View view) {
         final Activity activity = this;
+        String urlText = recomputeUrlText();
         try {
             XMLRPCCallback listener = new XMLRPCCallback() {
                 public void onResponse(long id, Object result) {
                     final Object o = result;
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    if((Integer)result != 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        abortLoop = true;
+                    }
                 }
                 public void onError(long id, XMLRPCException error) {
-                    final Object o = error;
-                    // Handling any error in the library
+                    final Exception e = error;
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
                         }
                     });
+                    abortLoop = true;
                 }
                 public void onServerError(long id, XMLRPCServerException error) {
-                    final Object o = error;
-                    // Handling an error response from the server
+                    final Exception e = error;
                     runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
-                        }
+                                @Override
+                                public void run() {
+                                    Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
+                                }
                     });
+                    abortLoop = true;
                 }
             };
             XMLRPCClient client = new XMLRPCClient(new URL(urlText));
-            client.callAsync(listener, "register", deviceId, state.getString(USER_NAME), securityCode);
+            String filename = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
+            abortLoop = false;
+            BufferedReader br = new BufferedReader(new FileReader(filename));
+            for (String line = br.readLine(); line!=null && !abortLoop; line=br.readLine()) {
+                // also construct list of picture names
+                client.callAsync(listener, "update_from_pocket", deviceId, line);
+            }
+            // Please don't be surprised if copying 20 high resolution pictures, over your high
+            // speed local network connection, ghini is making you wait a couple of minutes
         } catch (MalformedURLException e) {
             Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
-        } catch (Exception e){
-            Toast.makeText(this, "Some Error "+e, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Some Error " + e, Toast.LENGTH_SHORT).show();
         }
     }
 
     public void onPull(View view) {
         final Activity activity = this;
+        String urlText = recomputeUrlText();
         try {
             XMLRPCCallback listener = new XMLRPCCallback() {
                 public void onResponse(long id, Object result) {
@@ -269,9 +274,8 @@ public class DesktopClientActivity extends AppCompatActivity {
                         });
                     } else {
                         String filename = new File(activity.getExternalFilesDir(null), "pocket.db").getAbsolutePath();
-                        FileOutputStream fos = null;
                         try {
-                            fos = new FileOutputStream(filename);
+                            FileOutputStream fos = new FileOutputStream(filename);
                             byte[] decoded = Base64.decode(result.toString());
                             fos.write(decoded);
                             fos.close();
@@ -313,12 +317,14 @@ public class DesktopClientActivity extends AppCompatActivity {
                     });
                 }
             };
+            // This also resets the log, which gets anyway overruled by the new snapshot.  Since
+            // this is a potentially destructive operation, you need to confirm you really mean it.
             XMLRPCClient client = new XMLRPCClient(new URL(urlText));
             client.callAsync(listener, "current_snapshot", deviceId);
         } catch (MalformedURLException e) {
             Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
-        } catch (Exception e){
-            Toast.makeText(this, "Some Error "+e, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Some Error " + e, Toast.LENGTH_SHORT).show();
         }
     }
 }

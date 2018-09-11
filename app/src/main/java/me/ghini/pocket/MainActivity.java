@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     private DesktopSource desktopSource;
     private PocketSource pocketSource;
     private int lastPosition = 0;
+    public static String deviceId;
 
     public MainActivity() {
         // create the fragments
@@ -454,7 +455,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     @SuppressLint("HardwareIds")
     private void logSearch() {
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = "";
         try {
             if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
         } catch (SecurityException e) {
