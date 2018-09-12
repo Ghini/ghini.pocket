@@ -11,10 +11,14 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import de.timroes.axmlrpc.XMLRPCCallback;
 import de.timroes.axmlrpc.XMLRPCClient;
@@ -243,19 +247,34 @@ public class DesktopClientActivity extends AppCompatActivity {
                 }
             };
             XMLRPCClient client = new XMLRPCClient(new URL(urlText));
-            String filename = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
+            String logFileName = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
             abortLoop = false;
-            BufferedReader br = new BufferedReader(new FileReader(filename));
+            Set<String> pictures = new HashSet<>();
+            BufferedReader br = new BufferedReader(new FileReader(logFileName));
             for (String line = br.readLine(); line!=null && !abortLoop; line=br.readLine()) {
-                // also construct list of picture names
-                client.callAsync(listener, "update_from_pocket", deviceId, line);
+                client.callAsync(listener, "put_change", deviceId, line);
+                // are there any pictures?
+                Integer positionOfFirstFile = line.indexOf("file:///");
+                if(positionOfFirstFile > 0) {
+                    String[] names = line.substring(positionOfFirstFile).split(" : ");
+                    pictures.addAll(Arrays.asList(names));
+                }
             }
-            // Please don't be surprised if copying 20 high resolution pictures, over your high
-            // speed local network connection, ghini is making you wait a couple of minutes
+            for (String name:pictures) {
+                File file = new File(name.substring(7));
+                FileInputStream fis = new FileInputStream(file);
+                byte[] data = new byte[(int) file.length()];
+                //noinspection ResultOfMethodCallIgnored
+                fis.read(data);
+                fis.close();
+                String content64 = Base64.encode(data);
+                client.callAsync(listener, "put_picture", deviceId, file.getName(), content64);
+            }
+            br.close();
         } catch (MalformedURLException e) {
             Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(this, "Some Error " + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -321,7 +340,7 @@ public class DesktopClientActivity extends AppCompatActivity {
             // This also resets the log, which gets anyway overruled by the new snapshot.  Since
             // this is a potentially destructive operation, you need to confirm you really mean it.
             XMLRPCClient client = new XMLRPCClient(new URL(urlText));
-            client.callAsync(listener, "current_snapshot", deviceId);
+            client.callAsync(listener, "get_snapshot", deviceId);
         } catch (MalformedURLException e) {
             Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
