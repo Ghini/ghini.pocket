@@ -18,6 +18,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import de.timroes.axmlrpc.XMLRPCCallback;
@@ -36,7 +38,6 @@ public class DesktopClientActivity extends AppCompatActivity {
     static final String SECURITY_CODE = "SecurityCode";
 
     private Bundle state;
-    Boolean abortLoop = false;
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
@@ -222,7 +223,6 @@ public class DesktopClientActivity extends AppCompatActivity {
                                 Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
-                        abortLoop = true;
                     }
                 }
                 public void onError(long id, XMLRPCException error) {
@@ -233,7 +233,6 @@ public class DesktopClientActivity extends AppCompatActivity {
                             Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                    abortLoop = true;
                 }
                 public void onServerError(long id, XMLRPCServerException error) {
                     final Exception e = error;
@@ -243,16 +242,16 @@ public class DesktopClientActivity extends AppCompatActivity {
                                     Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
                                 }
                     });
-                    abortLoop = true;
                 }
             };
             XMLRPCClient client = new XMLRPCClient(new URL(urlText));
             String logFileName = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
-            abortLoop = false;
             Set<String> pictures = new HashSet<>();
+            List<String> lines = new LinkedList<>();
             BufferedReader br = new BufferedReader(new FileReader(logFileName));
-            for (String line = br.readLine(); line!=null && !abortLoop; line=br.readLine()) {
-                client.callAsync(listener, "put_change", deviceId, line);
+            // split lines and collect pictures
+            for (String line = br.readLine(); line!=null; line=br.readLine()) {
+                lines.add(line);
                 // are there any pictures?
                 Integer positionOfFirstFile = line.indexOf("file:///");
                 if(positionOfFirstFile > 0) {
@@ -260,6 +259,12 @@ public class DesktopClientActivity extends AppCompatActivity {
                     pictures.addAll(Arrays.asList(names));
                 }
             }
+            File pocket = new File(activity.getExternalFilesDir(null), "pocket.db");
+            long baseline = 0;  // with this baseline, server will reject all changes.
+            if (pocket.exists()) {
+                baseline = pocket.lastModified();
+            }
+            client.callAsync(listener, "put_change", deviceId, lines, baseline);
             for (String name:pictures) {
                 File file = new File(name.substring(7));
                 FileInputStream fis = new FileInputStream(file);
