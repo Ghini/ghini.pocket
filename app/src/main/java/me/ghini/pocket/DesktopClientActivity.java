@@ -244,7 +244,7 @@ public class DesktopClientActivity extends AppCompatActivity {
                     });
                 }
             };
-            XMLRPCClient client = new XMLRPCClient(new URL(urlText));
+            XMLRPCClient client = new XMLRPCClient(new URL(urlText), XMLRPCClient.FLAGS_8BYTE_INT);
             String logFileName = new File(getExternalFilesDir(null), "searches.txt").getAbsolutePath();
             Set<String> pictures = new HashSet<>();
             List<String> lines = new LinkedList<>();
