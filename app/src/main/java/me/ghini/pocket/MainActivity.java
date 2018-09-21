@@ -60,6 +60,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import static com.google.zxing.integration.android.IntentIntegrator.REQUEST_CODE;
 
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     private final List<Fragment> fragmentList = new ArrayList<>(4);
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
     public static final String FORMS_CHOOSER_INTENT_TYPE = "vnd.android.cursor.dir/vnd.odk.form";
-    FragmentWithState collectFragment = null;
+    FragmentWithState collectFragment;
     LocationManager locationManager;
     private Uri imageUri;
     private static final int TAKE_PICTURE = 1978;
@@ -211,11 +212,25 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         try {
             if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
         } catch (SecurityException e) {
-            Toast.makeText(this, R.string.permit_imei, Toast.LENGTH_SHORT).show();
-            deviceId = "";
+            //noinspection SpellCheckingInspection
+            Toast.makeText(this, "Creating non-persistent phone identifier.", Toast.LENGTH_LONG).show();
+            deviceId = generateRandomString(15);
         } catch (Exception e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private String generateRandomString(int length)
+    {
+        Random rng = new Random();
+        //noinspection SpellCheckingInspection
+        String characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        char[] text = new char[length];
+        for (int i = 0; i < length; i++)
+        {
+            text[i] = characters.charAt(rng.nextInt(characters.length()));
+        }
+        return new String(text);
     }
 
     @Override
@@ -302,7 +317,6 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     }
 
     public void onCollectMakeZeroPlants(View view) {
-        TextView t = (TextView)view;
         String previousValue = state.getString(NO_OF_PLANTS, "0");
         if(!previousValue.equals("0")) {
             collectFragment.state.putString(NO_OF_PLANTS, "0");

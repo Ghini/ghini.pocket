@@ -1,4 +1,25 @@
 package me.ghini.pocket;
+/*
+  This file is part of ghini.pocket.
+
+  ghini.pocket is free software: you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the Free
+  Software Foundation, either version 3 of the License, or (at your option)
+  any later version.
+
+  ghini.pocket is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  for more details.
+
+  You should have received a copy of the GNU General Public License along
+  with ghini.pocket.  If not, see <http://www.gnu.org/licenses/>.
+
+  Copyright © 2018 Mario Frasca. <mario@anche.no>
+  Copyright © 2018 Tanager Botanical Garden. <tanagertourism@gmail.com>
+
+  Created by mario on 2018-09-03.
+*/
 
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +27,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -17,9 +37,11 @@ import java.io.FileReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import de.timroes.axmlrpc.XMLRPCCallback;
@@ -36,6 +58,17 @@ public class DesktopClientActivity extends AppCompatActivity {
     static final String SERVER_PORT = "ServerPort";
     static final String USER_NAME = "UserName";
     static final String SECURITY_CODE = "SecurityCode";
+    private Map<Integer,String> errorString = new HashMap<Integer, String>(){
+        {
+            put(-1, "Generic Error");
+            put(0, "OK");
+            put(1, "User is not registered");
+            put(2, "Wrong parameter types");
+            put(3, "Invalid security code");
+            put(4, "File exists already");
+            put(16, "User already registered");
+        }
+    };
 
     private Bundle state;
 
@@ -115,14 +148,14 @@ public class DesktopClientActivity extends AppCompatActivity {
         try {
             XMLRPCCallback listener = new XMLRPCCallback() {
                 public void onResponse(long id, Object result) {
-                    final Object o = result;
                     if(result instanceof Integer) {
+                        final Integer o = (Integer) result;
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 //If no user is registered for your phone, a notification will
                                 //briefly flash on your phone, asking you to please register.
-                                Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, errorString.get(o), Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
@@ -171,11 +204,11 @@ public class DesktopClientActivity extends AppCompatActivity {
         try {
             XMLRPCCallback listener = new XMLRPCCallback() {
                 public void onResponse(long id, Object result) {
-                    final Object o = result;
+                    final Integer o = (Integer) result;
                     runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, errorString.get(o), Toast.LENGTH_SHORT).show();
                             }
                         });
                 }
@@ -215,12 +248,12 @@ public class DesktopClientActivity extends AppCompatActivity {
         try {
             XMLRPCCallback listener = new XMLRPCCallback() {
                 public void onResponse(long id, Object result) {
-                    final Object o = result;
+                    final Integer o = (Integer) result;
                     if((Integer)result != 0) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, errorString.get(o), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -289,12 +322,12 @@ public class DesktopClientActivity extends AppCompatActivity {
         try {
             XMLRPCCallback listener = new XMLRPCCallback() {
                 public void onResponse(long id, Object result) {
-                    final Object o = result;
                     if(result instanceof Integer) {
+                        final Integer o = (Integer) result;
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(activity, o.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, errorString.get(o), Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
