@@ -3,7 +3,7 @@
     <string name="not_found">Не знайдено: %s</string>
     <string name="button_scan">Сканування</string>
     <string name="button_send">Пошук</string>
-    <string name="edit_message">Введіть код рослини</string>
+    <string name="edit_message">введіть код рослини</string>
     <string name="missing_web_browser">Жодна програма не може обробляти цей запит. Будь ласка, встановіть веб-браузер</string>
     <string name="binomial">Биномиал</string>
     <string name="family">Сім\'я</string>
@@ -11,7 +11,7 @@
     <string name="n_of_pictures"># зображень</string>
     <string name="acquisition">Придбання</string>
     <string name="dismission">Звільнення</string>
-    <string name="location">Місцезнаходження</string>
+    <string name="location">Розташування</string>
     <string name="wikipedia">Вікіпедія</string>
     <string name="empty_lookup">не вдається знайти пустий рядок</string>
     <string name="next">Далі</string>
@@ -20,4 +20,13 @@
     <string name="search_message">Введіть код рослини</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
     <string name="log_overrides">edit pending</string>
+<string name="save_to_log">зберегти у файлі журналу</string>
+    <string name="take_picture">зробити знімок</string>
+    <string name="mark_dead">зробити нуль</string>
+    <string name="n_of_plants"># рослин</string>
+    <string name="unavailable_camera">камера недоступна</string>
+    <string name="grab_position">захопити позицію</string>
+    <string name="no_match">нічого не збігається</string>
+    <string name="permit_imei">Будь ласка, надайте дозвіл на отримання IMEI телефону.</string>
+    <string name="permit_gps">Будь ласка, надайте дозвіл на читання з вашого GPS.</string>
 </resources>
