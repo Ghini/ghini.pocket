@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.io.File;
+import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 import static me.ghini.pocket.MainActivity.BINOMIAL;
@@ -140,17 +141,17 @@ public class PocketSource implements TableSource {
             SQLiteStatement statement = database.compileStatement(query);
             statement.bindLong(1, id);
             statement.bindString(2, bundle.getString(PLANT_CODE));
-            if (bundle.getString(BINOMIAL).length() > 0) {
+            if (bundle.getString(BINOMIAL, "").length() > 0) {
                 statement.bindString(3, bundle.getString(BINOMIAL));
             } else {
                 statement.bindNull(3);
             }
-            if (bundle.getString(LOCATION_CODE).length() > 0) {
+            if (bundle.getString(LOCATION_CODE, "").length() > 0) {
                 statement.bindString(4, bundle.getString(LOCATION_CODE));
             } else {
                 statement.bindNull(4);
             }
-            if (bundle.getString(NO_OF_PLANTS).length() > 0) {
+            if (bundle.getString(NO_OF_PLANTS, "").length() > 0) {
                 statement.bindLong(5, Long.parseLong(bundle.getString(NO_OF_PLANTS)));
             } else {
                 statement.bindNull(5);
@@ -162,7 +163,7 @@ public class PocketSource implements TableSource {
                 statement.bindNull(6);
                 statement.bindNull(7);
             }
-            int local_pics = bundle.getStringArrayList(PICTURE_NAMES).size();
+            int local_pics = Objects.requireNonNull(bundle.getStringArrayList(PICTURE_NAMES)).size();
             if (local_pics > 0) {
                 statement.bindLong(8, local_pics);
             } else {

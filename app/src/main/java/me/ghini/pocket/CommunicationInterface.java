@@ -23,5 +23,5 @@ package me.ghini.pocket;
  */
 
 public interface CommunicationInterface {
-    public void switchToPage(int page);
+    void switchToPage(int page);
 }

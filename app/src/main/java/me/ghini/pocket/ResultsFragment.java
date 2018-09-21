@@ -30,7 +30,6 @@ import java.util.Locale;
 import static me.ghini.pocket.MainActivity.BINOMIAL;
 import static me.ghini.pocket.MainActivity.DB_LOCATION_CODE;
 import static me.ghini.pocket.MainActivity.FAMILY;
-import static me.ghini.pocket.MainActivity.LOCATION_CODE;
 import static me.ghini.pocket.MainActivity.NO_OF_PICS;
 import static me.ghini.pocket.MainActivity.OVERRIDE;
 import static me.ghini.pocket.MainActivity.PLANT_CODE;
@@ -44,7 +43,6 @@ import static me.ghini.pocket.MainActivity.PLANT_CODE;
 public class ResultsFragment extends android.support.v4.app.Fragment {
 
     private final SimpleDateFormat simpleDateFormat;
-    String species = "";
     EditText searchText;
     TextView tvAccession;
     TextView tvFamily;

@@ -27,9 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Copyright © 2018 Mario Frasca. <mario@anche.no>
@@ -127,13 +125,12 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
         return c;
     }
 
-    void computeFamilyNameForGenera(PrintWriter out) {
+    private void computeFamilyNameForGenera(PrintWriter out) {
         String innerQuery =
                 "select epithet, rank, parent_id, accepted_id " +
                         "from taxon " +
                         "where id = ? " +
                         "order by epithet";
-        Map<String, String> r = new HashMap<>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cr = db.rawQuery(
                 "select o.epithet, a.epithet, o.parent_id, o.metaphone, o.id " +
@@ -143,10 +140,10 @@ class TaxonomyDatabase extends SQLiteAssetHelper {
                         "order by o.epithet",
                 new String[]{});
         while (cr.moveToNext()) {
-            String epithet = cr.getString(0);
+            //String epithet = cr.getString(0);
             String accepted = cr.getString(1);
             int parent_id = cr.getInt(2);
-            String phonetic = cr.getString(3);
+            //String phonetic = cr.getString(3);
             int self_id = cr.getInt(4);
             String family = "";
             boolean done = accepted != null;
