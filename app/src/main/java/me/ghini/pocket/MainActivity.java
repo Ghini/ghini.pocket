@@ -50,9 +50,13 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,6 +64,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.Random;
 
 import static com.google.zxing.integration.android.IntentIntegrator.REQUEST_CODE;
@@ -106,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     private PocketSource pocketSource;
     private int lastPosition = 0;
     public static String deviceId;
+    private Properties props;
 
     public MainActivity() {
         // create the fragments
@@ -145,6 +151,8 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             state.putInt(PLANT_ID, -1);
             state.putBoolean(GRAB_POSITION, false);
         }
+        initializePersistentProperties();
+        readPersistentProperties();
 
         // we have permission to access location?
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
@@ -208,20 +216,74 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(SEARCH_PAGE);
         lastPosition = SEARCH_PAGE;
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        try {
-            if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
-        } catch (SecurityException e) {
-            //noinspection SpellCheckingInspection
-            Toast.makeText(this, "Creating non-persistent phone identifier.", Toast.LENGTH_LONG).show();
-            deviceId = generateRandomString(15);
-        } catch (Exception e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void readPersistentProperties() {
+        props = new Properties();
+        String filename = new File(getExternalFilesDir(null), "persistent.properties").getAbsolutePath();
+            FileInputStream input = null;
+            try {
+                input = new FileInputStream(filename);
+                props.load(input);
+                deviceId = props.getProperty("phone-identifier");
+            } catch (IOException e) {
+                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            } finally {
+                safeClose(input);
+            }
+    }
+
+    private void initializePersistentProperties()
+    {
+        Properties props = new Properties();
+        String filename = new File(getExternalFilesDir(null), "persistent.properties").getAbsolutePath();
+        File file = new File(filename);
+        long fl = file.length();
+        if (fl == 0) {
+            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+            try {
+                if (telephonyManager != null) deviceId = telephonyManager.getDeviceId();
+            } catch (SecurityException e) {
+                deviceId = generateRandomString(12);
+            } catch (Exception e) {
+                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+            FileOutputStream out = null;
+            try {
+                out = new FileOutputStream(filename);
+                props.setProperty("phone-identifier", deviceId);
+                props.store(out, null);
+            } catch (IOException e) {
+                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            } finally {
+                safeClose(out);
+            }
+        }
+    }
+
+    private void safeClose(InputStream stream) {
+        if(stream != null){
+            try {
+                stream.close();
+            } catch (IOException e) {
+                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void safeClose(OutputStream stream) {
+        if(stream != null){
+            try {
+                stream.close();
+            } catch (IOException e) {
+                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
     private String generateRandomString(int length)
     {
+        Toast.makeText(this, "Creating persistent phone identifier.", Toast.LENGTH_LONG).show();
         Random rng = new Random();
         //noinspection SpellCheckingInspection
         String characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

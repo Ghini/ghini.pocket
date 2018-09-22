@@ -96,10 +96,10 @@ public class DesktopClientActivity extends AppCompatActivity {
         }
 
         // initialize references to widgets
-        EditText etServerIPAddress = findViewById(R.id.etServerIPAddress);
-        EditText etServerPort = findViewById(R.id.etServerPort);
-        EditText etUserName = findViewById(R.id.etUserName);
-        EditText etSecurityCode = findViewById(R.id.etSecurityCode);
+        EditText etServerIPAddress = (EditText) findViewById(R.id.etServerIPAddress);
+        EditText etServerPort = (EditText) findViewById(R.id.etServerPort);
+        EditText etUserName = (EditText) findViewById(R.id.etUserName);
+        EditText etSecurityCode = (EditText) findViewById(R.id.etSecurityCode);
 
         // refresh widgets with state
         etServerIPAddress.setText(state.getString(SERVER_IP_ADDRESS, ""));
