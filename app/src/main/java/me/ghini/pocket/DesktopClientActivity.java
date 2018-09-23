@@ -51,7 +51,9 @@ import de.timroes.axmlrpc.XMLRPCServerException;
 import de.timroes.base64.Base64;
 
 import static me.ghini.pocket.MainActivity.deviceId;
+import static me.ghini.pocket.MainActivity.resources;
 
+@SuppressWarnings("RedundantCast")
 public class DesktopClientActivity extends AppCompatActivity {
 
     static final String SERVER_IP_ADDRESS = "ServerIPAddress";
@@ -60,13 +62,13 @@ public class DesktopClientActivity extends AppCompatActivity {
     static final String SECURITY_CODE = "SecurityCode";
     private Map<Integer,String> errorString = new HashMap<Integer, String>(){
         {
-            put(-1, "Generic Error");
-            put(0, "OK");
-            put(1, "User is not registered");
-            put(2, "Wrong parameter types");
-            put(3, "Invalid security code");
-            put(4, "File exists already");
-            put(16, "User already registered");
+            put(-1, resources.getString(R.string.generic_error));
+            put(0, resources.getString(R.string.OK));
+            put(1, resources.getString(R.string.unregistered_user));
+            put(2, resources.getString(R.string.wrong_types));
+            put(3, resources.getString(R.string.invalid_code));
+            put(4, resources.getString(R.string.file_exists));
+            put(16, resources.getString(R.string.user_already_registered));
         }
     };
 
@@ -194,7 +196,7 @@ public class DesktopClientActivity extends AppCompatActivity {
         } catch (MalformedURLException e) {
             Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(this, "Some Error " + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -238,7 +240,7 @@ public class DesktopClientActivity extends AppCompatActivity {
         } catch (MalformedURLException e) {
             Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(this, "Some Error " + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -382,7 +384,7 @@ public class DesktopClientActivity extends AppCompatActivity {
         } catch (MalformedURLException e) {
             Toast.makeText(this, "Malformed URL", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(this, "Some Error " + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -23,6 +23,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -74,7 +75,9 @@ import static com.google.zxing.integration.android.IntentIntegrator.REQUEST_CODE
  *
  */
 
+@SuppressWarnings("RedundantCast")
 public class MainActivity extends AppCompatActivity implements CommunicationInterface {
+    public static Resources resources;
 
     public final static int TAXONOMY_PAGE = 0;
     public final static int SEARCH_PAGE = 1;
@@ -141,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        resources = getResources();
         state = new Bundle();
         if (savedInstanceState != null) {
             state.putAll(savedInstanceState);
@@ -283,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
 
     private String generateRandomString(int length)
     {
-        Toast.makeText(this, "Creating persistent phone identifier.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.create_persistent, Toast.LENGTH_LONG).show();
         Random rng = new Random();
         //noinspection SpellCheckingInspection
         String characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

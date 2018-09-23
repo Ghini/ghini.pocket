@@ -18,7 +18,9 @@
 
     <string name="edit_message">insert a plant code</string>
 
+    <!-- This is a verb, action of scanning a label -->
     <string name="button_scan">Scan</string>
+    <!-- This is a verb, action of searching for a plant code -->
     <string name="button_send">Search</string>
     <string name="zero_log">reset log</string>
     <string name="save_to_log">save to log file</string>
@@ -28,8 +30,8 @@
     <string name="unavailable_camera">camera not available</string>
     <string name="grab_position">grab position</string>
     <string name="no_match">nothing matches</string>
-    <string name="permit_imei">Please grant permission to get phone\'s IMEI.</string>
-    <string name="permit_gps">Please grant permission to read from your GPS.</string>
+    <string name="permit_imei">Please grant permission to get phone\'s IMEI</string>
+    <string name="permit_gps">Please grant permission to read from your GPS</string>
     <string name="action_github">Development Site</string>
     <string name="action_rtfd">Online User Manual</string>
     <string name="action_about">About</string>
@@ -38,11 +40,22 @@
     <string name="action_news">News</string>
     <string name="user_name">Username</string>
     <string name="security_code">Security code</string>
+    <!-- This is a verb, action of verifying an account -->
     <string name="verify">Verify</string>
-    <!-- This is a verb, clicking it registers an account -->
+    <!-- This is a verb, action of registering an account -->
     <string name="register">Register</string>
+    <!-- This is a verb, action of pulling the database -->
     <string name="pull">Pull</string>
+    <!-- This is a verb, action of pushing collected edits -->
     <string name="push">Push</string>
     <string name="server_port">Server port</string>
     <string name="server_address">Server address</string>
+    <string name="create_persistent">Creating persistent phone identifier</string>
+    <string name="generic_error">Generic Error</string>
+    <string name="OK">OK</string>
+    <string name="unregistered_user">User is not registered</string>
+    <string name="wrong_types">Wrong parameter types</string>
+    <string name="invalid_code">Invalid security code</string>
+    <string name="file_exists">File exists already</string>
+    <string name="user_already_registered">User already registered</string>
 </resources>
