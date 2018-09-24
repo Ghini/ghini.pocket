@@ -45,4 +45,12 @@
     <string name="push">Send</string>
     <string name="server_port">Tjenerport</string>
     <string name="server_address">Tjeneradresse</string>
+<string name="create_persistent">Lager vedvarende telefonidentifikator</string>
+    <string name="generic_error">Generisk feil</string>
+    <string name="OK">OK</string>
+    <string name="unregistered_user">Brukeren er ikke registrert</string>
+    <string name="wrong_types">Feil parametertyper</string>
+    <string name="invalid_code">Ugyldig sikkerhetskode</string>
+    <string name="file_exists">Filen finnes allerede</string>
+    <string name="user_already_registered">Brukeren er allerede registrert</string>
 </resources>
