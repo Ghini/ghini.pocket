@@ -29,4 +29,18 @@
     <string name="no_match">нічого не збігається</string>
     <string name="permit_imei">Будь ласка, надайте дозвіл на отримання IMEI телефону.</string>
     <string name="permit_gps">Будь ласка, надайте дозвіл на читання з вашого GPS.</string>
+<string name="action_github">Сайт розробки</string>
+    <string name="action_rtfd">Інтернет-посібник користувача</string>
+    <string name="action_about">Про …</string>
+    <string name="action_settings">Параметри</string>
+    <string name="action_desktop">Підключитися до g.desktop</string>
+    <string name="action_news">Новини</string>
+    <string name="user_name">Ім\'я користувача</string>
+    <string name="security_code">Код безпеки</string>
+    <string name="verify">Перевірити</string>
+    <string name="register">Реєстрація</string>
+    <string name="pull">До себе</string>
+    <string name="push">Від себе</string>
+    <string name="server_port">Порт сервера</string>
+    <string name="server_address">Адреса сервера</string>
 </resources>
