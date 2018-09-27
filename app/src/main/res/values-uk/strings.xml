@@ -4,7 +4,7 @@
     <string name="button_scan">Сканування</string>
     <string name="button_send">Пошук</string>
     <string name="edit_message">введіть код рослини</string>
-    <string name="missing_web_browser">Жодна програма не може обробляти цей запит. Будь ласка, встановіть веб-браузер</string>
+    <string name="missing_web_browser">Жоден застосунок не може обробляти цей запит. Будь ласка, встановіть веб-браузер</string>
     <string name="binomial">Биномиал</string>
     <string name="family">Сім\'я</string>
     <string name="source">Джерело</string>
@@ -27,11 +27,11 @@
     <string name="unavailable_camera">камера недоступна</string>
     <string name="grab_position">захопити позицію</string>
     <string name="no_match">нічого не збігається</string>
-    <string name="permit_imei">Будь ласка, надайте дозвіл на отримання IMEI телефону.</string>
-    <string name="permit_gps">Будь ласка, надайте дозвіл на читання з вашого GPS.</string>
+    <string name="permit_imei">Будь ласка, надайте дозвіл на отримання IMEI телефону</string>
+    <string name="permit_gps">Будь ласка, надайте дозвіл на читання з вашого GPS</string>
 <string name="action_github">Сайт розробки</string>
     <string name="action_rtfd">Інтернет-посібник користувача</string>
-    <string name="action_about">Про …</string>
+    <string name="action_about">Про</string>
     <string name="action_settings">Параметри</string>
     <string name="action_desktop">Підключитися до g.desktop</string>
     <string name="action_news">Новини</string>
@@ -43,4 +43,12 @@
     <string name="push">Від себе</string>
     <string name="server_port">Порт сервера</string>
     <string name="server_address">Адреса сервера</string>
+<string name="create_persistent">Створення постійного ідентифікатора телефону</string>
+    <string name="generic_error">Загальна помилка</string>
+    <string name="OK">ОК</string>
+    <string name="unregistered_user">Користувач не зареєстрований</string>
+    <string name="wrong_types">Неправильні типи параметрів</string>
+    <string name="invalid_code">Недійсний код безпеки</string>
+    <string name="file_exists">Файл вже існує</string>
+    <string name="user_already_registered">Користувач уже зареєстрований</string>
 </resources>
