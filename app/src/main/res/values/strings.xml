@@ -12,6 +12,7 @@
     <string name="location">Location</string>
     <string name="wikipedia">Wikipedia</string>
     <string name="empty_lookup">can\'t look up empty string</string>
+    <!-- Not a verb, still an action: activate next scan -->
     <string name="next">Next</string>
     <string name="location_code">Enter location code</string>
     <string name="log_overrides">Edit pending</string>
@@ -58,4 +59,5 @@
     <string name="invalid_code">Invalid security code</string>
     <string name="file_exists">File exists already</string>
     <string name="user_already_registered">User already registered</string>
+    <string name="server_busy_please_wait">Server busy refreshing: please wait</string>
 </resources>

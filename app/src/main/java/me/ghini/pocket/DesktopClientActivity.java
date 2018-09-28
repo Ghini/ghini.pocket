@@ -68,6 +68,7 @@ public class DesktopClientActivity extends AppCompatActivity {
             put(2, resources.getString(R.string.wrong_types));
             put(3, resources.getString(R.string.invalid_code));
             put(4, resources.getString(R.string.file_exists));
+            put(5, resources.getString(R.string.server_busy_please_wait));
             put(16, resources.getString(R.string.user_already_registered));
         }
     };
