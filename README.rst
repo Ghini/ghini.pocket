@@ -1,19 +1,20 @@
 ghini.pocket
 ============================
 
-ghini.pocket is a tiny android data viewer. you would find it handy if you
+ghini.pocket is an Android data viewer and input system.  You would find it handy if you
 want to have a quick idea of a plant species, origin, and date it entered
-the garden, just by scanning a plant label.
+the garden, just by scanning a plant label.  It lets you correct data, take pictures, review 
+your inventory, and check spelling and taxonomy derivations of all accepted plant genera.
 
 - Install `ghini.pocket <https://play.google.com/store/apps/details?id=me.ghini.pocket>`_ on your android device,
 - Start ghini.pocket,
-- Search for plant code ``0`` (this creates the database location),
-- Search for plant code ``settings`` (this tells you the database location),
 
 - Use **ghini.desktop** to export your garden database to a reduced SQLite3 database,
 - Copy the reduced database file to the device (this and the previous step you repeat from time to time),
 
-ghini.pocket has four pages: taxonomy review, search, results, and correction. 
+ghini.pocket has one main activity, with four pages: taxonomy review, search, results, and correction.  Swipe 
+to move from one to the other.  ghini.pocket also has a desktop client activity, with which to pull data from 
+ghini.desktop, or push your updates to the desktop database.
   
 - While in the search page:
   
@@ -67,7 +68,7 @@ Technical Information
 
 The program is written in Java, and only runs on Android.
 
-There is one `Activity` and several `Fragments` (at the time of writing it's
+There is one `MainActivity`, composed of several `Fragments` (at the time of writing it's
 four `Fragments`: taxonomy, search, results, collect).
 
 `Fragments` have the role to manage the view elements, while the `Activity`
