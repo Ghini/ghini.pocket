@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     private PocketSource pocketSource;
     private int lastPosition = 0;
     public static String deviceId;
+    public static String serverIP;
+    public static String serverPort;
     private Properties props;
 
     public MainActivity() {
@@ -138,6 +140,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     protected void onSaveInstanceState(Bundle state) {
         state.putAll(this.state);
         super.onSaveInstanceState(state);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        storePersistentProperties();
     }
 
     @SuppressLint("HardwareIds")
@@ -225,16 +233,18 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
     private void readPersistentProperties() {
         props = new Properties();
         String filename = new File(getExternalFilesDir(null), "persistent.properties").getAbsolutePath();
-            FileInputStream input = null;
-            try {
-                input = new FileInputStream(filename);
-                props.load(input);
-                deviceId = props.getProperty("phone-identifier");
-            } catch (IOException e) {
-                Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            } finally {
-                safeClose(input);
-            }
+        FileInputStream input = null;
+        try {
+            input = new FileInputStream(filename);
+            props.load(input);
+        } catch (IOException e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            safeClose(input);
+        }
+        deviceId = props.getProperty("phone-identifier");
+        serverIP = props.getProperty("server-ip", "192.168.43.226");
+        serverPort = props.getProperty("server-port", "44464");
     }
 
     private void initializePersistentProperties()
@@ -252,16 +262,38 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
             } catch (Exception e) {
                 Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
+            serverIP = "192.168.43.226";
+            serverPort = "44464";
             FileOutputStream out = null;
             try {
                 out = new FileOutputStream(filename);
                 props.setProperty("phone-identifier", deviceId);
+                props.setProperty("server-ip", serverIP);
+                props.setProperty("server-port", serverPort);
                 props.store(out, null);
             } catch (IOException e) {
                 Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             } finally {
                 safeClose(out);
             }
+        }
+    }
+
+    private void storePersistentProperties()
+    {
+        Properties props = new Properties();
+        String filename = new File(getExternalFilesDir(null), "persistent.properties").getAbsolutePath();
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(filename);
+            props.setProperty("phone-identifier", deviceId);
+            props.setProperty("server-ip", serverIP);
+            props.setProperty("server-port", serverPort);
+            props.store(out, null);
+        } catch (IOException e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            safeClose(out);
         }
     }
 

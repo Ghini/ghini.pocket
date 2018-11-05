@@ -52,6 +52,8 @@ import de.timroes.base64.Base64;
 
 import static me.ghini.pocket.MainActivity.deviceId;
 import static me.ghini.pocket.MainActivity.resources;
+import static me.ghini.pocket.MainActivity.serverIP;
+import static me.ghini.pocket.MainActivity.serverPort;
 
 @SuppressWarnings("RedundantCast")
 public class DesktopClientActivity extends AppCompatActivity {
@@ -92,8 +94,8 @@ public class DesktopClientActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             state.putAll(savedInstanceState);
         } else {
-            state.putString(SERVER_IP_ADDRESS, "192.168.43.226");
-            state.putString(SERVER_PORT, "44464");
+            state.putString(SERVER_IP_ADDRESS, serverIP);
+            state.putString(SERVER_PORT, serverPort);
             state.putString(USER_NAME, "");
             state.putString(SECURITY_CODE, "");
         }
@@ -114,26 +116,28 @@ public class DesktopClientActivity extends AppCompatActivity {
         etServerIPAddress.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
-                    afterTextViewChanged(target, SERVER_IP_ADDRESS);
-                }
+                afterTextViewChanged(target, SERVER_IP_ADDRESS);
+                serverIP = String.valueOf(target.toString());
+            }
         });
         etServerPort.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
                 afterTextViewChanged(target, SERVER_PORT);
-                }
+                serverPort = String.valueOf(target.toString());
+            }
         });
         etUserName.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
                 afterTextViewChanged(target, USER_NAME);
-                }
+            }
         });
         etSecurityCode.addTextChangedListener(new AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(Editable target) {
                 afterTextViewChanged(target, SECURITY_CODE);
-                }
+            }
         });
     }
 
