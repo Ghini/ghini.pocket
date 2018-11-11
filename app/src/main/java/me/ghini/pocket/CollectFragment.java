@@ -19,6 +19,7 @@ package me.ghini.pocket;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,23 +93,25 @@ public class CollectFragment extends FragmentWithState {
         state.clear();
         state.putAll(args);
         state.putStringArrayList(PICTURE_NAMES, new ArrayList<String>());
-        updateView();
+        if (getActivity() != null)
+            updateView();
     }
 
     @Override
     public void updateView() {
         updating = true;
-        TextView t = getActivity().findViewById(R.id.tvCollectAccession);
+        FragmentActivity a = getActivity();
+        TextView t = a.findViewById(R.id.tvCollectAccession);
         t.setText(state.getString(PLANT_CODE, ""));
-        t = getActivity().findViewById(R.id.etCollectSpecies);
+        t = a.findViewById(R.id.etCollectSpecies);
         t.setText(state.getString(BINOMIAL, ""));
-        t = getActivity().findViewById(R.id.tvCollectNumberOfPics);
+        t = a.findViewById(R.id.tvCollectNumberOfPics);
         t.setText(state.getString(NO_OF_PICS, "0"));
-        t = getActivity().findViewById(R.id.etCollectNumberOfPlants);
+        t = a.findViewById(R.id.etCollectNumberOfPlants);
         t.setText(state.getString(NO_OF_PLANTS, "1"));
-        CheckBox v = getActivity().findViewById(R.id.cbGrabPosition);
+        CheckBox v = a.findViewById(R.id.cbGrabPosition);
         v.setChecked(state.getBoolean(GRAB_POSITION, false));
-        v = getActivity().findViewById(R.id.cbCollectOverride);
+        v = a.findViewById(R.id.cbCollectOverride);
         v.setChecked(state.getBoolean(OVERRIDE, false));
         updating = false;
     }
