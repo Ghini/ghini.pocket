@@ -50,6 +50,7 @@ import de.timroes.axmlrpc.XMLRPCException;
 import de.timroes.axmlrpc.XMLRPCServerException;
 import de.timroes.base64.Base64;
 
+import static java.lang.Math.*;
 import static me.ghini.pocket.MainActivity.deviceId;
 import static me.ghini.pocket.MainActivity.resources;
 import static me.ghini.pocket.MainActivity.serverIP;
@@ -62,6 +63,7 @@ public class DesktopClientActivity extends AppCompatActivity {
     static final String SERVER_PORT = "ServerPort";
     static final String USER_NAME = "UserName";
     static final String SECURITY_CODE = "SecurityCode";
+    private static final int ONEMEGA = 1000000;
     private Map<Integer,String> errorString = new HashMap<Integer, String>(){
         {
             put(-1, resources.getString(R.string.generic_error));
@@ -72,6 +74,7 @@ public class DesktopClientActivity extends AppCompatActivity {
             put(4, resources.getString(R.string.file_exists));
             put(5, resources.getString(R.string.server_busy_please_wait));
             put(16, resources.getString(R.string.user_already_registered));
+            put(17, resources.getString(R.string.send_more));
         }
     };
 
@@ -305,15 +308,27 @@ public class DesktopClientActivity extends AppCompatActivity {
                 baseline = pocket.lastModified();
             }
             client.callAsync(listener, "put_change", deviceId, lines, baseline);
+            byte[] data = new byte[ONEMEGA];
             for (String name:pictures) {
                 File file = new File(name.substring(7));
+                int chunk_no = 0;
+                int chunk_count = (int) ceil(1.0 * file.length() / ONEMEGA);
                 FileInputStream fis = new FileInputStream(file);
-                byte[] data = new byte[(int) file.length()];
-                //noinspection ResultOfMethodCallIgnored
-                fis.read(data);
+                if (file.length() < ONEMEGA) {
+                    //noinspection ResultOfMethodCallIgnored
+                    fis.read(data);
+                    String content64 = Base64.encode(data);
+                    client.callAsync(listener, "put_picture", deviceId, file.getName(), content64);
+                }
+                else while (true) {
+                    long count = fis.read(data, ONEMEGA*chunk_no, ONEMEGA);
+                    if (count == 0)
+                        break;
+                    String content64 = Base64.encode(data);
+                    client.callAsync(listener, "put_picture_chunk", deviceId, file.getName(), chunk_no, chunk_count, content64);
+                    chunk_no++;
+                }
                 fis.close();
-                String content64 = Base64.encode(data);
-                client.callAsync(listener, "put_picture", deviceId, file.getName(), content64);
             }
             br.close();
         } catch (MalformedURLException e) {
