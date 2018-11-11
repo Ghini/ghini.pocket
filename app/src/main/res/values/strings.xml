@@ -60,4 +60,5 @@
     <string name="file_exists">File exists already</string>
     <string name="user_already_registered">User already registered</string>
     <string name="server_busy_please_wait">Server busy refreshing: please wait</string>
+    <string name="send_more">Chunk sent, need more</string>
 </resources>
