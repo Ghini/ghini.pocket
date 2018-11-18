@@ -485,6 +485,8 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
                     EditText editText = (EditText) findViewById(R.id.searchText);
                     String contents = scanResult.getContents();
                     editText.setText(contents);
+                    mViewPager.setCurrentItem(SEARCH_PAGE);
+                    lastPosition = SEARCH_PAGE;
                     onSearchDoSearch(null);
                 }
             }
