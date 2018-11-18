@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="not_found">%s</string>
+    <string name="not_found">%s não encontrado</string>
     <string name="button_scan">Digitalizar</string>
     <string name="button_send">Pesquisa</string>
     <string name="edit_message">Digite um código de planta</string>
     <string name="missing_web_browser">Nenhum aplicativo pode processar este pedido. Por favor, instale um navegador da web</string>
-    <string name="binomial">Binomial</string>
+    <string name="binomial">Binômio</string>
     <string name="family">Família</string>
     <string name="source">Origem</string>
     <string name="n_of_pictures">nº de fotos</string>
@@ -13,7 +13,7 @@
     <string name="dismission">Dismissión</string>
     <string name="location">Localização</string>
     <string name="wikipedia">Wikipédia</string>
-    <string name="empty_lookup">Não posso olhar a sequência de caracteres vazia</string>
+    <string name="empty_lookup">Não posso olhar a seqüência de caracteres vazia</string>
     <string name="next">Na próxima</string>
     <string name="zero_log">Limpar Log</string>
     <string name="location_code">Digite o código de localização</string>

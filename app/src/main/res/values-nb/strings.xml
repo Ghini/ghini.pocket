@@ -53,4 +53,5 @@
     <string name="invalid_code">Ugyldig sikkerhetskode</string>
     <string name="file_exists">Filen finnes allerede</string>
     <string name="user_already_registered">Brukeren er allerede registrert</string>
+<string name="server_busy_please_wait">Tjener opptatt med gjennoppfrisking: Vent</string>
 </resources>
