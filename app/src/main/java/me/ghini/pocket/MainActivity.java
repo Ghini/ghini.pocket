@@ -211,14 +211,12 @@ public class MainActivity extends AppCompatActivity implements CommunicationInte
                     String searchPlantCode = searchText.getText().toString();
                     if (searchPlantCode.length() == 0) {
                         Toast.makeText(that, R.string.empty_lookup, Toast.LENGTH_SHORT).show();
-                        switchToPage(SEARCH_PAGE);
+                        position = SEARCH_PAGE;
                     } else {
                         executeSearch(searchPlantCode);
-                        switchToPage(RESULT_PAGE);
                     }
-                } else {
-                    switchToPage(position);
                 }
+                switchToPage(position);
                 lastPosition = position;
             }
 
