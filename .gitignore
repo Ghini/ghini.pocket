@@ -16,3 +16,4 @@ cantupdate.txt
 ./
 .idea/dictionaries/*.xml
 /app/release
+stats-country.csv
