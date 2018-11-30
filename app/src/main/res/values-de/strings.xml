@@ -51,4 +51,5 @@
     <string name="file_exists">Datei existiert bereits</string>
     <string name="user_already_registered">Benutzer bereits registriert</string>
     <string name="server_busy_please_wait">Server ist mit der Aktualisierung beschäftigt: bitte warten Sie</string>
+<string name="send_more">Chunk gesendet, brauche mehr</string>
 </resources>
