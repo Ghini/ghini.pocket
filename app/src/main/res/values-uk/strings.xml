@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="not_found">Не знайдено: %s</string>
     <string name="button_scan">Сканування</string>
@@ -51,4 +51,6 @@
     <string name="invalid_code">Недійсний код безпеки</string>
     <string name="file_exists">Файл вже існує</string>
     <string name="user_already_registered">Користувач уже зареєстрований</string>
+    <string name="server_busy_please_wait">Сервер зайнятий оновленням: зачекайте</string>
+    <string name="send_more">Досить багато відправлено, потрібно більше</string>
 </resources>
