@@ -1,2 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="search_message">Digite um código de planta</string>
+    <string name="not_found">%s não encontrado</string>
+    <string name="missing_web_browser">Nenhum aplicativo pode processar este pedido. Por favor, instale um navegador da web</string>
+    <string name="source">Origem</string>
+    <string name="family">Família</string>
+    <string name="binomial">Binômio</string>
+    <string name="n_of_pictures">nº de fotos</string>
+    <string name="acquisition">Aquisição</string>
+    <string name="dismission">Dismissión</string>
+    <string name="location">Localização</string>
+    <string name="wikipedia">Wikipédia</string>
+    <string name="empty_lookup">Não posso olhar a seqüência de caracteres vazia</string>
+    <string name="next">Na próxima</string>
+    <string name="location_code">Digite o código de localização</string>
+    <string name="log_overrides">Edição pendente</string>
+    <string name="edit_message">Digite um código de planta</string>
+    <string name="button_scan">Digitalizar</string>
+    <string name="button_send">Pesquisa</string>
+    <string name="zero_log">limpar registro</string>
+    <string name="save_to_log">salvar no arquivo de registros</string>
+    <string name="n_of_plants">Nº de plantas</string>
+    <string name="unavailable_camera">câmera não disponível</string>
+    <string name="action_rtfd">Manual do usuário na Internet</string>
+    <string name="user_name">Nome de usuário</string>
+</resources>
