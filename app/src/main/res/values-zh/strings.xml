@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="not_found">未找到：%s</string>
     <string name="button_scan">扫描</string>
@@ -16,4 +16,5 @@
     <string name="empty_lookup">空字符串不能搜索</string>
     <string name="next">下一条</string>
     <string name="search_message">输入植物编码</string>
+    <string name="action_settings">设置</string>
 </resources>
