@@ -48,4 +48,8 @@
     <string name="file_exists">O ficheiro já existe</string>
     <string name="user_already_registered">O utilizador já está registado</string>
     <string name="server_busy_please_wait">O servidor está ocupado a atualizar: por favor aguarde</string>
+    <string name="pull">Puxar</string>
+    <string name="push">Empurrar</string>
+    <string name="OK">OK</string>
+    <string name="send_more">Pedaço enviado, preciso de mais</string>
 </resources>

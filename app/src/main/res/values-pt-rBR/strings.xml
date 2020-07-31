@@ -49,4 +49,8 @@
     <string name="user_already_registered">O utilizador já está registado</string>
     <string name="verify">Verificar</string>
     <string name="wrong_types">Tipos de parâmetros errados</string>
+    <string name="send_more">Pedaço enviado, precisa de mais</string>
+    <string name="OK">OK</string>
+    <string name="push">Empurrar</string>
+    <string name="pull">Puxar</string>
 </resources>
