@@ -4,7 +4,7 @@
     <string name="button_scan">Digitalizar</string>
     <string name="button_send">Pesquisa</string>
     <string name="edit_message">Digite um código de planta</string>
-    <string name="missing_web_browser">Nenhum aplicativo pode processar este pedido. Por favor, instale um navegador da web</string>
+    <string name="missing_web_browser">Nenhuma app pode processar este pedido. Por favor, instale um navegador da web</string>
     <string name="binomial">Binómio</string>
     <string name="family">Família</string>
     <string name="source">Origem</string>
