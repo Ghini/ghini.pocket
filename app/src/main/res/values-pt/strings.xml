@@ -18,7 +18,7 @@
     <string name="zero_log">limpar registro</string>
     <string name="location_code">Digite o código de localização</string>
     <string name="search_message">Digite um código de planta</string>
-    <string name="save_to_log">salvar no arquivo de registros</string>
+    <string name="save_to_log">gravar no ficheiro de registos</string>
     <string name="log_overrides">Edição pendente</string>
     <string name="n_of_plants">Nº de plantas</string>
     <string name="take_picture">tirar uma fotografia</string>
@@ -29,12 +29,12 @@
     <string name="permit_imei">Por favor forneça a permissão para obter o IMEI do telemóvel</string>
     <string name="permit_gps">Por favor forneça permissão para aceder ao GPS</string>
     <string name="action_github">Site de desenvolvimento</string>
-    <string name="action_rtfd">Manual do usuário na Internet</string>
+    <string name="action_rtfd">Manual do utilizador na Internet</string>
     <string name="action_about">Sobre</string>
     <string name="action_settings">Configurações</string>
     <string name="action_desktop">Conectar a g.desktop</string>
     <string name="action_news">Notícias</string>
-    <string name="user_name">Nome de usuário</string>
+    <string name="user_name">Nome de utilizador</string>
     <string name="security_code">Código de segurança</string>
     <string name="verify">Verificar</string>
     <string name="register">Registar</string>
