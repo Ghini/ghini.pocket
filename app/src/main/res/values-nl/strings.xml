@@ -1,10 +1,10 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="button_send">Zoeken</string>
     <string name="edit_message">Plantcode invoeren</string>
     <string name="n_of_pictures">Aantal afbeeldingen</string>
     <string name="next">Volgende</string>
-<string name="not_found">Niet gevonden: %s</string>
+    <string name="not_found">Niet gevonden: %s</string>
     <string name="source">Bron</string>
     <string name="family">Familie</string>
     <string name="binomial">Binomiaal</string>
@@ -24,9 +24,17 @@
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
     <string name="log_overrides">verbetering in wachtrij</string>
     <string name="n_of_plants">aantal planten</string>
-<string name="unavailable_camera">camera is niet beschikbaar</string>
+    <string name="unavailable_camera">camera is niet beschikbaar</string>
     <string name="grab_position">noteer de GPS-locatie</string>
     <string name="no_match">niets komt overeen</string>
     <string name="action_github">Ontwikkelingssite</string>
     <string name="action_desktop">Verbind met g.desktop</string>
+    <string name="register">Aanmelden</string>
+    <string name="verify">Verifieer</string>
+    <string name="security_code">Veiligheids code</string>
+    <string name="user_name">Gebruikersnaam</string>
+    <string name="action_news">Nieuws</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="action_about">Over</string>
+    <string name="action_rtfd">Online gebruikers handleiding</string>
 </resources>
