@@ -1,2 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="not_found">%s찾을 수 없음</string>
+    <string name="server_busy_please_wait">서버를 새로 고치는 중 : 잠시 기다려주십시오</string>
+    <string name="file_exists">파일이 이미 있습니다</string>
+    <string name="permit_gps">GPS에서 읽을 수 있는 권한을 부여하세요</string>
+    <string name="permit_imei">휴대 전화의 IMEI를 받을 수 있는 권한을 부여하세요</string>
+    <string name="send_more">청크 전송, 더 필요</string>
+    <string name="user_already_registered">이미 등록 된 사용자</string>
+    <string name="invalid_code">잘못된 보안 코드</string>
+    <string name="wrong_types">잘못된 매개 변수 유형</string>
+    <string name="unregistered_user">사용자가 등록되지 않았습니다</string>
+    <string name="OK">ok</string>
+    <string name="generic_error">일반 오류</string>
+    <string name="create_persistent">영구 전화 식별자 생성</string>
+    <string name="server_address">서버주소</string>
+    <string name="server_port">서버포트</string>
+    <string name="push">내보내기</string>
+    <string name="pull">당겨오기</string>
+    <string name="register">인식</string>
+    <string name="verify">확인</string>
+    <string name="security_code">비밀코드</string>
+    <string name="user_name">이용자</string>
+    <string name="action_news">뉴스</string>
+    <string name="action_desktop">g.desktop에 연결</string>
+    <string name="action_settings">설정</string>
+    <string name="action_about">소개</string>
+    <string name="action_rtfd">온라인 사용 설명서</string>
+    <string name="action_github">개발 사이트</string>
+    <string name="no_match">일치하는 것이 없습니다</string>
+    <string name="grab_position">위치를 잡다</string>
+    <string name="unavailable_camera">카메라를 사용할 수 없습니다</string>
+    <string name="n_of_plants">식물수</string>
+    <string name="mark_dead">제로화</string>
+    <string name="take_picture">사진촬영</string>
+    <string name="save_to_log">로그파일 저장</string>
+    <string name="zero_log">로그 재설정</string>
+    <string name="button_send">검색</string>
+    <string name="button_scan">스캔</string>
+    <string name="edit_message">식물 코드 삽입</string>
+    <string name="log_overrides">보류중인 편집</string>
+    <string name="location_code">위치 코드 입력</string>
+    <string name="next">다음</string>
+    <string name="empty_lookup">빈 문자열을 찾을 수 없습니다</string>
+    <string name="wikipedia">위키피디아</string>
+    <string name="location">위치</string>
+    <string name="dismission">해산</string>
+    <string name="acquisition">취득</string>
+    <string name="n_of_pictures">사진</string>
+    <string name="binomial">이항식</string>
+    <string name="family">과</string>
+    <string name="source">소스</string>
+    <string name="missing_web_browser">이 요청을 처리 할 수있는 앱이 없습니다. 웹 브라우저를 설치하십시오</string>
+    <string name="search_message">식물 코드 입력</string>
+</resources>
