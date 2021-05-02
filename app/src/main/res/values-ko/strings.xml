@@ -10,7 +10,7 @@
     <string name="invalid_code">잘못된 보안 코드</string>
     <string name="wrong_types">잘못된 매개 변수 유형</string>
     <string name="unregistered_user">사용자가 등록되지 않았습니다</string>
-    <string name="OK">ok</string>
+    <string name="OK">OK</string>
     <string name="generic_error">일반 오류</string>
     <string name="create_persistent">영구 전화 식별자 생성</string>
     <string name="server_address">서버주소</string>
