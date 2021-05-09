@@ -23,7 +23,7 @@
     <string name="n_of_plants">Nº de plantas</string>
     <string name="take_picture">tirar uma fotografia</string>
     <string name="mark_dead">pôr a zero</string>
-    <string name="unavailable_camera">câmera não disponível</string>
+    <string name="unavailable_camera">câmara não disponível</string>
     <string name="grab_position">recolher posição</string>
     <string name="no_match">nada corresponde</string>
     <string name="permit_imei">Por favor forneça a permissão para obter o IMEI do telemóvel</string>
