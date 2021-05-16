@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="next">Επόμενο</string>
+    <string name="empty_lookup">δεν μπορεί να αναζητηθεί κενή συμβολοσειρά</string>
+    <string name="n_of_pictures"># εικόνων</string>
+    <string name="family">Οικογένεια</string>
+    <string name="source">Πηγή</string>
+    <string name="missing_web_browser">Καμία εφαρμογή δεν μπορεί να αντιμετωπίσει αυτό το αίτημα. Παρακαλούμε εγκαταστήστε ένα πρόγραμμα περιήγησης ιστού</string>
+    <string name="not_found">Δεν ευρέθη: %s</string>
+    <string name="wikipedia">Βικιπαίδεια</string>
+    <string name="location">Τοποθεσία</string>
+</resources>
