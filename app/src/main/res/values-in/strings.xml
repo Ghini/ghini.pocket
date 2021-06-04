@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ghini.pocket</string>
+    <string name="missing_web_browser">Tiada aplikasi yang dapat menangani permintaan ini. Sila pasang browser web</string>
+    <string name="mark_dead">kerahmahtullah</string>
+    <string name="family">Keluarga</string>
+    <string name="OK">Oke</string>
+    <string name="register">Ayo mendaftar</string>
+    <string name="user_name">Namakaun</string>
+    <string name="action_news">Berita</string>
+    <string name="action_settings">Setelan</string>
+    <string name="button_send">Cari</string>
+    <string name="next">Selanjutnya</string>
+    <string name="wikipedia">Wiki</string>
+    <string name="location">Lokasi</string>
+    <string name="source">Sumber</string>
+    <string name="permit_gps">Tolong mengizin app baca GPS ponsel Anda</string>
+    <string name="unregistered_user">Pengguna tidak terdaftar</string>
+    <string name="edit_message">sila ketik kod tanaman</string>
+    <string name="search_message">Sila ketik kod tanaman</string>
+    <string name="file_exists">Berkas terada</string>
+    <string name="action_rtfd">Panduan Pengguna Onlen</string>
+    <string name="unavailable_camera">kamera tidak tersedia</string>
+    <string name="location_code">Sila ketik kod lokasi</string>
+    <string name="take_picture">ambil gambar</string>
+    <string name="not_found">%s Tidak Ditemukan</string>
 </resources>
