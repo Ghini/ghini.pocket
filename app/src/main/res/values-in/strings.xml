@@ -24,4 +24,14 @@
     <string name="location_code">Sila ketik kod lokasi</string>
     <string name="take_picture">ambil gambar</string>
     <string name="not_found">%s Tidak Ditemukan</string>
+    <string name="empty_lookup">string kosong cari apa sih</string>
+    <string name="server_port">port server</string>
+    <string name="server_address">alamat server</string>
+    <string name="n_of_plants">Perkiraan tanaman #</string>
+    <string name="n_of_pictures">Perkiraan gamber #</string>
+    <string name="binomial">꧊ Binomial</string>
+    <string name="action_about">Tentang Ghini</string>
+    <string name="action_github">Situs perkembangan kod</string>
+    <string name="push">꧊ Push</string>
+    <string name="pull">꧊ Pull</string>
 </resources>
