@@ -6,7 +6,7 @@
     <string name="family">Keluarga</string>
     <string name="OK">Oke</string>
     <string name="register">Ayo mendaftar</string>
-    <string name="user_name">Namakaun</string>
+    <string name="user_name">Nama pengguna</string>
     <string name="action_news">Berita</string>
     <string name="action_settings">Setelan</string>
     <string name="button_send">Cari</string>
@@ -30,8 +30,27 @@
     <string name="n_of_plants">Perkiraan tanaman #</string>
     <string name="n_of_pictures">Perkiraan gamber #</string>
     <string name="binomial">꧊ Binomial</string>
-    <string name="action_about">Tentang Ghini</string>
+    <string name="action_about">Tentang</string>
     <string name="action_github">Situs perkembangan kod</string>
     <string name="push">꧊ Push</string>
     <string name="pull">꧊ Pull</string>
+    <string name="send_more">Potongan terkirim, perlu lebih banyak</string>
+    <string name="server_busy_please_wait">Server sibuk menyegarkan: harap tunggu</string>
+    <string name="user_already_registered">Pengguna sudah terdaftar</string>
+    <string name="invalid_code">Kode keamanan salah</string>
+    <string name="wrong_types">Tipe parameter salah</string>
+    <string name="generic_error">Kesalahan Umum</string>
+    <string name="create_persistent">Membuat pengidentifikasi telepon tetap</string>
+    <string name="verify">Verifikasi</string>
+    <string name="security_code">Kode keamanan</string>
+    <string name="action_desktop">Hubungkan ke g.desktop</string>
+    <string name="permit_imei">Harap beri izin untuk mendapatkan IMEI ponsel</string>
+    <string name="no_match">tidak ada yang cocok</string>
+    <string name="grab_position">ambil posisi</string>
+    <string name="save_to_log">simpan ke berkas log</string>
+    <string name="zero_log">setel ulang log</string>
+    <string name="button_scan">Pindai</string>
+    <string name="log_overrides">Sunting tertunda</string>
+    <string name="dismission">Diberhentikan</string>
+    <string name="acquisition">Akuisisi</string>
 </resources>
