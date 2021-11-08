@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="not_found">%s</string>
     <string name="button_scan"/>
@@ -15,7 +15,7 @@
     <string name="wikipedia"/>
     <string name="empty_lookup"/>
     <string name="next"/>
-    <string name="search_message"/>
+    <string name="search_message">階層コードを入れてください</string>
     <string name="zero_log"/>
     <string name="location_code"/>
     <string name="save_to_log"/>
