@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="not_found">Nebyl nalezen: %s</string>
     <string name="family">Rodina</string>
@@ -11,4 +11,11 @@
     <string name="button_send">Hledat</string>
     <string name="save_to_log">uložit do souboru protokolu</string>
     <string name="n_of_plants"># rostlin</string>
+    <string name="missing_web_browser">Žádná aplikace tento požadavek nezvládne. Nainstalujte si prosím webový prohlížeč</string>
+    <string name="source">Zdroj</string>
+    <string name="location">Umístění</string>
+    <string name="empty_lookup">nelze vyhledat prázdný řetězec</string>
+    <string name="search_message">Zadejte kód závodu</string>
+    <string name="dismission">Vyřazení</string>
+    <string name="n_of_pictures">počet obrázků</string>
 </resources>
