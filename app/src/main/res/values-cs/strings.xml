@@ -18,4 +18,10 @@
     <string name="search_message">Zadejte kód závodu</string>
     <string name="dismission">Vyřazení</string>
     <string name="n_of_pictures">počet obrázků</string>
+    <string name="mark_dead">vynulovat</string>
+    <string name="unavailable_camera">fotoaparát není dostupný</string>
+    <string name="take_picture">vyfotit</string>
+    <string name="log_overrides">Úpravy čekají na vyřízení</string>
+    <string name="zero_log">obnovit protokol</string>
+    <string name="edit_message">vložte kód rostliny</string>
 </resources>
