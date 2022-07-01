@@ -16,11 +16,11 @@
     <string name="empty_lookup">не вдається знайти пустий рядок</string>
     <string name="next">Далі</string>
     <string name="zero_log">скинути журнал</string>
-    <string name="location_code">Введіть код місцеположення</string>
+    <string name="location_code">Введіть код місця положення</string>
     <string name="search_message">Введіть код рослини</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
     <string name="log_overrides">edit pending</string>
-<string name="save_to_log">зберегти у файлі журналу</string>
+    <string name="save_to_log">зберегти у файлі журналу</string>
     <string name="take_picture">зробити знімок</string>
     <string name="mark_dead">зробити нуль</string>
     <string name="n_of_plants"># рослин</string>
@@ -29,7 +29,7 @@
     <string name="no_match">нічого не збігається</string>
     <string name="permit_imei">Будь ласка, надайте дозвіл на отримання IMEI телефону</string>
     <string name="permit_gps">Будь ласка, надайте дозвіл на читання з вашого GPS</string>
-<string name="action_github">Сайт розробки</string>
+    <string name="action_github">Сайт розробки</string>
     <string name="action_rtfd">Інтернет-посібник користувача</string>
     <string name="action_about">Про</string>
     <string name="action_settings">Параметри</string>
@@ -43,7 +43,7 @@
     <string name="push">Від себе</string>
     <string name="server_port">Порт сервера</string>
     <string name="server_address">Адреса сервера</string>
-<string name="create_persistent">Створення постійного ідентифікатора телефону</string>
+    <string name="create_persistent">Створення постійного ідентифікатора телефону</string>
     <string name="generic_error">Загальна помилка</string>
     <string name="OK">ОК</string>
     <string name="unregistered_user">Користувач не зареєстрований</string>
