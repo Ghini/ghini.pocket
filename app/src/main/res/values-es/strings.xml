@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="not_found">%s no se encuentra</string>
     <string name="button_scan">Escanear</string>
@@ -13,14 +13,14 @@
     <string name="dismission">Dismisión</string>
     <string name="location">Ubicación</string>
     <string name="wikipedia">Wikipedia</string>
-    <string name="empty_lookup">no hay binomial que buscar</string>
-    <string name="next">Otra</string>
+    <string name="empty_lookup">no se puede buscar cadena vacía</string>
+    <string name="next">Siguiente</string>
     <string name="zero_log">vaciar log</string>
     <string name="location_code">Digite código localización</string>
     <string name="search_message">Insertar un código de planta</string>
     <string name="save_to_log">save to log file</string>
     <string name="collect_instructions">edit, confirm, or swipe back to cancel</string>
-    <string name="log_overrides">edit pending</string>
+    <string name="log_overrides">Edición pendiente</string>
     <string name="n_of_plants">número de plantas</string>
     <string name="action_settings">Configuración</string>
     <string name="action_photo">toma una foto</string>
